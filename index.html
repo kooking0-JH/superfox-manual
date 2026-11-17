@@ -1983,6 +1983,122 @@ html.embedded .page { padding-bottom: 24px; }
 
 
 <script>
+// 음성 해설 대본: [범위 id, 선택자, 순번, 읽을 문장, 동작]
+// 화면 글을 그대로 읽지 않고, 그림과 표를 말로 풀어 설명하는 대본입니다.
+window.NARR = [
+["top","h1",0,"슈퍼폭스 수신기 설명서입니다. 체코의 오 케이 투 비 더블유 엔이 만드는 에이 알 디 에프 수신기를, 3.5 메가헤르츠와 145 메가헤르츠 두 대역으로 나누어 살펴봅니다."],
+["top","figure",0,"표지 사진은 손에 든 3.5 지 엑스입니다. 흰 다이얼이 주파수, 빨간 다이얼이 감도이고, 위쪽 흰 단자에 휩 안테나를 끼웁니다."],
+["doc",".factsheet",0,"요약 칸 네 개를 보면, 3.5 메가헤르츠용은 3.5 지 엑스와 3.5 엠 엑스, 145 메가헤르츠용은 145 디 엑스와 145 엠 엑스가 있습니다. 두 대역 모두 전원 스위치가 따로 없고, 헤드폰을 꽂으면 켜집니다."],
+["doc",".bandtabs",0,"그 아래 큰 버튼 두 개로 대역을 고릅니다. 지금 듣고 있는 해설은 선택된 대역의 내용입니다."],
+
+// ---------------- 3.5 MHz ----------------
+["hf-1",".ch-head",0,"3.5 메가헤르츠 1장, 기기 개요와 주의사항입니다."],
+["hf-1",":scope > .prose p",0,"슈퍼폭스 3.5는 80미터 대역 방향 탐지 수신기입니다. 제조사에 따르면 이 수신기를 쓴 선수들이 세계선수권에서 스물두 번 우승했습니다."],
+["hf-1",":scope > .prose p",1,"손바닥만 한 상자 안에 페라이트 막대가 들어 있고, 위에 휩을 끼워 씁니다. 3.5 지 엑스는 아날로그 기본형이고, 3.5 엠 엑스는 지 엑스를 디지털로 바꾸면서 채널 메모리 여섯 개와 타이머를 더한 후속 기종입니다."],
+["hf-1",".flow",0,"주의할 점은 네 가지입니다. 충전은 반드시 전용 충전기로 합니다. 지 엑스는 엔 이십팔, 엠 엑스는 엔 사십입니다. 방수는 빗물이 튀는 정도까지만 막아 주므로 물에 담그지 않고, 케이스를 열었다면 다시 밀봉합니다. 전선 아래를 지날 때는 휩이 닿지 않게 조심합니다."],
+
+["hf-2",".ch-head",0,"2장, 조작부입니다."],
+["hf-2","figure",0,"사진의 번호를 따라가 보겠습니다. 1번 주파수 다이얼은 송신기 소리가 듣기 편한 음높이가 되도록 맞춥니다. 2번 감도 다이얼은 0부터 7까지이고, 한 칸이 약 15 데시벨입니다. 3번은 헤드폰과 충전기를 꽂는 단자입니다. 4번, 옆면의 은색 버튼이 안테나 선택 버튼이고, 5번이 위쪽 휩입니다."],
+["hf-2","table",0,"아래 표는 3.5 엠 엑스에만 있는 조작부입니다. VFO 메모리 스위치는 연속 동조와 저장 채널 사이를 오갑니다. 가운데에 두면 채널 사이를 건너뛰면서 600헤르츠 안쪽으로 미세 조정이 됩니다. 타이머 스위치는 송신이 끝나기 10초 전에 알려 주고, 끝까지 돌리면 지금 주파수를 저장합니다. 파란 컴퍼스 버튼은 전자 나침반 옵션용입니다."],
+
+["hf-3",".ch-head",0,"3장, 수신기가 신호를 소리로 바꾸는 과정입니다."],
+["hf-3",":scope > .prose p",0,"설명서는 이 수신기를 더블 컨버전 수퍼헤테로다인이라고 적고 있습니다. 주파수를 두 번 낮추어 좁은 필터로 거른 뒤 소리로 만든다는 뜻입니다."],
+["hf-3",".flows",0,"왼쪽 상자부터 보겠습니다. 주파수를 두 번에 나누어 낮추면 엉뚱한 주파수가 섞여 들어오는 영상 주파수를 막기 쉽고, 낮은 주파수에서 아주 좁은 크리스털 필터를 쓸 수 있습니다. 통과 폭이 1킬로헤르츠 정도라, 주파수가 가까운 송신기끼리도 섞이지 않습니다. 오른쪽 상자는 소리를 만드는 단계입니다. 3.5 메가헤르츠 송신기는 변조음 없이 전파를 껐다 켰다만 합니다. 그대로는 아무 소리가 나지 않기 때문에, 수신기 안의 발진기가 조금 다른 주파수를 섞어 그 차이를 삐 소리로 만듭니다. 감도는 8단계로 120데시벨을 나누어, 송신기 바로 앞에서도 회로가 포화되지 않게 합니다."],
+
+["hf-4",".ch-head",0,"4장, 안테나 패턴입니다. 3.5 메가헤르츠 방향 탐지의 핵심입니다."],
+["hf-4",":scope > .prose p",0,"수신기 안의 페라이트 막대는 전파의 자기장을, 위쪽 휩은 전기장을 받습니다. 은색 버튼을 놓으면 페라이트만 쓰고, 누르면 휩이 더해집니다."],
+["hf-4","figure",0,"그림은 수신기를 위에서 내려다본 모습입니다. 선수가 조작판을 자기 쪽으로 보며 들고 있다고 생각하십시오. 버튼을 놓으면 왼쪽처럼 앞뒤로 둥근 8자 모양이 됩니다. 소리가 사라지는 곳은 좌우, 곧 막대 끝 방향이고 아주 좁습니다. 버튼을 누르면 오른쪽처럼 앞쪽만 크게 부푼 심장 모양이 되고, 선수 쪽은 소리가 사라집니다."],
+["hf-4",".flows",0,"8자 패턴의 널은 폭이 10도도 안 될 만큼 날카로워서 방위 축을 정확히 잡을 수 있습니다. 다만 앞뒤가 똑같아 송신기가 축의 어느 쪽에 있는지는 모릅니다. 그래서 휩을 더한 카디오이드로 앞뒤를 가립니다. 설명서는 버튼을 누른 채 조작판을 송신기로 향하면 소리가 가장 작아진다고 적고 있습니다."],
+["hf-4",".note",0,"한 줄로 정리하면 이렇습니다. 조작판을 내 쪽으로 보며 들고, 버튼을 누른 채 반 바퀴 돌아 봅니다. 소리가 크게 들릴 때 내가 바라보는 쪽이 송신기입니다."],
+
+["hf-5",".ch-head",0,"5장, 3.5 메가헤르츠와 145 메가헤르츠의 전파 차이입니다."],
+["hf-5",":scope > .prose p",0,"3.5 메가헤르츠의 파장은 86미터나 됩니다. 나무와 바위는 이 파장에 비하면 아주 작아서, 숲을 그대로 지나고 능선을 넘어 산 뒤까지 돌아 들어갑니다."],
+["hf-5","figure",0,"단면도를 보면 왼쪽 송신기의 신호가 숲을 지나 능선 꼭대기에서 꺾여, 산 뒤의 선수에게 닿습니다. 오른쪽 송전선처럼 긴 금속선은 신호를 다시 내보내 방향을 흐트러뜨릴 수 있으니 조심합니다. 그리고 산 뒤에서도 소리가 크기 때문에, 소리 크기만으로 거리를 짐작하면 틀리기 쉽습니다."],
+["hf-5","table",0,"표로 두 대역을 비교하면, 3.5 메가헤르츠는 지형을 따라 퍼지고 숲에서 손실이 적어 방향이 비교적 정직합니다. 145 메가헤르츠는 빛처럼 곧게 가서 능선 뒤에 그림자가 생기고, 바위벽 반사에 속기 쉽습니다. 그래서 3.5는 소리가 사라지는 널을 찾고, 145는 소리가 가장 큰 피크를 겨눕니다."],
+
+["hf-6",".ch-head",0,"6장, 실전에서 송신기를 찾는 순서입니다."],
+["hf-6",".cycle",0,"순서는 네 단계입니다. 헤드폰을 꽂아 켜고, 주파수를 맞추고, 감도를 정한 다음, 방위를 잽니다. 가운데 주황색 칸, 감도 단계가 특히 중요합니다. 처음에는 감도를 7에 두었다가 소리가 커지면 계속 낮춥니다. 널은 소리가 작을 때 더 날카롭게 들리기 때문입니다."],
+["hf-6","figure",0,"감도 다이얼 그림입니다. 3와트 송신기를 기준으로, 4는 약 1킬로미터, 3은 약 300미터, 2는 약 100미터, 1은 약 30미터, 0은 약 10미터에 맞는 감도입니다. 한 칸 내릴 때마다 거리가 3분의 1로 줄어든다고 기억하면 쉽습니다."],
+["hf-6",".flows",0,"방위를 재는 동작입니다. 먼저 버튼에서 손을 떼고 몸을 돌려 소리가 큰 쪽을 찾은 뒤, 거기서 90도쯤 돌려 소리가 사라지는 각도를 정확히 맞춥니다. 이때 수신기 옆면이 송신기를 가리킵니다. 다음으로 조작판을 내 쪽으로 보며 축의 한쪽을 바라보고 버튼을 누릅니다. 버튼을 누른 채 반 바퀴 돌아 반대쪽과 비교하고, 더 크게 들린 쪽으로 출발합니다."],
+
+["hf-7",".ch-head",0,"7장, 휩 길이 맞추기입니다."],
+["hf-7",":scope > .prose p",0,"카디오이드가 깊게 나오려면 휩과 페라이트에서 나오는 두 신호의 크기가 맞아야 합니다. 그런데 휩 쪽 신호는 땅에서 얼마나 높이 드느냐에 따라 달라집니다. 그래서 자기가 평소 드는 높이에 맞춰 휩 길이를 다듬습니다."],
+["hf-7","figure",0,"그림의 왼쪽 선수처럼 가슴 높이로 들면 휩 신호가 커지므로 휩을 짧게 합니다. 오른쪽처럼 허리 높이로 들면 휩 신호가 작아지므로 휩이 길어야 합니다."],
+["hf-7",".flows",0,"맞추는 방법입니다. 송신기를 계속 켜 두고 70미터쯤 떨어져 섭니다. 버튼을 누른 채 이번에는 조작판을 송신기 쪽으로 향하고, 수신기를 위아래로 움직여 소리가 가장 작은 높이를 찾습니다. 그 높이가 평소보다 낮으면 휩을 5밀리미터씩 잘라 냅니다. 이렇게 맞추면 위아래 50센티미터 안에서 가장 좋은 패턴이 나옵니다. 송신기 10미터 안쪽에서는 비율이 다시 바뀌지만, 그때는 깃발이 보이니 신경 쓰지 않아도 됩니다."],
+
+["hf-8",".ch-head",0,"8장, 3.5 엠 엑스의 주파수 메모리입니다."],
+["hf-8",":scope > .prose p",0,"3.5 엠 엑스는 주파수를 여섯 개까지 저장하고, 전원을 꺼도 지워지지 않습니다."],
+["hf-8",".flows",0,"저장할 때는 스위치를 VFO에 두고 주파수를 맞춘 다음, 타이머 스위치를 메모리 라이트까지 돌립니다. 짧은 소리가 몇 번 나는지가 채널 번호입니다. 불러올 때는 MEM에 두고 주파수 다이얼을 돌리면 저장된 채널로 건너뜁니다. 스위치를 가운데에 두면 건너뛰면서 600헤르츠 안쪽으로 미세 조정도 됩니다. 모두 지우려면 VFO에서 주파수 다이얼을 왼쪽 끝 클리어까지 돌리고 메모리 라이트를 합니다."],
+
+["hf-9",".ch-head",0,"9장, 타이머와 전자 나침반입니다."],
+["hf-9",":scope > .prose p",0,"타이머는 헤드폰을 꽂는 순간부터 시간을 셉니다. 1분이나 30초 주기가 끝나기 10초 전에 신호음이 두 번 울려, 시계를 보지 않고도 마지막 방위를 잴 수 있습니다. 배터리가 약해지면 한 번만 울립니다."],
+["hf-9",":scope > .prose p",1,"전자 나침반 파인더 공구는 옆면 파란 버튼으로 씁니다. 가려는 방향을 겨누고 짧게 누르면 방향이 저장됩니다. 송신이 끝난 뒤 달리면서 길게 누르면, 소리로 방향을 안내합니다."],
+["hf-9","figure",0,"그림처럼 저장한 방향에서 왼쪽 20도 안쪽이면 낮은 음, 오른쪽 20도 안쪽이면 높은 음이 납니다. 정확한 방향은 두 음이 바뀌는 곳입니다. 20도를 넘어서면 소리가 나지 않습니다."],
+["hf-9",".note",0,"3.5 수신기에서는 휩이 수직이 되게 세워 들고 나침반을 씁니다. 기울어진 만큼 방향이 틀어질 수 있습니다. 감도를 6보다 높이면 나침반이 잡음을 조금 냅니다."],
+
+["hf-10",".ch-head",0,"10장, 전원과 배터리입니다."],
+["hf-10",":scope > .prose p",0,"전원 스위치가 없습니다. 헤드폰 플러그 안에서 4번과 5번 핀이 이어져 있어서, 꽂으면 켜지고 뽑으면 꺼집니다. 경기 중에 플러그가 빠지면 수신기도 꺼지니 단단히 꽂습니다."],
+["hf-10",".event",0,"왼쪽 그림이 단자 배치입니다. 1번과 3번이 헤드폰, 2번이 접지, 4번과 5번이 전원입니다. 오른쪽은 3.5 엠 엑스를 켤 때 들리는 배터리 신호입니다. 긴 소리 두 번이면 완전 충전, 긴 소리 한 번은 80퍼센트, 짧은 소리 세 번, 두 번, 한 번은 각각 60, 40, 20퍼센트입니다."],
+["hf-10","table",0,"배터리는 기종마다 다릅니다. 지 엑스는 니켈 수소 7.2볼트로 15시간 넘게 쓰고, 엠 엑스는 리튬 폴리머 7.4볼트로 10시간 넘게 씁니다."],
+["hf-10",".note",0,"엠 엑스 충전기를 꽂았는데 노란 불이 안 켜질 수 있습니다. 배터리가 충분히 남아 있으면 충전을 시작하지 않기 때문입니다. 특히 새 배터리는 40퍼센트쯤 쓴 뒤에야 충전됩니다. 고장이 아니니 빼 두었다가 다음에 다시 꽂으면 됩니다."],
+
+["hf-11",".ch-head",0,"11장, 사양입니다."],
+["hf-11","table",0,"두 기종을 비교하면, 감도는 둘 다 마이너스 135 데시벨 밀리와트로 같습니다. 큰 차이는 전후방비와 동조 방식입니다. 엠 엑스는 앞뒤 차이가 40데시벨 이상이고 디지털 동조에 메모리와 타이머가 있습니다. 무게는 엠 엑스가 300그램으로 50그램 가볍습니다."],
+["hf-11","details",0,"맨 아래를 펼치면 지금 판매되는 3.5 엠과 3.5 엠 엑스의 제품표 사양이 나옵니다. 설명서 시기와 달리 배터리는 8볼트, 충전기는 엔 사십일, 방수는 아이 피 육십사입니다. 새로 장만할 때는 이 표를 기준으로 확인하십시오. 3.5 메가헤르츠 해설을 마칩니다."],
+
+// ---------------- 145 MHz ----------------
+["vhf-1",".ch-head",0,"145 메가헤르츠 1장, 기기 개요와 주의사항입니다."],
+["vhf-1",":scope > .prose p",0,"슈퍼폭스 145는 2미터 대역 방향 탐지 수신기입니다. 145 디 엑스는 채널 메모리가 네 개인 디지털 기본형이고, 145 엠 엑스는 메모리 여섯 개와 음성 에스 미터를 더한 상위 기종입니다."],
+["vhf-1",":scope > .prose p",1,"안테나는 방향 탐지용으로 다듬은 두 소자 HB9CV이고, 측면 신호를 줄여 겨누기 쉽게 하는 방향 패턴 확장기와 타이머가 들어 있습니다. 안테나 소자는 떼어서 운반합니다."],
+["vhf-1",".flow",0,"충전기는 디 엑스가 엔 사십, 엠 엑스가 엔 사십일입니다. 뒷덮개를 열었다면 테이프로 다시 밀봉합니다."],
+
+["vhf-2",".ch-head",0,"2장, 조작판입니다."],
+["vhf-2","figure",0,"사진은 145 엠 엑스의 조작판을 위에서 본 모습입니다. 왼쪽 끝 1번이 파란 앞 소자 단자로, 이쪽이 수신기의 앞입니다. 2번 주파수, 3번 감도 다이얼이 있고, 4번 안테나 스위치와 5번 VFO 메모리 스위치가 나란히 있습니다. 6번 타이머 손잡이, 7번 빨간 뒤 소자 단자, 끝면의 8번이 헤드폰 단자입니다."],
+["vhf-2",":scope > .sec > .prose p",0,"안테나 스위치가 중요합니다. 와이드는 넓게 훑을 때, 내로우는 측면을 줄여 좁게 겨눌 때 씁니다. 엠 엑스에서 가운데에 두면 음성 에스 미터가 켜져, 신호가 셀수록 음이 높아집니다. 사람 귀는 소리 크기보다 음높이 차이를 더 잘 구별하기 때문에 피크를 정확히 잡기 좋습니다."],
+["vhf-2",".swbox",0,"오른쪽 상자는 스위치 위치별 동작을 정리한 것입니다. 메모리 라이트는 VFO에서는 저장, 메모리에서는 지금 채널 삭제입니다. 컴퍼스 버튼은 짧게 누르면 방향 저장, 길게 누르면 추적입니다. 디 엑스는 안테나 스위치가 와이드와 내로우 두 위치뿐입니다."],
+
+["vhf-3",".ch-head",0,"3장, 안테나 조립과 HB9CV 패턴입니다."],
+["vhf-3",":scope > .prose p",0,"앞 소자 두 개는 파란 단자에, 뒤 소자 두 개는 빨간 단자에 끼우고 나사를 단단히 조입니다."],
+["vhf-3",":scope > .prose p",1,"3.5 메가헤르츠처럼 소리가 사라지는 곳을 찾는 것이 아니라, 몸을 천천히 돌려 소리가 가장 큰 방향을 겨눕니다."],
+["vhf-3","figure",0,"그림에서 위쪽이 파란 소자, 곧 수신기 앞입니다. 점선으로 그린 넓은 빔이 와이드, 안쪽의 진한 빔이 내로우입니다. 아래쪽 뒤로는 작은 빨간 꽃잎만 남아, 거의 들리지 않습니다."],
+["vhf-3","table",0,"빔 폭은 디 엑스가 와이드 20도, 내로우 10도, 엠 엑스가 와이드 30도, 내로우 15도입니다. 앞뒤 차이는 둘 다 40데시벨 이상입니다."],
+["vhf-3",".note",0,"그래도 송신기 가까이에서는 뒤쪽에서도 작은 소리가 들립니다. 반 바퀴 돌려 확연히 작아지는 쪽이 뒤입니다. 그리고 2미터 송신기는 수평 편파이므로, 소자를 항상 땅과 수평으로 듭니다."],
+
+["vhf-4",".ch-head",0,"4장, 반사파와 교차 방위입니다. 145 메가헤르츠에서 가장 조심할 부분입니다."],
+["vhf-4",":scope > .prose p",0,"145 메가헤르츠는 빛처럼 곧게 가고 바위벽에서 거울처럼 반사됩니다. 직접 오는 신호가 막힌 곳에서는 반사된 신호가 더 크게 들려 엉뚱한 방향을 가리킵니다. 이것을 허상 피크라고 합니다."],
+["vhf-4","figure",0,"단면도에서 능선 위의 선수 에이는 송신기가 직접 보여 방향이 정확합니다. 골짜기의 선수 비는 능선 그림자 속에 있어서, 오른쪽 절벽에서 반사된 신호를 듣고 절벽 쪽을 겨누게 됩니다."],
+["vhf-4","figure",1,"지도 그림에서 골짜기 씨에서 잰 방향은 절벽을 가리킵니다. 능선 에이와 비에서 잰 두 방향은 송신기에서 만납니다. 씨의 방향만 교차점을 비켜 가므로 반사파였다는 것을 알 수 있습니다. 그림 아래 버튼을 눌러 하나씩 확인해 보십시오.", "ghost:all"],
+["vhf-4",".flows",0,"요령은 두 가지입니다. 신호가 흐리면 골짜기를 벗어나 시야가 트인 능선으로 올라가고, 수신기를 높이 듭니다. 그리고 능선을 따라 50에서 100미터 이상 옮겨 한 번 더 잰 뒤, 두 방위선이 만나는 곳을 찾습니다."],
+
+["vhf-5",".ch-head",0,"5장, 실전 탐색 순서입니다."],
+["vhf-5",".cycle",0,"헤드폰을 꽂아 켜고, 주파수를 맞추고, 감도를 정한 다음 방위를 잽니다. 먼 거리에서는 감도를 6이나 7에 두고, 가까워질수록 낮춥니다. 피크도 소리가 작을 때 더 잘 구분됩니다."],
+["vhf-5",".flows",0,"먼저 와이드로 소자를 수평으로 든 채 몸을 돌려 대략적인 방향을 잡습니다. 방향이 흐리면 내로우로 바꾸고, 엠 엑스라면 안테나 스위치를 가운데에 두어 음이 가장 높아지는 각도를 찾습니다. 그래도 흐리면 자리를 옮겨 다시 잽니다."],
+["vhf-5",".note",0,"145 메가헤르츠 설명서에는 감도 단계별 거리표가 없습니다. 감도 3이 약 200미터, 2가 약 80미터 정도라는 것은 실전 감각이니 참고만 하십시오."],
+
+["vhf-6",".ch-head",0,"6장, 주파수 메모리입니다."],
+["vhf-6",":scope > .prose p",0,"디 엑스는 네 개, 엠 엑스는 여섯 개까지 주파수를 저장합니다."],
+["vhf-6",".flows",0,"저장은 VFO에서 주파수를 맞추고 타이머 손잡이를 메모리 라이트까지 살짝 돌렸다 놓습니다. 짧은 소리의 개수가 채널 번호입니다. 불러올 때는 메모리에 두고 주파수 다이얼을 돌립니다. 엠 엑스는 메모리에서 메모리 라이트를 하면 그 채널 하나만 지워지고, 전체를 지우려면 VFO에서 주파수 다이얼을 왼쪽 끝 클리어까지 돌리고 메모리 라이트를 합니다."],
+
+["vhf-7",".ch-head",0,"7장, 타이머와 전자 나침반입니다."],
+["vhf-7",":scope > .prose p",0,"타이머는 헤드폰을 꽂는 순간부터 시간을 세고, 주기가 끝나기 10초 전에 알려 줍니다. 디 엑스는 신호음 두 번, 엠 엑스는 짧고 길고 짧은 소리입니다."],
+["vhf-7",":scope > .prose p",1,"전자 나침반은 옆면 버튼으로 다룹니다. 짧게 누르면 방향을 저장하고, 달리면서 길게 누르면 소리로 방향을 안내합니다."],
+["vhf-7","figure",0,"저장한 방향의 왼쪽 20도 안쪽은 낮은 음, 오른쪽 20도 안쪽은 높은 음입니다. 두 음이 바뀌는 곳이 정확한 방향입니다."],
+["vhf-7",".note",0,"145 수신기는 수평으로 들고 나침반을 씁니다. 3.5 수신기를 수직으로 드는 것과 반대이니 헷갈리지 마십시오."],
+
+["vhf-8",".ch-head",0,"8장, 전원과 배터리입니다."],
+["vhf-8",":scope > .prose p",0,"145 수신기도 헤드폰이 전원 스위치입니다. 플러그 안의 4번과 5번 핀이 이어지면서 켜집니다."],
+["vhf-8",".event",0,"켤 때 들리는 배터리 신호는 3.5와 같습니다. 긴 소리 두 번이 완전 충전이고, 짧은 소리 한 번이 20퍼센트입니다. 엠 엑스는 20퍼센트가 되면 타이머 알림이 짧은 소리 하나로 바뀌는데, 이때도 한두 시간은 더 쓸 수 있습니다."],
+["vhf-8","table",0,"배터리는 둘 다 리튬 폴리머 8.4볼트입니다. 충전기 불빛은 디 엑스가 노란색이 켜져 있으면 충전 중, 깜박이면 완료이고, 엠 엑스는 주황색이 충전 중, 초록색이 완료입니다."],
+["vhf-8",":scope > .sec > .prose p",0,"경기나 훈련이 끝나면 충전해 두는 것이 좋습니다. 오래 보관할 때는 절반 정도 남겨 두는 것도 괜찮습니다."],
+
+["vhf-9",".ch-head",0,"9장, 사양입니다."],
+["vhf-9","table",0,"두 기종의 큰 차이는 빔 폭, 메모리 개수, 음성 에스 미터, 방수 등급입니다. 엠 엑스는 빔이 조금 넓은 대신 음성 에스 미터로 피크를 잡고, 방수는 아이 피 육십사입니다. 무게는 엠 엑스가 460그램입니다."],
+["vhf-9",".note",0,"엠 엑스의 중간 주파수 대역폭은 설명서와 제품표의 값이 서로 다르게 적혀 있습니다."],
+["vhf-9","details",0,"맨 아래를 펼치면 지금 판매되는 145 엠과 145 엠 엑스의 제품표 사양이 나옵니다. 145 엠은 메모리와 음성 에스 미터가 없는 기본형입니다. 145 메가헤르츠 해설을 마칩니다."]
+];
+
+</script>
+<script>
 /* 대역 탭 · 목차 이동 · 허상 피크 단계 버튼 */
 (function () {
   var tabs = document.querySelectorAll('.bandtab');
@@ -2068,6 +2184,9 @@ html.embedded .page { padding-bottom: 24px; }
     if (d.type === 'antenna-types:ping'){
       if (!on){ on = true; window.__embedOn = true; document.documentElement.classList.add('embedded'); }
       send(true);
+    } else if (d.type === 'antenna-types:viewport'){
+      window.__embedView = {top: +d.top || 0, height: +d.height || 0};
+      document.dispatchEvent(new Event('embedview'));
     }
   });
   document.addEventListener('bandchange', function(){ send(true); });
@@ -2076,6 +2195,199 @@ html.embedded .page { padding-bottom: 24px; }
   window.addEventListener('load', function(){ send(true); });
 })();
 </script>
+<script>
+/* 음성 해설 (ARDF_Guide 엔진 이식): 처음부터 듣기 = 지금 선택한 대역 전체, 이 장 듣기 = 그 장만 */
+(function () {
+  const S = window.speechSynthesis;
+  const SPK = '<svg class="spk" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10l-4-3H2z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>';
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const splitSentences = t => t.replace(/([.?!])\s+/g, "$1\u0001").split("\u0001").map(x => x.trim()).filter(Boolean);
+  const BAND = { hf: "3.5 MHz", vhf: "145 MHz" };
+  const items = (window.NARR || []).map(([sid, sel, idx, text, act]) => {
+    const home = (sid === "doc" || sid === "top") ? null : document.getElementById(sid);
+    const scope = sid === "doc" ? document : sid === "top" ? document.getElementById("top") : home;
+    const el = scope && scope.querySelectorAll(sel)[idx];
+    if (!el) { console.warn("대본 대상 없음:", sid, sel, idx); return null; }
+    const ch = (home || el).closest(".chapter");
+    const band = ch ? ch.id.split("-")[0] : null;
+    return { el, text, parts: splitSentences(text), act: act || "", ch: ch ? ch.id : "intro", band,
+      label: ch ? BAND[band] + " · " + ch.querySelector(".ch-num").textContent + "장 " + ch.querySelector(".ch-head h2").textContent : "머리말" };
+  }).filter(Boolean);
 
+  function runAction(act) {
+    if (!act) return Promise.resolve();
+    const [k, v] = act.replace(/^>/, "").split(":");
+    if (k === "ghost") { const b = document.querySelector('.btn-step[data-show="' + v + '"]'); if (b) b.click(); }
+    return Promise.resolve();
+  }
+
+  let voice = null;
+  function pickVoice() {
+    if (!S) return;
+    const vs = S.getVoices().filter(v => /^ko(-|_|$)/i.test(v.lang));
+    if (!vs.length) { voice = null; return; }
+    const score = v => (/natural|neural|online/i.test(v.name) ? 4 : 0) + (/google/i.test(v.name) ? 2 : 0) + (/yuna|sunhi|heami|injoon|hyunsu|jimin/i.test(v.name) ? 1 : 0);
+    voice = vs.slice().sort((a, b) => score(b) - score(a))[0];
+  }
+  if (S) {
+    pickVoice();
+    if (typeof S.addEventListener === "function") S.addEventListener("voiceschanged", pickVoice); else S.onvoiceschanged = pickVoice;
+    try { S.cancel(); } catch (e) {}
+  }
+
+  const bar = document.createElement("div");
+  bar.className = "voicebar"; bar.hidden = true;
+  bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "음성 해설 재생");
+  bar.innerHTML = '<div class="vb-label"><span id="vb-title"></span><small id="vb-pos"></small></div>' +
+    '<button type="button" class="btn" id="vb-prev" aria-label="이전 문단">⏮</button>' +
+    '<button type="button" class="btn" id="vb-play" aria-label="일시정지">❚❚</button>' +
+    '<button type="button" class="btn" id="vb-next" aria-label="다음 문단">⏭</button>' +
+    '<label class="vb-rate">속도 <select id="vb-rate"><option value="0.8">0.8×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option></select></label>' +
+    '<button type="button" class="btn" id="vb-close" aria-label="음성 해설 닫기">✕</button>' +
+    '<div class="vb-msg" id="vb-msg" hidden></div>';
+  document.body.appendChild(bar);
+  function placeBar() {
+    if (!window.__embedOn || bar.hidden) return;
+    const v = window.__embedView; if (!v) return;
+    const bh = bar.offsetHeight || 64, dh = document.querySelector(".page").getBoundingClientRect().bottom + scrollY;
+    bar.style.top = Math.max(0, Math.min(dh - bh, v.top + v.height - bh)) + "px";
+  }
+  document.addEventListener("embedview", placeBar);
+  const $ = id => document.getElementById(id);
+  const playBtn = $("vb-play"), rateSel = $("vb-rate");
+
+  let i = 0, k = 0, gen = 0, playing = false, active = null, curBtn = null, list = items;
+  function setActive(el) {
+    if (active) active.classList.remove("reading");
+    active = el;
+    if (!el) return;
+    el.classList.add("reading");
+    const r = el.getBoundingClientRect();
+    if (window.__embedOn) {
+      const v = window.__embedView, H = v && v.height ? v.height : innerHeight;
+      const off = Math.max(56, H * 0.1);
+      try { parent.postMessage({ type: "antenna-types:scrollto", y: r.top + scrollY - off, smooth: !reduce }, "*"); } catch (e) {}
+    } else {
+      const off = Math.max(56, innerHeight * 0.1);
+      scrollTo({ top: Math.max(0, r.top + scrollY - off), behavior: reduce ? "auto" : "smooth" });
+    }
+  }
+  function updateBar() {
+    const it = list[i];
+    $("vb-title").textContent = it.label;
+    const same = list.filter(x => x.ch === it.ch);
+    $("vb-pos").textContent = (same.indexOf(it) + 1) + " / " + same.length;
+    playBtn.textContent = playing ? "❚❚" : "▶";
+    playBtn.setAttribute("aria-label", playing ? "일시정지" : "재생");
+  }
+  function setBtn(b, on) { if (b) { b.classList.toggle("is-on", on); b.querySelector(".lbl").textContent = on ? "정지" : b.dataset.label; } }
+  function enterItem(g) {
+    const it = list[i];
+    setActive(it.el); updateBar();
+    runAction(it.act.startsWith(">") ? "" : it.act).then(() => { if (g === gen) speakPart(g); });
+  }
+  function speakPart(g) {
+    if (g !== gen || !playing) return;
+    const it = list[i];
+    if (k >= it.parts.length) {
+      (it.act.startsWith(">") ? runAction(it.act) : Promise.resolve()).then(() => {
+        if (g !== gen) return;
+        if (i + 1 < list.length) { i++; k = 0; enterItem(g); } else finish();
+      });
+      return;
+    }
+    const u = new SpeechSynthesisUtterance(it.parts[k]);
+    u.lang = "ko-KR"; if (voice) u.voice = voice;
+    u.rate = +rateSel.value;
+    u.onend = () => { if (g !== gen) return; k++; speakPart(g); };
+    u.onerror = e => { if (g !== gen) return; if (e && (e.error === "interrupted" || e.error === "canceled")) return; k++; speakPart(g); };
+    S.speak(u);
+  }
+  function go() { gen++; try { S.cancel(); } catch (e) {} playing = true; updateBar(); speakPart(gen); }
+  function start(btn, f) {
+    if (curBtn === btn && !bar.hidden) { close(); return; }
+    setBtn(curBtn, false); curBtn = btn; setBtn(btn, true);
+    pickVoice();
+    list = items.filter(f); if (!list.length) return;
+    bar.hidden = false; document.body.classList.add("narr-open");
+    bar.classList.toggle("emb", !!window.__embedOn);
+    if (window.__embedOn) { try { parent.postMessage({ type: "antenna-types:needview" }, "*"); } catch (e) {} placeBar(); }
+    if (!voice && S.getVoices().length) {
+      $("vb-msg").textContent = "";
+      $("vb-msg").appendChild(unsupPanel("이 화면에는 한국어 음성이 없어 읽을 수 없습니다. 엣지, 크롬, 사파리 같은 브라우저에서 열어 보십시오."));
+      $("vb-msg").hidden = false; playing = false; i = 0; updateBar(); return;
+    }
+    $("vb-msg").hidden = true;
+    i = 0; k = 0; gen++; playing = true;
+    try { S.cancel(); } catch (e) {}
+    enterItem(gen);
+  }
+  function pause() { playing = false; gen++; try { S.cancel(); } catch (e) {} updateBar(); }
+  function finish() { playing = false; gen++; updateBar(); setActive(null); setBtn(curBtn, false); }
+  function close() { if (bar.hidden) return; pause(); setActive(null); bar.hidden = true; document.body.classList.remove("narr-open"); setBtn(curBtn, false); curBtn = null; }
+  function jump(d) { i = Math.max(0, Math.min(list.length - 1, i + d)); k = 0; gen++; try { S.cancel(); } catch (e) {} playing = true; enterItem(gen); }
+  playBtn.addEventListener("click", () => { if (playing) pause(); else go(); });
+  $("vb-prev").addEventListener("click", () => jump(k > 0 ? 0 : -1));
+  $("vb-next").addEventListener("click", () => jump(1));
+  $("vb-close").addEventListener("click", close);
+  rateSel.addEventListener("change", () => { if (playing) go(); });
+  document.addEventListener("bandchange", close);
+
+  // 앱 안 브라우저(안드로이드 WebView 등)는 음성 합성이 없음
+  const UA = navigator.userAgent || "";
+  const isAndroid = /Android/i.test(UA);
+  const noSpeech = !S || !window.SpeechSynthesisUtterance || (isAndroid && /; wv\)/.test(UA));
+  const pageUrl = location.href.split("#")[0];
+  function unsupPanel(text) {
+    const box = document.createElement("div");
+    box.className = "narr-unsup";
+    box.innerHTML = "<p></p>" + '<div class="unsup-actions"><a class="btn" target="_blank" rel="noopener">브라우저에서 열기</a><button type="button" class="btn alt">주소 복사</button></div>';
+    box.querySelector("p").textContent = text;
+    box.querySelector("a").href = isAndroid
+      ? "intent://" + pageUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + encodeURIComponent(pageUrl) + ";end"
+      : pageUrl;
+    const cp = box.querySelector("button");
+    cp.addEventListener("click", () => {
+      const done = () => { cp.textContent = "복사했습니다"; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(pageUrl).then(done, () => { cp.textContent = pageUrl; });
+      else cp.textContent = pageUrl;
+    });
+    return box;
+  }
+  const APPMSG = "이 앱 화면에서는 음성 해설을 들을 수 없습니다. 크롬이나 사파리 같은 브라우저에서 열면 들을 수 있습니다.";
+  let unsupBox = null, unsupHost = null;
+  function showUnsup(btn) {
+    if (!unsupBox) unsupBox = unsupPanel(APPMSG);
+    const host = btn.closest(".listen-all") || btn.closest(".ch-title");
+    if (!host) return;
+    if (unsupHost === host && !unsupBox.hidden) { unsupBox.hidden = true; return; }
+    if (host.classList.contains("listen-all")) host.appendChild(unsupBox); else host.after(unsupBox);
+    unsupHost = host; unsupBox.hidden = false;
+  }
+  function makeBtn(label, f, big) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "btn btn-voice" + (big ? " big" : "");
+    b.dataset.label = label;
+    b.innerHTML = SPK + '<span class="lbl">' + label + "</span>";
+    b.addEventListener("click", () => noSpeech ? showUnsup(b) : start(b, f));
+    return b;
+  }
+  const curBand = () => { const t = document.querySelector('.bandtab[aria-selected="true"]'); return t ? t.getAttribute("data-tab") : "hf"; };
+  const wrap = document.createElement("div");
+  wrap.className = "listen-all";
+  wrap.appendChild(makeBtn("처음부터 듣기", it => it.ch === "intro" || it.band === curBand(), true));
+  const hint = document.createElement("span");
+  hint.className = "voice-note";
+  hint.textContent = !noSpeech ? "선택한 대역을 기기 음성으로 그림과 표까지 해설하고, 읽는 곳으로 화면이 따라갑니다."
+                               : "앱 화면에서는 음성 해설이 나오지 않습니다. 버튼을 누르면 브라우저로 여는 방법이 나옵니다.";
+  wrap.appendChild(hint);
+  document.querySelector(".hero-lead").after(wrap);
+  document.querySelectorAll(".chapter").forEach(ch => {
+    ch.querySelector(".ch-title").appendChild(makeBtn("이 장 듣기", it => it.ch === ch.id, false));
+  });
+  window.addEventListener("pagehide", () => { try { S && S.cancel(); } catch (e) {} });
+})();
+
+</script>
 </body>
 </html>
