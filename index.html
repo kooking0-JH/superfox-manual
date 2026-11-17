@@ -991,6 +991,40 @@ html.embedded .page { padding-bottom: 24px; }
 @media (prefers-reduced-motion: reduce) { .md-rot, .md-knob { transition: none; } .md-ring.pulse { animation: none; } }
 </style>
 <style>.sx-faceline{stroke:var(--ink-3);stroke-width:1.2;stroke-dasharray:3 3}</style>
+<style>
+.md-mwzone { fill: #fde2df; }
+.md-handle { fill: var(--ink); }
+.md-hhead { fill: var(--flag); }
+.md-s.on { fill: var(--flag); font-weight: 800; font-size: 13px; }
+.md-s.mw.on { fill: #b3261e; font-size: 12px; }
+.md-ft.mw { fill: #b3261e; font-weight: 800; }
+.md-arrow { fill: none; stroke: #f2b705; stroke-width: 5; stroke-linecap: round; marker-end: url(#md-ah); stroke-dasharray: 400; stroke-dashoffset: 0; }
+.md-arrow.draw { animation: mddraw 1s ease-out; }
+@keyframes mddraw { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
+.md-slots.focus { outline: 3px solid #f2b705; outline-offset: 2px; }
+.md-slots li.flash { animation: mdflash 1.4s ease-out; }
+@keyframes mdflash { 0%, 40% { background: #ffe08a; } 100% { background: var(--tint); } }
+.md-slots li .tag { margin-left: auto; font-size: 0.75rem; font-weight: 700; color: #fff; background: var(--flag); border-radius: 999px; padding: 1px 8px; }
+@media (prefers-reduced-motion: reduce) { .md-arrow.draw, .md-slots li.flash { animation: none; } }
+</style>
+<style>
+.md-text { display: grid; gap: 8px; }
+.md-texth { font-weight: 700; font-size: 0.95rem; }
+.md-texth span { font-weight: 400; color: var(--ink-3); font-size: 0.85rem; }
+.flows.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.md-tl { list-style: none !important; padding-left: 0 !important; counter-reset: st; }
+.md-tl li { counter-increment: st; position: relative; padding: 6px 8px 6px 30px; border-radius: 6px; cursor: pointer; transition: background .15s; }
+.md-tl li::before { content: counter(st); position: absolute; left: 4px; top: 7px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--tint-2); color: var(--ink); font: 700 11px var(--font-mono); }
+.md-tl li:hover { background: var(--tint); }
+.md-tl li:focus-visible { outline: 3px solid var(--flag); }
+.md-go { float: right; margin: 0 0 4px 8px; font-size: 0.72rem; font-weight: 700; color: var(--ink); border: 1.3px solid var(--ink); border-radius: 5px; padding: 1px 6px; box-shadow: 0 1.5px 0 var(--ink); background: #fff; white-space: nowrap; }
+.md-tl li:hover .md-go { background: var(--ink); color: #fff; }
+.md-tl li.cur { background: #fff3c4; outline: 2px solid #f2b705; }
+.md-tl li.cur::before { background: var(--flag); color: #fff; }
+.md-tl li.done::before { content: "✓"; background: var(--band144); color: #fff; }
+.md-tnote { font-size: 0.8rem; color: #8a3c0c; margin-top: 6px; }
+@media (max-width: 720px) { .flows.four { grid-template-columns: 1fr; } }
+</style>
 
 </head>
 <body>
@@ -1377,33 +1411,7 @@ html.embedded .page { padding-bottom: 24px; }
   </div>
   <div class="sec">
     <div class="memdemo" data-models="35mx"></div>
-    <p class="md-sum">글로 정리한 순서</p>
-    <div class="flows">
-      <div class="flow">
-        <h4>채널 저장</h4>
-        <ol>
-          <li>VFO/MEM 스위치를 <b>VFO</b>에 둡니다.</li>
-          <li>FREQ로 송신기 주파수에 맞춥니다.</li>
-          <li>TIMER 스위치를 <b>MEMORY WRITE</b>로 돌립니다.</li>
-          <li>짧은 신호음이 납니다. 점의 개수가 채널 번호입니다.</li>
-        </ol>
-      </div>
-      <div class="flow">
-        <h4>불러오기 · 미세 조정</h4>
-        <ol>
-          <li><b>MEM</b>에서 FREQ를 돌리면 가장 가까운 저장 채널로 건너뛰며 짧은 신호음이 납니다.</li>
-          <li>저장된 채널이 없으면 MEM으로 바꿀 때 경고음이 납니다.</li>
-          <li><b>가운데</b>에 두면 채널 사이를 건너뛰면서, 채널 눈금 ±1칸 안에서 최대 ±600 Hz를 미세 조정합니다. 송신기 주파수가 조금씩 다를 때 씁니다.</li>
-        </ol>
-      </div>
-      <div class="flow warn">
-        <h4>전체 지우기</h4>
-        <ol>
-          <li>VFO에서 FREQ를 반시계 방향 끝(CLEAR)까지 돌립니다.</li>
-          <li>MEMORY WRITE를 합니다.</li>
-        </ol>
-      </div>
-    </div>
+    
   </div>
 </section>
 
@@ -1875,33 +1883,7 @@ html.embedded .page { padding-bottom: 24px; }
   </div>
   <div class="sec">
     <div class="memdemo" data-models="145dx,145mx"></div>
-    <p class="md-sum">글로 정리한 순서</p>
-    <div class="flows">
-      <div class="flow">
-        <h4>채널 저장</h4>
-        <ol>
-          <li>VFO/MEMORY 스위치를 <b>VFO</b>에 둡니다.</li>
-          <li>FREQ로 송신기 소리가 가장 큰 곳에 맞춥니다.</li>
-          <li>TIMER 손잡이를 <b>MEMORY WRITE</b>까지 살짝 돌렸다 놓습니다.</li>
-          <li>짧은 신호음의 점 개수가 저장된 채널 번호입니다.</li>
-        </ol>
-      </div>
-      <div class="flow">
-        <h4>채널 불러오기</h4>
-        <ol>
-          <li>스위치를 <b>MEMORY</b>에 둡니다.</li>
-          <li>FREQ를 돌리면 가장 가까운 저장 채널로 건너뛰고, 건너뛸 때마다 짧은 신호음이 납니다.</li>
-          <li>저장된 채널이 없으면 MEMORY로 바꿀 때 경고음이 납니다.</li>
-        </ol>
-      </div>
-      <div class="flow warn">
-        <h4>지우기</h4>
-        <ol>
-          <li><b>한 채널 (145MX):</b> MEMORY에서 지울 채널에 맞추고 MEMORY WRITE.</li>
-          <li><b>전체:</b> VFO에서 FREQ를 반시계 방향 끝(CLEAR)까지 돌리고 MEMORY WRITE.</li>
-        </ol>
-      </div>
-    </div>
+    
   </div>
 </section>
 
@@ -2103,8 +2085,22 @@ window.NARR = [
 
 ["hf-8",".ch-head",0,"8장, 3.5 엠 엑스의 주파수 메모리입니다."],
 ["hf-8",":scope > .prose p",0,"3.5 엠 엑스는 주파수를 여섯 개까지 저장하고, 전원을 꺼도 지워지지 않습니다."],
-["hf-8",".memdemo",0,"아래 시연 그림에서 버튼을 눌러 보십시오. 채널 저장, 불러오기, 전체 지우기를 고르고 재생을 누르면, 조작판의 스위치와 다이얼이 차례로 움직이고 실제 신호음도 들립니다. 오른쪽 채널 칸으로 메모리가 어떻게 바뀌는지 볼 수 있습니다."],
-["hf-8",".flows",0,"저장할 때는 스위치를 VFO에 두고 주파수를 맞춘 다음, 타이머 스위치를 메모리 라이트까지 돌립니다. 짧은 소리가 몇 번 나는지가 채널 번호입니다. 불러올 때는 MEM에 두고 주파수 다이얼을 돌리면 저장된 채널로 건너뜁니다. 스위치를 가운데에 두면 건너뛰면서 600헤르츠 안쪽으로 미세 조정도 됩니다. 모두 지우려면 VFO에서 주파수 다이얼을 왼쪽 끝 클리어까지 돌리고 메모리 라이트를 합니다."],
+["hf-8",".memdemo",0,"이제 그림의 조작판을 보면서 따라가겠습니다. 왼쪽이 VFO와 MEM 스위치, 가운데가 주파수 다이얼, 오른쪽이 타이머 손잡이입니다. 맨 오른쪽 칸은 메모리에 무엇이 들어 있는지 보여 주는 설명용 표시입니다. 지금은 1번부터 3번까지 저장되어 있습니다.","md:hf-8:-:save:-1"],
+["hf-8",".memdemo",0,"먼저 채널 저장입니다. 스위치를 맨 위 VFO로 올립니다. 주파수를 자유롭게 맞출 수 있는 상태입니다.","md:hf-8:-:save:0"],
+["hf-8",".memdemo",0,"주파수 다이얼을 돌려 새 송신기 소리에 맞춥니다. 여기서는 삼 점 육 메가헤르츠입니다.","md:hf-8:-:save:1"],
+["hf-8",".memdemo",0,"이제 오른쪽 타이머 손잡이를 시계 방향으로 끝까지 돌립니다. 1분, 30초를 지나 빨간 칸, 메모리 라이트에 닿게 합니다.","md:hf-8:-:save:2"],
+["hf-8",".memdemo",0,"닿는 순간 헤드폰에서 짧은 소리가 네 번 납니다. 점 네 개는 4번 채널이라는 뜻이고, 오른쪽 4번 칸이 채워졌습니다.","md:hf-8:-:save:3"],
+["hf-8",".memdemo",0,"저장이 끝나면 손잡이를 다시 1분으로 돌려 놓습니다. 메모리 라이트에 그대로 두지 않는 것이 중요합니다.","md:hf-8:-:save:4"],
+["hf-8",".memdemo",0,"다음은 불러오기입니다. 스위치를 맨 아래 MEM으로 내립니다.","md:hf-8:-:recall:0"],
+["hf-8",".memdemo",0,"주파수 다이얼을 돌리면 연속으로 움직이지 않고 저장된 1번 채널로 딱 건너뜁니다. 건너뛸 때마다 짧은 소리가 납니다.","md:hf-8:-:recall:1"],
+["hf-8",".memdemo",0,"조금 더 돌리면 2번 채널로 건너뜁니다. 송신기 주파수만 골라 들을 수 있어 경기 중에 편합니다.","md:hf-8:-:recall:2"],
+["hf-8",".memdemo",0,"스위치를 가운데에 두면, 채널로 건너뛰면서 그 주변을 조금씩 미세 조정할 수 있습니다. 송신기 주파수가 살짝 어긋나 있을 때 씁니다.","md:hf-8:-:recall:3"],
+["hf-8",".memdemo",0,"마지막으로 전체 지우기입니다. 스위치를 VFO로 올립니다.","md:hf-8:-:clear:0"],
+["hf-8",".memdemo",0,"주파수 다이얼을 반시계 방향으로 끝까지, 빨간 눈금 클리어까지 돌립니다.","md:hf-8:-:clear:1"],
+["hf-8",".memdemo",0,"그 상태에서 타이머 손잡이를 메모리 라이트까지 돌립니다.","md:hf-8:-:clear:2"],
+["hf-8",".memdemo",0,"오른쪽 칸이 모두 비었습니다. 다이얼이 클리어에 있을 때 메모리 라이트를 하면 전체가 지워집니다.","md:hf-8:-:clear:3"],
+["hf-8",".memdemo",0,"손잡이를 1분으로 돌려 놓습니다.","md:hf-8:-:clear:4"],
+["hf-8",".memdemo",0,"확인으로 MEM에 내려 보면 경고음이 납니다. 저장된 채널이 하나도 없다는 뜻입니다. 3.5 엠 엑스는 한 채널만 지우는 방법이 없고, 이렇게 전체 지우기만 됩니다. 아래 글 상자에도 같은 순서가 정리되어 있습니다.","md:hf-8:-:clear:5"],
 
 ["hf-9",".ch-head",0,"9장, 타이머와 전자 나침반입니다."],
 ["hf-9",":scope > .prose p",0,"타이머는 헤드폰을 꽂는 순간부터 시간을 셉니다. 1분이나 30초 주기가 끝나기 10초 전에 신호음이 두 번 울려, 시계를 보지 않고도 마지막 방위를 잴 수 있습니다. 배터리가 약해지면 한 번만 울립니다."],
@@ -2153,8 +2149,26 @@ window.NARR = [
 
 ["vhf-6",".ch-head",0,"6장, 주파수 메모리입니다."],
 ["vhf-6",":scope > .prose p",0,"디 엑스는 네 개, 엠 엑스는 여섯 개까지 주파수를 저장합니다."],
-["vhf-6",".memdemo",0,"아래 시연에서 먼저 기종을 고릅니다. 145 디 엑스는 채널 네 개, 엠 엑스는 여섯 개입니다. 엠 엑스를 고르면 한 채널 지우기 시연도 볼 수 있습니다. 재생을 누르면 조작판이 움직이고 신호음이 들립니다."],
-["vhf-6",".flows",0,"저장은 VFO에서 주파수를 맞추고 타이머 손잡이를 메모리 라이트까지 살짝 돌렸다 놓습니다. 짧은 소리의 개수가 채널 번호입니다. 불러올 때는 메모리에 두고 주파수 다이얼을 돌립니다. 엠 엑스는 메모리에서 메모리 라이트를 하면 그 채널 하나만 지워지고, 전체를 지우려면 VFO에서 주파수 다이얼을 왼쪽 끝 클리어까지 돌리고 메모리 라이트를 합니다."],
+["vhf-6",".memdemo",0,"그림의 조작판을 보면서 따라가겠습니다. 145 엠 엑스 기준입니다. 왼쪽이 VFO와 메모리 스위치, 가운데가 주파수 다이얼, 오른쪽이 타이머 손잡이이고, 맨 오른쪽 칸이 메모리 상태입니다.","md:vhf-6:145mx:save:-1"],
+["vhf-6",".memdemo",0,"채널 저장부터 봅니다. 스위치를 VFO로 올립니다.","md:vhf-6:145mx:save:0"],
+["vhf-6",".memdemo",0,"주파수 다이얼로 새 송신기 백사십오 점 일 메가헤르츠에 맞춥니다.","md:vhf-6:145mx:save:1"],
+["vhf-6",".memdemo",0,"타이머 손잡이를 시계 방향 끝, 빨간 칸 메모리 라이트까지 돌립니다.","md:vhf-6:145mx:save:2"],
+["vhf-6",".memdemo",0,"짧은 소리가 네 번 나고 4번 칸이 채워졌습니다. 4번 채널에 저장됐습니다.","md:vhf-6:145mx:save:3"],
+["vhf-6",".memdemo",0,"손잡이를 1분으로 돌려 놓습니다.","md:vhf-6:145mx:save:4"],
+["vhf-6",".memdemo",0,"불러오기입니다. 스위치를 메모리로 내립니다.","md:vhf-6:145mx:recall:0"],
+["vhf-6",".memdemo",0,"주파수 다이얼을 돌리면 저장된 1번 채널로 건너뛰고 짧은 소리가 납니다.","md:vhf-6:145mx:recall:1"],
+["vhf-6",".memdemo",0,"더 돌리면 2번 채널로 건너뜁니다.","md:vhf-6:145mx:recall:2"],
+["vhf-6",".memdemo",0,"145 엠 엑스는 채널 하나만 지울 수도 있습니다. 스위치를 메모리에 둡니다.","md:vhf-6:145mx:delone:0"],
+["vhf-6",".memdemo",0,"주파수 다이얼로 지울 채널, 여기서는 2번으로 건너뜁니다.","md:vhf-6:145mx:delone:1"],
+["vhf-6",".memdemo",0,"타이머 손잡이를 메모리 라이트까지 돌립니다. 메모리 상태에서 하면 저장이 아니라 지우기가 됩니다.","md:vhf-6:145mx:delone:2"],
+["vhf-6",".memdemo",0,"2번 칸만 비었고 나머지는 그대로입니다.","md:vhf-6:145mx:delone:3"],
+["vhf-6",".memdemo",0,"손잡이를 1분으로 돌려 놓습니다.","md:vhf-6:145mx:delone:4"],
+["vhf-6",".memdemo",0,"전체 지우기입니다. 스위치를 VFO로 올립니다.","md:vhf-6:145mx:clear:0"],
+["vhf-6",".memdemo",0,"주파수 다이얼을 반시계 방향 끝, 클리어까지 돌립니다.","md:vhf-6:145mx:clear:1"],
+["vhf-6",".memdemo",0,"타이머 손잡이를 메모리 라이트까지 돌립니다.","md:vhf-6:145mx:clear:2"],
+["vhf-6",".memdemo",0,"모든 칸이 비었습니다.","md:vhf-6:145mx:clear:3"],
+["vhf-6",".memdemo",0,"손잡이를 1분으로 돌려 놓습니다.","md:vhf-6:145mx:clear:4"],
+["vhf-6",".memdemo",0,"메모리로 내려 보면 경고음이 납니다. 145 디 엑스도 저장, 불러오기, 전체 지우기 순서는 같고, 채널이 네 개이며 한 채널 지우기가 없습니다. 위의 145 디 엑스 버튼을 누르면 디 엑스 시연을 볼 수 있습니다.","md:vhf-6:145mx:clear:5"],
 
 ["vhf-7",".ch-head",0,"7장, 타이머와 전자 나침반입니다."],
 ["vhf-7",":scope > .prose p",0,"타이머는 헤드폰을 꽂는 순간부터 시간을 세고, 주기가 끝나기 10초 전에 알려 줍니다. 디 엑스는 신호음 두 번, 엠 엑스는 짧고 길고 짧은 소리입니다."],
@@ -2297,9 +2311,10 @@ window.NARR = [
     const list = [];
     list.push({ key: "save", label: "채널 저장", init: { sw: "MEM", timer: "1m", f: P[0], slots: P.slice(), cur: 0 }, steps: [
       { focus: "sw", set: { sw: "VFO", cur: null }, say: `VFO/${sw0} 스위치를 <b>VFO</b>에 둡니다.` },
-      { focus: "dial", set: { f: m.newF }, say: `FREQ 다이얼을 돌려 새 송신기 주파수(${fmt(m, m.newF)} ${m.unit})에 맞춥니다.` },
-      { focus: "timer", set: { timer: "MW" }, slot: [first, m.newF], snd: "dots:" + (first + 1), say: `TIMER를 <b>MEMORY WRITE</b>까지 돌립니다. 짧은 소리 ${first + 1}번: <b>${first + 1}번 채널</b>에 저장됐습니다.` },
-      { focus: "timer", set: { timer: "1m" }, say: "손잡이를 원래 위치(1 min)로 되돌립니다. 저장한 채널은 전원을 꺼도 남아 있습니다." }
+      { focus: "dial", set: { f: m.newF }, arrow: "dial-cw", say: `FREQ 다이얼을 돌려 새 송신기 주파수(${fmt(m, m.newF)} ${m.unit})에 맞춥니다.` },
+      { focus: "timer", set: { timer: "MW" }, arrow: "timer-cw", say: `<b>TIMER 손잡이</b>를 시계 방향으로 끝까지 돌립니다. <b>1 min → 30 s → MEMORY WRITE</b>. 빨간 칸(MEMORY WRITE)에 손잡이가 닿는 것이 저장 동작입니다.` },
+      { focus: "slots", slot: [first, m.newF], newSlot: first, snd: "dots:" + (first + 1), say: `손잡이가 MEMORY WRITE에 닿는 순간 헤드폰에서 짧은 소리가 <b>${cnt(first + 1)}</b>(점 ${first + 1}개) 납니다. 점 ${first + 1}개 = <b>${first + 1}번 채널</b>에 저장됐다는 뜻입니다.` },
+      { focus: "timer", set: { timer: "1m" }, arrow: "timer-ccw", say: "손잡이를 다시 <b>1 min</b>(쓰던 위치)으로 돌려 놓습니다. MEMORY WRITE에 둔 채로 두지 않습니다. 저장한 채널은 전원을 꺼도 남아 있습니다." }
     ]});
     const rec = [
       { focus: "sw", set: { sw: "MEM" }, say: `스위치를 <b>${sw0}</b>에 둡니다.` },
@@ -2311,14 +2326,16 @@ window.NARR = [
     if (m.delOne) list.push({ key: "delone", label: "한 채널 지우기", init: { sw: "VFO", timer: "1m", f: m.newF, slots: P.slice(), cur: null }, steps: [
       { focus: "sw", set: { sw: "MEM" }, say: `스위치를 <b>${sw0}</b>에 둡니다.` },
       { focus: "dial", set: { f: P[1], cur: 1 }, snd: "tick", say: "FREQ를 돌려 지울 채널(<b>2번</b>)로 건너뜁니다." },
-      { focus: "timer", set: { timer: "MW" }, slot: [1, null], say: "<b>MEMORY WRITE</b>까지 돌립니다. <b>2번 채널만</b> 지워지고 나머지는 그대로입니다." },
-      { focus: "timer", set: { timer: "1m", cur: null }, say: "손잡이를 원래 위치로 되돌립니다." }
+      { focus: "timer", set: { timer: "MW" }, arrow: "timer-cw", say: "<b>TIMER 손잡이</b>를 시계 방향 끝 <b>MEMORY WRITE</b>까지 돌립니다. MEMORY 상태에서 하면 저장이 아니라 <b>지우기</b>입니다." },
+      { focus: "slots", slot: [1, null], newSlot: 1, say: "<b>2번 채널만</b> 지워지고 나머지는 그대로입니다." },
+      { focus: "timer", set: { timer: "1m", cur: null }, arrow: "timer-ccw", say: "손잡이를 다시 <b>1 min</b>으로 돌려 놓습니다." }
     ]});
     list.push({ key: "clear", label: "전체 지우기", init: { sw: "MEM", timer: "1m", f: P[0], slots: P.slice(), cur: 0 }, steps: [
       { focus: "sw", set: { sw: "VFO", cur: null }, say: "스위치를 <b>VFO</b>에 둡니다." },
-      { focus: "dial", set: { clear: true }, say: "FREQ 다이얼을 <b>반시계 방향 끝(CLEAR)</b>까지 돌립니다." },
-      { focus: "timer", set: { timer: "MW" }, slot: ["all", null], say: "<b>MEMORY WRITE</b>까지 돌립니다. <b>모든 채널</b>이 지워집니다." },
-      { focus: "timer", set: { timer: "1m" }, say: "손잡이를 원래 위치로 되돌립니다." },
+      { focus: "dial", set: { clear: true }, arrow: "dial-ccw", say: "FREQ 다이얼을 <b>반시계 방향 끝(CLEAR)</b>까지 돌립니다. 빨간 눈금이 CLEAR입니다." },
+      { focus: "timer", set: { timer: "MW" }, arrow: "timer-cw", say: "<b>TIMER 손잡이</b>를 시계 방향 끝 <b>MEMORY WRITE</b>까지 돌립니다." },
+      { focus: "slots", slot: ["all", null], newSlot: "all", say: "다이얼이 CLEAR에 있을 때 MEMORY WRITE를 하면 <b>모든 채널</b>이 지워집니다." },
+      { focus: "timer", set: { timer: "1m" }, arrow: "timer-ccw", say: "손잡이를 다시 <b>1 min</b>으로 돌려 놓습니다." },
       { focus: "sw", set: { sw: "MEM" }, snd: "warn", say: `확인: <b>${sw0}</b>로 바꾸면 <b>경고음</b>이 납니다. 저장된 채널이 하나도 없다는 뜻입니다.` }
     ]});
     if (!m.delOne) list[list.length - 1].note = m.name === "3.5MX" ? "3.5MX는 설명서에 한 채널만 지우는 방법이 없고, 전체 지우기만 됩니다." : "145DX는 한 채널만 지우는 기능이 없고, 전체 지우기만 됩니다.";
@@ -2338,6 +2355,8 @@ window.NARR = [
     else if (snd === "warn") { tone(t, 420, 0.25); tone(t + 0.32, 420, 0.25); }
     else if (snd.startsWith("dots:")) { const n = +snd.split(":")[1]; for (let i = 0; i < n; i++) tone(t + i * 0.18, 1000, 0.07); }
   }
+  const KN = ["", "한", "두", "세", "네", "다섯", "여섯"];
+  const cnt = n => (KN[n] || n) + " 번";
   const sndText = s => !s ? "" : s === "tick" ? "삑" : s === "warn" ? "삐— 삐— (경고)" : "삐 " + "· ".repeat(+s.split(":")[1]).trim();
 
   /* ---------- 그림 ---------- */
@@ -2345,7 +2364,9 @@ window.NARR = [
   function txt(parent, x, y, s, cls, anchor) { const t = el("text", { x, y, class: cls, "text-anchor": anchor || "middle" }, parent); t.textContent = s; return t; }
   function drawPanel(svg, m) {
     svg.innerHTML = "";
-    el("rect", { x: 1, y: 1, width: 518, height: 238, rx: 10, class: "md-face" }, svg);
+    const defs = el("defs", {}, svg); const mk = el("marker", { id: "md-ah", viewBox: "0 0 10 10", refX: 5, refY: 5, markerWidth: 4, markerHeight: 4, orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0,0 L10,5 L0,10 z", fill: "#f2b705" }, mk);
+    el("rect", { x: 1, y: 1, width: 518, height: 270, rx: 10, class: "md-face" }, svg);
     // 스위치
     txt(svg, 70, 30, "VFO / " + m.swLabels[1], "md-l");
     el("rect", { x: 48, y: 56, width: 44, height: 124, rx: 7, class: "md-sw" }, svg);
@@ -2370,41 +2391,87 @@ window.NARR = [
     // TIMER
     const tx = 410, ty = 128;
     txt(svg, tx, 30, "TIMER", "md-l");
-    el("circle", { cx: tx, cy: ty, r: 30, class: "md-dial" }, svg);
     const pos = { OFF: "OFF", "1m": "1 min", "30s": "30 s", MW: "MEMORY" };
-    for (const k in TIMER) { const t = TIMER[k] * Math.PI / 180, r = 52;
-      const tt = txt(svg, tx + r * Math.sin(t), ty - r * Math.cos(t) + 4, pos[k], "md-s" + (k === "MW" ? " mw" : ""));
-      if (k === "MW") txt(svg, tx + r * Math.sin(t) + 2, ty - r * Math.cos(t) + 18, "WRITE", "md-s mw"); }
+    el("path", { d: arc(tx, ty, 36, TIMER.MW - 14, TIMER.MW + 14) + ` L${tx},${ty} Z`, class: "md-mwzone" }, svg);
+    const tl = {};
+    for (const k in TIMER) { const t = TIMER[k] * Math.PI / 180, r = 54;
+      tl[k] = txt(svg, tx + r * Math.sin(t) + (k === "MW" ? 10 : 0), ty - r * Math.cos(t) + 4, pos[k], "md-s tpos" + (k === "MW" ? " mw" : ""));
+      if (k === "MW") tl.MW2 = txt(svg, tx + r * Math.sin(t) + 12, ty - r * Math.cos(t) + 18, "WRITE", "md-s tpos mw");
+      el("line", { x1: tx + 31 * Math.sin(t), y1: ty - 31 * Math.cos(t), x2: tx + 37 * Math.sin(t), y2: ty - 37 * Math.cos(t), class: "md-tick" + (k === "MW" ? " clr" : "") }, svg); }
+    el("circle", { cx: tx, cy: ty, r: 28, class: "md-dial" }, svg);
     const timer = el("g", { transform: `translate(${tx},${ty}) rotate(0)`, class: "md-rot" }, svg);
-    el("line", { x1: 0, y1: 0, x2: 0, y2: -28, class: "md-ptr t" }, timer);
-    el("circle", { cx: 0, cy: 0, r: 5, class: "md-hub" }, timer);
+    el("rect", { x: -6, y: -26, width: 12, height: 40, rx: 5, class: "md-handle" }, timer);
+    el("path", { d: "M0,-30 l-6,9 h12 z", class: "md-hhead" }, timer);
+    const tcap = txt(svg, tx, 226, "", "md-ft");
+    const arrow = el("path", { d: "", class: "md-arrow" }, svg);
     // 손가락 표시
     const ring = el("circle", { cx: 70, cy: 118, r: 0, class: "md-ring" }, svg);
     // 신호음 말풍선
     const bub = el("g", { class: "md-bub", opacity: 0 }, svg);
-    el("rect", { x: 300, y: 196, width: 210, height: 30, rx: 15, class: "md-bubr" }, bub);
-    const bubT = txt(bub, 405, 216, "", "md-bubt");
-    return { knob, dial, timer, ring, bub, bubT, freqT, clr, cx, cy, tx, ty };
+    el("rect", { x: 300, y: 236, width: 210, height: 30, rx: 15, class: "md-bubr" }, bub);
+    txt(bub, 292, 256, "헤드폰 🎧", "md-s", "end");
+    const bubT = txt(bub, 405, 256, "", "md-bubt");
+    const swl = {};
+    svg.querySelectorAll(".md-s").forEach(t => { const v = t.textContent; if (v === "VFO") swl.VFO = t; if (v === "가운데") swl.MID = t; if (v === m.swLabels[1] && !t.classList.contains("tpos")) swl.MEM = t; });
+    return { knob, dial, timer, ring, bub, bubT, freqT, clr, cx, cy, tx, ty, tl, tcap, arrow, swl };
   }
 
+  function arc(cx, cy, r, a1, a2) {
+    const p = a => [cx + r * Math.sin(a * Math.PI / 180), cy - r * Math.cos(a * Math.PI / 180)];
+    const [x1, y1] = p(a1), [x2, y2] = p(a2), large = Math.abs(a2 - a1) > 180 ? 1 : 0, sw = a2 > a1 ? 1 : 0;
+    return `M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large} ${sw} ${x2.toFixed(1)},${y2.toFixed(1)}`;
+  }
   function build(root) {
     const models = root.dataset.models.split(",");
     let m = MODELS[models[0]], sc = null, scs = [], st = null, step = -1, timer = null, playing = false, muted = false, g = null;
     root.innerHTML =
       (models.length > 1 ? '<div class="md-row md-models" role="group" aria-label="기종">' + models.map(k => `<button type="button" class="md-btn md-model" data-m="${k}">${MODELS[k].name}</button>`).join("") + "</div>" : "") +
       '<div class="md-row md-scs" role="group" aria-label="시연 고르기"></div>' +
-      '<div class="md-stage"><svg class="md-svg" viewBox="0 0 520 240" role="img" aria-label="조작판 시연"></svg>' +
+      '<div class="md-stage"><svg class="md-svg" viewBox="0 0 520 272" role="img" aria-label="조작판 시연"></svg>' +
       '<div class="md-slots"><div class="md-slh">메모리 채널 <small>(설명용 표시)</small></div><ol></ol></div></div>' +
       '<p class="md-say" aria-live="polite"></p>' +
       '<div class="md-row md-ctl"><button type="button" class="md-btn md-prev">◀ 이전</button><button type="button" class="md-btn md-play">▶ 재생</button><button type="button" class="md-btn md-next">다음 ▶</button>' +
       '<span class="md-pos"></span><button type="button" class="md-btn md-mute" aria-pressed="false">🔊 소리 켬</button></div>' +
       '<p class="md-note" hidden></p>';
     const svg = root.querySelector(".md-svg"), q = s => root.querySelector(s);
+    const textBox = document.createElement("div"); textBox.className = "md-text";
+    root.after(textBox);
+    function renderText() {
+      textBox.innerHTML = '<p class="md-texth">글로 보는 순서 <span>· 줄을 누르면 위 그림이 그 단계로 갑니다</span></p>';
+      const wrap = document.createElement("div"); wrap.className = "flows" + (scs.length === 4 ? " four" : "");
+      scs.forEach((sc2, si) => {
+        const f = document.createElement("div"); f.className = "flow" + (sc2.key === "clear" || sc2.key === "delone" ? " warn" : "");
+        f.innerHTML = `<h4>${sc2.label}</h4>`;
+        const ol = document.createElement("ol"); ol.className = "md-tl";
+        sc2.steps.forEach((stp, k) => {
+          const li = document.createElement("li"); li.tabIndex = 0; li.setAttribute("role", "button");
+          li.dataset.s = si; li.dataset.k = k;
+          li.innerHTML = `<span class="md-go" aria-hidden="true">▶ 그림</span>${stp.say}`;
+          const act = () => { pick(si, false); goto(k); root.scrollIntoView ? null : 0; };
+          li.addEventListener("click", act);
+          li.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); } });
+          ol.appendChild(li);
+        });
+        f.appendChild(ol);
+        if (sc2.note) { const n = document.createElement("p"); n.className = "md-tnote"; n.textContent = sc2.note; f.appendChild(n); }
+        wrap.appendChild(f);
+      });
+      textBox.appendChild(wrap);
+    }
+    function markText() {
+      const si = scs.indexOf(sc);
+      textBox.querySelectorAll(".md-tl li").forEach(li => {
+        const same = +li.dataset.s === si, k = +li.dataset.k;
+        li.classList.toggle("cur", same && k === step);
+        li.classList.toggle("done", same && k < step);
+      });
+    }
     function setModel(k) {
       m = MODELS[k];
       root.querySelectorAll(".md-model").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.m === k)));
       g = drawPanel(svg, m);
       scs = scenarios(m);
+      renderText();
       const box = q(".md-scs"); box.innerHTML = "";
       scs.forEach((s, i) => { const b = document.createElement("button"); b.type = "button"; b.className = "md-btn md-sc" + (s.key === "clear" || s.key === "delone" ? " warn" : "");
         b.textContent = s.label; b.addEventListener("click", () => pick(i, true)); box.appendChild(b); });
@@ -2429,14 +2496,27 @@ window.NARR = [
       g.timer.setAttribute("transform", `translate(${g.tx},${g.ty}) rotate(${TIMER[st.timer]})`);
       g.clr.classList.toggle("on", !!st.clear);
       g.freqT.textContent = st.clear ? "CLEAR 위치" : "듣는 주파수 " + fmt(m, st.f) + (st.fine ? " (+0.4 kHz)" : "") + " " + m.unit;
-      const F = { sw: [70, 118, 34], dial: [g.cx, g.cy, 76], timer: [g.tx, g.ty, 58] };
+      Object.keys(g.tl).forEach(k => g.tl[k].classList.toggle("on", (k === "MW2" ? "MW" : k) === st.timer));
+      g.tcap.textContent = "TIMER: " + ({ OFF: "OFF", "1m": "1 min", "30s": "30 s", MW: "MEMORY WRITE" })[st.timer];
+      g.tcap.classList.toggle("mw", st.timer === "MW");
+      Object.keys(g.swl).forEach(k => g.swl[k].classList.toggle("on", k === st.sw));
+      const A = s && s.arrow;
+      if (A) {
+        const d = A === "timer-cw" ? arc(g.tx, g.ty, 70, TIMER["1m"] - 10, TIMER.MW + 6) : A === "timer-ccw" ? arc(g.tx, g.ty, 70, TIMER.MW + 6, TIMER["1m"] - 10)
+                : A === "dial-ccw" ? arc(g.cx, g.cy, 84, 20, -150) : arc(g.cx, g.cy, 84, -60, 40);
+        g.arrow.setAttribute("d", d); g.arrow.classList.remove("draw"); void g.arrow.getBBox(); g.arrow.classList.add("draw");
+      } else g.arrow.setAttribute("d", "");
+      const F = { sw: [70, 118, 34], dial: [g.cx, g.cy, 76], timer: [g.tx, g.ty, 62] };
       if (s && F[s.focus]) { const [x, y, r] = F[s.focus]; g.ring.setAttribute("cx", x); g.ring.setAttribute("cy", y); g.ring.setAttribute("r", r); g.ring.classList.remove("pulse"); void g.ring.getBBox(); g.ring.classList.add("pulse"); }
       else g.ring.setAttribute("r", 0);
       const t = sndText(s && s.snd);
       g.bubT.textContent = t; g.bub.setAttribute("opacity", t ? 1 : 0);
       const ol = q(".md-slots ol"); ol.innerHTML = "";
       st.slots.forEach((f, i) => { const li = document.createElement("li"); li.className = (f == null ? "empty" : "") + (st.cur === i && f != null && (st.sw !== "VFO") ? " cur" : "");
-        li.innerHTML = `<span class="no">${i + 1}</span>` + (f == null ? '<span class="v">비어 있음</span>' : `<span class="v">${fmt(m, f)} ${m.unit}</span>`); ol.appendChild(li); });
+        if (s && (s.newSlot === i || s.newSlot === "all")) li.classList.add("flash");
+        li.innerHTML = `<span class="no">${i + 1}</span>` + (f == null ? '<span class="v">비어 있음</span>' : `<span class="v">${fmt(m, f)} ${m.unit}</span>`) + (s && s.newSlot === i ? `<span class="tag">${f == null ? "지움" : "저장"}</span>` : ""); ol.appendChild(li); });
+      q(".md-slots").classList.toggle("focus", !!(s && s.focus === "slots"));
+      markText();
       q(".md-pos").textContent = step < 0 ? `0 / ${sc.steps.length}` : `${step + 1} / ${sc.steps.length}`;
       q(".md-play").textContent = playing ? "❚❚ 멈춤" : (step >= sc.steps.length - 1 ? "↺ 다시" : "▶ 재생");
       q(".md-play").classList.toggle("is-on", playing);
@@ -2448,7 +2528,7 @@ window.NARR = [
       const s = sc.steps[step]; render(s); q(".md-say").innerHTML = `<span class="md-sn">${step + 1}</span>` + s.say; play(s.snd, muted);
     }
     function start() { audio(); if (step >= sc.steps.length - 1) { pick(scs.indexOf(sc), false); } playing = true; tick(); }
-    function tick() { if (!playing) return; if (step >= sc.steps.length - 1) { stop(); return; } goto(step + 1); render(sc.steps[step]); timer = setTimeout(tick, 3200); }
+    function tick() { if (!playing) return; if (step >= sc.steps.length - 1) { stop(); return; } goto(step + 1); render(sc.steps[step]); timer = setTimeout(tick, 3800); }
     function stop() { playing = false; clearTimeout(timer); if (sc) render(step >= 0 ? sc.steps[step] : null); }
     q(".md-play").addEventListener("click", () => { if (playing) stop(); else start(); });
     q(".md-next").addEventListener("click", () => { stop(); audio(); if (step < sc.steps.length - 1) goto(step + 1); });
@@ -2456,6 +2536,11 @@ window.NARR = [
     q(".md-mute").addEventListener("click", e => { muted = !muted; e.currentTarget.textContent = muted ? "🔇 소리 끔" : "🔊 소리 켬"; e.currentTarget.setAttribute("aria-pressed", String(muted)); });
     root.querySelectorAll(".md-model").forEach(b => b.addEventListener("click", () => setModel(b.dataset.m)));
     setModel(models[models.length > 1 ? 1 : 0]);
+    /* 음성 해설이 시연을 직접 움직일 수 있게 */
+    root.__md = {
+      model: k => { if (MODELS[k] && m !== MODELS[k]) setModel(k); },
+      show: (key, k) => { const i = scs.findIndex(x => x.key === key); if (i < 0) return; if (sc !== scs[i]) pick(i, false); else stop(); if (k < 0) { pick(i, false); return; } goto(k); }
+    };
     document.addEventListener("bandchange", stop);
   }
   document.querySelectorAll(".memdemo").forEach(build);
@@ -2484,6 +2569,12 @@ window.NARR = [
   function runAction(act) {
     if (!act) return Promise.resolve();
     const [k, v] = act.replace(/^>/, "").split(":");
+    if (k === "md") {
+      const [, ch, model, key, step] = act.replace(/^>/, "").split(":");
+      const root = document.querySelector("#" + ch + " .memdemo");
+      if (root && root.__md) { if (model !== "-") root.__md.model(model); root.__md.show(key, +step); }
+      return Promise.resolve();
+    }
     if (k === "ghost") { const b = document.querySelector('.btn-step[data-show="' + v + '"]'); if (b) b.click(); }
     return Promise.resolve();
   }
