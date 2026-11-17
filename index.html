@@ -833,6 +833,19 @@ details.more .more-body { padding: 4px 14px 14px; display: grid; gap: 12px; font
 .trim .t-s { font-size: 12px; fill: var(--ink-2); }
 .trim .t-s.em { fill: var(--flag); font-weight: 600; }
 
+/* 145MX 스위치 설명 상자 */
+.swbox { border: 1px solid var(--line); border-top: 3px solid var(--band144); border-radius: 8px; padding: 14px 16px; display: grid; gap: 10px; align-content: start; font-size: 0.9rem; }
+.swbox h4 { margin: 0; font-size: 1rem; }
+.swlist { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; line-height: 1.55; }
+.swlist dt { font-weight: 600; white-space: nowrap; color: var(--ink); }
+.swlist dd { margin: 0; color: var(--ink-2); padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
+.swlist dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.swlist b { color: var(--ink); font-weight: 600; }
+.swnote { font-size: 0.82rem; color: var(--ink-3); }
+@media (max-width: 440px) { .swlist { grid-template-columns: 1fr; gap: 2px; } .swlist dd { margin-bottom: 6px; } }
+/* 블로그에 넣었을 때 아래 여백 줄이기 */
+html.embedded .page { padding-bottom: 24px; }
+
 /* HB9CV 그림 */
 .hb9cv { width: 100%; max-width: 520px; font-family: var(--font-body); }
 .hb9cv .pg { fill: none; stroke: var(--tint-2); stroke-width: 1; }
@@ -1512,10 +1525,24 @@ details.more .more-body { padding: 4px 14px 14px; display: grid; gap: 12px; font
         <img src="images/sf145dx-photo.jpg" alt="손에 든 SUPERFOX 145DX. 안테나 소자 네 개를 끼우고 위쪽에 나침반을 단 모습" width="571" height="724" style="aspect-ratio:571/724">
         <figcaption>손에 든 SUPERFOX 145DX. 안테나 소자를 끼우고 나침반을 단 모습. 사진 출처: OK2BWN 사용 설명서</figcaption>
       </figure>
-      <figure class="figure">
-        <div class="frame"><img src="images/sf145mx-controls-ko.png" alt="SUPERFOX 145MX 조작부 명칭과 스위치 기능을 한국어로 적은 그림" width="907" height="808" style="display:block;width:100%;height:auto"></div>
-        <figcaption>145MX 조작부 명칭과 기능 (OK2BWN 설명서 그림에 한국어 설명)</figcaption>
-      </figure>
+      <div class="swbox">
+        <h4>스위치 위치별 동작 <span class="src">145MX</span></h4>
+        <dl class="swlist">
+          <dt>ANT 스위치</dt>
+          <dd><b>WIDE</b> 넓은 빔으로 훑기<br><b>가운데</b> 음성 S미터: 신호가 셀수록 음이 높아짐<br><b>NARROW</b> 확장기로 측면을 줄여 좁게 겨누기</dd>
+          <dt>VFO / MEMORY</dt>
+          <dd><b>VFO</b> 연속 동조<br><b>MEMORY</b> 저장 채널 사이를 건너뜀</dd>
+          <dt>TIMER 손잡이</dt>
+          <dd><b>OFF</b> 예고음 끔(시계는 계속 돎)<br><b>1 min · 30 s</b> 주기 끝나기 10초 전 예고음</dd>
+          <dt>MEMORY WRITE</dt>
+          <dd>살짝 돌렸다 놓음. <b>VFO</b>에서는 지금 주파수 저장, <b>MEMORY</b>에서는 지금 채널 삭제</dd>
+          <dt>COMPASS 버튼</dt>
+          <dd>옆면, FINDER09 옵션. <b>짧게</b> 방위 저장, <b>길게</b> 저장 방위 추적</dd>
+          <dt>헤드폰 단자</dt>
+          <dd>끝면. 헤드폰을 꽂으면 켜지고 타이머가 0부터 시작. 충전기·배터리 시험기도 여기에</dd>
+        </dl>
+        <p class="swnote">145DX는 ANT가 WIDE · NARROW 두 위치뿐이고, MEMORY WRITE는 VFO에서 저장만 됩니다.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -2027,7 +2054,9 @@ details.more .more-body { padding: 4px 14px 14px; display: grid; gap: 12px; font
   var last = 0, on = false;
   function send(force){
     if (!on) return;
-    var h = Math.ceil(document.documentElement.scrollHeight);
+    var m = document.querySelector('.page');
+    /* iframe 안에서는 scrollHeight가 현재 iframe 높이 밑으로 줄지 않으므로, 본문(main) 끝 위치로 잰다 */
+    var h = Math.ceil(m.getBoundingClientRect().bottom + (window.pageYOffset || 0));
     if (!force && Math.abs(h - last) < 2) return;
     last = h;
     var tab = (document.querySelector('.bandtab[aria-selected="true"]') || {}).getAttribute ? document.querySelector('.bandtab[aria-selected="true"]').getAttribute('data-tab') : '';
@@ -2043,7 +2072,7 @@ details.more .more-body { padding: 4px 14px 14px; display: grid; gap: 12px; font
   });
   document.addEventListener('bandchange', function(){ send(true); });
   document.querySelectorAll('details').forEach(function(d){ d.addEventListener('toggle', function(){ send(false); }); });
-  if ('ResizeObserver' in window) new ResizeObserver(function(){ send(false); }).observe(document.body);
+  if ('ResizeObserver' in window) new ResizeObserver(function(){ send(false); }).observe(document.querySelector('.page'));
   window.addEventListener('load', function(){ send(true); });
 })();
 </script>
