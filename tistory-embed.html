@@ -1,0 +1,39 @@
+<!-- SUPERFOX 수신기 설명서 — 티스토리 글에 넣는 코드 (superfox-manual)
+     글쓰기 → 오른쪽 위 [기본모드] → [HTML]로 바꾼 뒤, 아래 전체를 붙여 넣습니다.
+     3.5 MHz 글은 src 끝을 #hf, 145 MHz 글은 #vhf로 둡니다. (장 바로가기: #hf-7, #vhf-4 등)
+     높이 자동 맞춤, 페이지 안 목차 링크 이동, 대역 버튼을 눌렀을 때 높이 다시 맞춤을 처리합니다.
+     (antenna-types · ARDF_Guide와 같은 규약: antenna-types:height / antenna-types:scroll / antenna-types:ping) -->
+<div style="margin:0 auto;max-width:900px">
+<iframe id="sf-frame" src="https://kooking0-jh.github.io/superfox-manual/#hf" title="SUPERFOX 수신기 설명서"
+  style="display:block;width:100%;height:1600px;border:0" loading="eager"></iframe>
+<p style="font-size:13px;color:#6b7385;text-align:center;margin:8px 0 0">
+  화면이 잘 보이지 않으면 <a href="https://kooking0-jh.github.io/superfox-manual/#hf" target="_blank" rel="noopener">새 창에서 열기</a>
+</p>
+</div>
+<script>
+(function(){
+  var f = document.getElementById('sf-frame');
+  if (!f) return;
+  var ORIGIN = new URL(f.src, location.href).origin;
+  var page = null;
+  function frameTop(){ return f.getBoundingClientRect().top + window.pageYOffset; }
+  function go(y){ try { window.scrollTo({top: Math.max(0, y), behavior: 'smooth'}); } catch(e){ window.scrollTo(0, Math.max(0, y)); } }
+  window.addEventListener('message', function(e){
+    if (e.origin !== ORIGIN || e.source !== f.contentWindow) return;
+    var d = e.data;
+    if (!d || typeof d !== 'object') return;
+    if (d.type === 'antenna-types:height'){
+      var h = +d.height;
+      if (h > 100) f.style.height = (h + 4) + 'px';
+      /* 대역 버튼으로 바꿨을 때 글 아래쪽을 보고 있었다면 설명서 맨 위로 */
+      if (page !== null && d.page && d.page !== page && f.getBoundingClientRect().top < 0) go(frameTop() - 16);
+      if (d.page) page = d.page;
+    } else if (d.type === 'antenna-types:scroll'){
+      go(frameTop() + (+d.top || 0) - 70);
+    }
+  });
+  function ping(){ try { f.contentWindow.postMessage({type: 'antenna-types:ping'}, ORIGIN); } catch(e){} }
+  f.addEventListener('load', ping);
+  var n = 0, iv = setInterval(function(){ ping(); if (++n >= 10) clearInterval(iv); }, 600);
+})();
+</script>

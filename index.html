@@ -1,0 +1,2052 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>SUPERFOX 수신기 설명서 · 3.5 MHz · 145 MHz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* ARDF_Guide와 같은 디자인 체계. 레이아웃: 860px 한 단 읽기 흐름. 장 머리는 오리엔티어링 컨트롤 설명표처럼 번호 칸 + 제목 칸.
+   색: 흰 지면, 숲빛이 살짝 도는 먹색, 송신기 깃발 주황, IOF 코스 인쇄 보라, 밴드별 파랑(3.5)·초록(144). 블로그 삽입을 고려한 단일 밝은 테마. */
+:root {
+  color-scheme: light;
+  --paper: #ffffff;
+  --tint: #f3f6f4;
+  --tint-2: #e9efeb;
+  --line: #d5ddd8;
+  --ink: #1b2420;
+  --ink-2: #48544e;
+  --ink-3: #6f7b75;
+  --flag: #e8641c;
+  --flag-soft: #fde8da;
+  --overprint: #9c2b8e;
+  --overprint-soft: #f6e3f3;
+  --contour: #b06a2c;
+  --band35: #1f67ad;
+  --band35-soft: #e2edf8;
+  --band144: #23794a;
+  --band144-soft: #e1f2e8;
+  --btn: #1b2420;
+  --btn-hover: #33413a;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.375rem;
+  --step-3: 1.75rem;
+  --step-4: 2.375rem;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { height: auto; max-width: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding-block: 28px 110px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { text-wrap: balance; line-height: 1.35; margin: 0; }
+p { margin: 0; }
+.prose { display: grid; gap: 14px; max-width: 68ch; }
+.en { font-weight: 400; color: var(--ink-3); font-size: 0.82em; margin-left: 6px; letter-spacing: 0.01em; }
+.mono { font-family: var(--font-mono); }
+a { color: var(--band35); }
+:focus-visible { outline: 3px solid var(--flag); outline-offset: 2px; border-radius: 4px; }
+
+/* ---------- 표지 ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: end;
+  padding-bottom: 28px;
+  border-bottom: 2px solid var(--ink);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--overprint);
+  margin-bottom: 14px;
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
+.eyebrow .flagmark { width: 18px; height: 18px; flex: none; }
+.hero h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.01em; }
+.hero h1 small { display: block; font-size: 0.42em; font-weight: 500; color: var(--ink-2); letter-spacing: 0; margin-top: 10px; line-height: 1.5; }
+.hero-lead { margin-top: 18px; font-size: var(--step-1); color: var(--ink-2); max-width: 34ch; }
+.pic { position: relative; }
+.pic .credit { position: absolute; right: 6px; bottom: 6px; padding: 2px 7px; border-radius: 3px; background: rgba(0,0,0,.55); color: #fff; font-size: 0.68rem; line-height: 1.4; letter-spacing: 0.01em; pointer-events: none; }
+.hero figure { margin: 0; }
+.hero img { width: 100%; height: auto; display: block; border-radius: 4px; aspect-ratio: 811 / 1059; object-fit: cover; object-position: 50% 45%; }
+figcaption { font-size: 0.82rem; color: var(--ink-3); margin-top: 8px; line-height: 1.5; }
+
+/* 경기 요약 줄: 컨트롤 설명표 형식 */
+.factsheet {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1.5px solid var(--ink);
+}
+.factsheet > div { padding: 12px 14px; border-left: 1px solid var(--line); min-width: 0; }
+.factsheet > div:first-child { border-left: 0; }
+.factsheet dt { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.factsheet dd { margin: 4px 0 0; font-weight: 600; line-height: 1.45; font-size: 0.95rem; }
+.factsheet dd span { display: block; font-weight: 400; color: var(--ink-2); font-size: 0.85rem; }
+
+/* ---------- 차례 ---------- */
+.toc { margin-top: 40px; }
+.toc h2 { font-size: var(--step-1); margin-bottom: 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; }
+.toc li { min-width: 0; }
+.toc a, .toc .pending {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 9px 12px; border-radius: 6px; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line);
+}
+.toc a { background: var(--paper); }
+.toc a:hover { border-color: var(--ink); background: var(--tint); }
+.toc a::after { content: "→"; margin-left: auto; color: var(--ink-3); }
+.toc .num { font-family: var(--font-mono); font-weight: 600; color: var(--overprint); min-width: 2ch; }
+.toc .pending { color: var(--ink-3); border-style: dashed; }
+.status-pill { margin-left: auto; font-size: 0.72rem; white-space: nowrap; color: var(--ink-3); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
+
+/* ---------- 장 머리: 컨트롤 설명표 칸 ---------- */
+.chapter { margin-top: 64px; scroll-margin-top: 16px; }
+.ch-head { display: grid; grid-template-columns: 64px minmax(0, 1fr); border: 1.5px solid var(--ink); margin-bottom: 24px; }
+.ch-num { display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; font-size: 1.6rem; color: var(--overprint); border-right: 1.5px solid var(--ink); background: var(--overprint-soft); }
+.ch-title { padding: 12px 16px; }
+.ch-title h2 { font-size: var(--step-3); font-weight: 700; }
+.ch-title p { color: var(--ink-2); margin-top: 4px; font-size: 0.95rem; }
+.sec { margin-top: 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; scroll-margin-top: 16px; }
+.sec > *, .figure, .frame { min-width: 0; }
+.sec > h3 { font-size: var(--step-2); font-weight: 700; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.sec > h3 .sn { font-family: var(--font-mono); font-size: 0.8em; color: var(--overprint); font-weight: 600; }
+
+.figure { margin: 4px 0 0; }
+.figure .frame { border: 1px solid var(--line); border-radius: 6px; background: var(--paper); padding: 14px; overflow-x: auto; }
+.figure svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+
+.note { border-left: 3px solid var(--flag); background: var(--flag-soft); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+.note b { color: var(--ink); }
+
+/* ---------- 1-1 연표 ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 66px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.timeline li { display: grid; grid-template-columns: 56px 20px minmax(0, 1fr); gap: 0 10px; align-items: start; padding: 7px 0; }
+.timeline .yr { font-family: var(--font-mono); font-weight: 600; text-align: right; font-size: 0.95rem; }
+.timeline .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink-3); margin: 7px 0 0 4px; position: relative; z-index: 1; }
+.timeline li.kr .dot { background: var(--flag); border-color: var(--flag); }
+.timeline .ev { min-width: 0; }
+.timeline .ev small { display: block; color: var(--ink-3); font-size: 0.82rem; }
+.kr-tag { font-size: 0.72rem; color: var(--flag); border: 1px solid var(--flag); border-radius: 999px; padding: 0 7px; margin-left: 6px; white-space: nowrap; vertical-align: 1px; }
+
+/* ---------- 1-2 밴드 카드 ---------- */
+.bands { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.band { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.band-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.band.b35 .band-head { background: var(--band35-soft); border-bottom: 3px solid var(--band35); }
+.band.b144 .band-head { background: var(--band144-soft); border-bottom: 3px solid var(--band144); }
+.band-head strong { font-size: var(--step-2); font-family: var(--font-mono); }
+.band.b35 strong { color: var(--band35); }
+.band.b144 strong { color: var(--band144); }
+.band-head span { color: var(--ink-2); font-size: 0.9rem; }
+.band img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.band.b144 img { object-position: 50% 40%; }
+.band dl { margin: 0; padding: 12px 16px 16px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; font-size: 0.92rem; }
+.band dt { color: var(--ink-3); white-space: nowrap; }
+.band dd { margin: 0; font-weight: 500; }
+.band .cap { padding: 0 16px; font-size: 0.8rem; color: var(--ink-3); margin-top: 6px; }
+
+/* ---------- 1-3 모스 카드 ---------- */
+.mgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mcard { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 10px; min-width: 0; background: var(--paper); transition: border-color .15s, background .15s; }
+.mcard[data-key="beacon"] { background: var(--tint); }
+.mcard.playing { border-color: var(--flag); background: var(--flag-soft); }
+.mcard-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.mcode { font-family: var(--font-mono); font-weight: 600; font-size: 1.25rem; }
+.mname { font-size: 0.9rem; color: var(--ink-2); }
+.mname em { font-style: normal; color: var(--ink-3); margin-left: 6px; font-size: 0.85em; }
+.morse-bars { display: block; height: 14px; width: auto; max-width: 100%; }
+.mcard-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mpattern { font-family: var(--font-mono); color: var(--ink-3); font-size: 0.85rem; letter-spacing: 0.06em; }
+.mwhen { font-size: 0.78rem; color: var(--ink-3); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* 버튼: 채운 바탕 + 그림자 + 아이콘. 상태 표시(테두리만 있는 알약)와 구분 */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  font: 600 0.85rem/1 var(--font-body);
+  color: #fff; background: var(--btn);
+  border: 0; border-radius: 6px; padding: 9px 13px;
+  cursor: pointer; white-space: nowrap;
+  box-shadow: 0 2px 0 rgba(0,0,0,.25), 0 1px 3px rgba(0,0,0,.12);
+  transition: background .12s, transform .06s, box-shadow .06s;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn:active { transform: translateY(2px); box-shadow: 0 0 0 rgba(0,0,0,.25); }
+.btn .tri { width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.btn.is-on { background: var(--flag); }
+.btn.timed { position: relative; overflow: hidden; }
+.btn.timed::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: calc(var(--left, 1) * 100%); background: rgba(255,255,255,.75); transition: width .25s linear; }
+.btn.is-on .tri { border: 0; width: 8px; height: 8px; background: currentColor; }
+
+/* 깃발 블록 */
+.flagrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.flagrow figure { margin: 0; min-width: 0; }
+.flagrow img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 35%; border-radius: 6px; display: block; }
+.flagrow { align-items: start; }
+
+/* ---------- 1-4 카테고리 ---------- */
+.catchart { width: 100%; max-width: 600px; }
+.catchart .grid { stroke: var(--tint-2); stroke-width: 1; }
+.catchart .tick { font: 500 11px var(--font-mono); fill: var(--ink-3); }
+.catchart .tick-k { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.catchart .clabel { font: 600 13px var(--font-mono); fill: var(--ink); }
+.catchart .cage { font: 400 12px var(--font-body); fill: var(--ink-2); }
+.catchart .ctx { font: 500 12px var(--font-body); fill: var(--ink-2); }
+.catchart .cval { font: 500 11px var(--font-mono); fill: var(--ink-2); }
+.catchart .bar-w { fill: var(--overprint); }
+.catchart .bar-m { fill: var(--ink); }
+
+/* ---------- 2장 주기 다이얼 ---------- */
+.dials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dialbox { border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: grid; gap: 10px; justify-items: center; min-width: 0; }
+.dialbox h4 { margin: 0; font-size: 1rem; justify-self: start; }
+.dialbox h4 span { font-weight: 400; color: var(--ink-3); font-size: 0.85rem; margin-left: 6px; }
+.dial { width: 100%; max-width: 300px; }
+.dial .beacon-ring { fill: none; stroke: var(--tint-2); stroke-width: 8; }
+.dial.run .beacon-ring { stroke: var(--flag-soft); }
+.dial .sec { fill: var(--tint); stroke: var(--line); stroke-width: 1; transition: fill .15s; }
+.dial .sec.on { fill: var(--flag); stroke: var(--flag); }
+.dial .sec-num { font: 600 15px var(--font-mono); fill: var(--ink); pointer-events: none; }
+.dial .sec-code { font: 500 11px var(--font-mono); fill: var(--ink-2); pointer-events: none; }
+.dial .dial-tick { font: 500 10.5px var(--font-mono); fill: var(--ink-3); }
+.dial .dial-hub { fill: var(--paper); stroke: var(--line); }
+.dial .hub1 { font: 700 17px var(--font-body); fill: var(--ink); }
+.dial .hub2 { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.dial .hand { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.dial .hand-pin { fill: var(--ink); }
+.dial .dial-cap { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.readout { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; }
+.dial-ctl { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: center; margin: 12px 0 14px; }
+.dial-hint { font-size: 0.88rem; color: var(--ink-2); }
+.laps { font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-2); padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); }
+.laps b { color: var(--flag); font-size: 1rem; margin-right: 2px; }
+.readout output { font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-2); min-width: 15ch; text-align: center; font-variant-numeric: tabular-nums; }
+
+/* 종목 블록 */
+.event { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.event.wide { grid-template-columns: 1fr; }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0; font-size: 0.93rem; border-top: 1px solid var(--line); padding-top: 12px; }
+.kv dt { color: var(--ink-3); white-space: nowrap; }
+.kv dd { margin: 0; font-weight: 500; }
+.photo { margin: 0; }
+.photo img { width: 100%; border-radius: 6px; display: block; object-fit: cover; }
+.lead-photo img { aspect-ratio: 16 / 10; object-position: 50% 45%; max-height: 420px; }
+
+/* 코스 모식도 공통 */
+.map-svg { width: 100%; max-width: 640px; }
+.map-svg .paper { fill: #fbfaf6; stroke: var(--line); }
+.map-svg .open { fill: #fbe9a8; }
+.map-svg .forest-g { fill: #cfe8c4; }
+.map-svg .contour { fill: none; stroke: var(--contour); stroke-width: 1; opacity: .55; }
+.map-svg .course { fill: none; stroke: var(--overprint); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+.map-svg .route { fill: none; stroke: var(--overprint); stroke-width: 1.6; stroke-dasharray: 2 5; stroke-linecap: round; }
+.map-svg .corridor { fill: none; stroke: var(--overprint); stroke-width: 2; stroke-dasharray: 7 5; }
+.map-svg .ov { fill: none; stroke: var(--overprint); stroke-width: 2.4; }
+.map-svg .ovfill { fill: var(--overprint); }
+.map-svg .lbl { font: 600 12px var(--font-body); fill: var(--ink); }
+.map-svg .lbl-s { font: 400 11px var(--font-body); fill: var(--ink-2); }
+.map-svg .lbl-ov { font: 600 12px var(--font-mono); fill: var(--overprint); }
+.map-svg .dim { stroke: var(--ink-2); stroke-width: 1; fill: none; }
+.map-svg .halo { paint-order: stroke; stroke: #fbfaf6; stroke-width: 4px; stroke-linejoin: round; }
+.map-svg .zone { fill: none; stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.map-svg .ring-in { fill: var(--flag-soft); stroke: var(--flag); stroke-width: 1.5; }
+.map-svg .ring-out { fill: none; stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 5 4; }
+
+
+/* ---------- 3장 ---------- */
+.wl-svg, .xsec { width: 100%; max-width: 640px; }
+.wl-svg .wl-h { font: 600 15px var(--font-mono); }
+.wl-svg .wl-h.b35 { fill: var(--band35); }
+.wl-svg .wl-h.b144 { fill: var(--band144); }
+.wl-svg .wl-s { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.wl-svg .wl-v { font: 600 12.5px var(--font-mono); fill: var(--ink); }
+.wl-svg .ground { stroke: var(--contour); stroke-width: 1.5; }
+.wl-svg .sep { stroke: var(--line); stroke-dasharray: 4 4; }
+.wl-svg .trunk { fill: #8a5a32; }
+.wl-svg .leaf { fill: #6aa564; }
+.wl-svg .person { fill: var(--ink-2); }
+.wl-svg .wave35 { fill: none; stroke: var(--band35); stroke-width: 2.5; }
+.wl-svg .wave144 { fill: none; stroke: var(--band144); stroke-width: 2; }
+.wl-svg .wave144.big { stroke-width: 3; }
+.wl-svg .dimline, .wl-svg .scalebar { stroke: var(--ink); stroke-width: 1.2; }
+.xsec .terrain { fill: #e9e2d2; stroke: var(--contour); stroke-width: 1.5; }
+.xsec .trees path { fill: #6aa564; }
+.xsec .ant { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.xsec .txbox { fill: var(--flag); stroke: var(--ink); }
+.xsec .xs-l { font: 600 12px var(--font-body); fill: var(--ink); }
+.xsec .xs-s { font: 400 11px var(--font-body); fill: var(--ink-2); }
+.xsec .xs-s.ok { fill: var(--band144); font-weight: 600; }
+.xsec .xs-s.bad { fill: #c0392b; font-weight: 600; }
+.xsec .halo2 { paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round; }
+.xsec .wf35 path { fill: none; stroke: var(--band35); stroke-width: 2; opacity: .75; }
+.xsec .wf35.diff path { stroke-dasharray: 5 4; }
+.xsec .pt35 { fill: var(--band35); }
+.xsec .runner { fill: var(--ink); }
+.xsec .runner-l { stroke: var(--ink); stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.xsec .pylon, .xsec .wire { fill: none; stroke: var(--ink-2); stroke-width: 1.4; }
+.xsec .rerad path { fill: none; stroke: #c0392b; stroke-width: 1.6; }
+.xsec .shadow { fill: #c9ced1; opacity: .55; }
+.xsec .cliff { stroke: var(--ink); stroke-width: 3; }
+.xsec .ray-ok { stroke: var(--band144); stroke-width: 2.5; }
+.xsec .ray-blocked { stroke: var(--ink-3); stroke-width: 1.6; stroke-dasharray: 5 4; }
+.xsec .ray-ref { stroke: #c0392b; stroke-width: 2; fill: none; }
+.xsec .ray-ref-head { fill: #c0392b; }
+.xsec .xmark, .map-svg .xmark { stroke: #c0392b; stroke-width: 2.5; fill: none; }
+.map-svg .ridge { fill: none; stroke: var(--contour); stroke-width: 10; stroke-linecap: round; opacity: .35; }
+.map-svg .rock { fill: #b8bcbf; stroke: var(--ink); stroke-width: 1.2; }
+.ghost .gstep { opacity: 0; transition: opacity .3s; }
+.ghost .gstep.show { opacity: 1; }
+.ghost.dim .forest-g, .ghost.dim .ridge, .ghost.dim .rock { opacity: .55; }
+.ghost .g-true { stroke: var(--band144); stroke-width: 2; stroke-dasharray: 2 4; }
+.ghost .g-true.b { stroke: var(--band35); }
+.ghost .g-dir-wide { fill: none; stroke-width: 9; stroke-linecap: round; opacity: .22; }
+.ghost .g-dir-wide.green { stroke: var(--band144); }
+.ghost .g-dir-wide.blue { stroke: var(--band35); }
+.ghost .g-dir-flow { fill: none; stroke-width: 3.5; stroke-dasharray: 12 9; animation: gflow 1.1s linear infinite; }
+.ghost .g-dir-flow.green { stroke: var(--band144); }
+.ghost .g-dir-flow.blue { stroke: var(--band35); }
+.ghost .g-ref-wide { fill: none; stroke: #d62d20; stroke-width: 10; stroke-linecap: round; opacity: .2; }
+.ghost .g-ref-flow { fill: none; stroke: #d62d20; stroke-width: 4; stroke-dasharray: 12 9; animation: gflow 1.1s linear infinite; }
+.ghost .g-bounce { fill: #ffd9d4; stroke: #d62d20; stroke-width: 2.5; animation: gpulse 1.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.ghost .g-ghost { stroke: #d62d20; stroke-width: 3; stroke-dasharray: 9 6; }
+.ghost .g-ghost-mark { fill: #ffffff; stroke: #d62d20; stroke-width: 2.5; }
+.ghost .g-q { font: 700 17px var(--font-body); fill: #d62d20; }
+.ghost .g-blocked { stroke: var(--ink-3); stroke-width: 2; stroke-dasharray: 3 5; opacity: .8; }
+.ghost .xmark.big { stroke-width: 4; }
+.ghost .g-tag { font: 700 12.5px var(--font-body); }
+.ghost .g-tag.red { fill: #d62d20; }
+.ghost .g-tag.green { fill: var(--band144); }
+.ghost .g-tag.blue { fill: var(--band35); }
+.ghost .g-tag.gray { fill: var(--ink-3); }
+.ghost .g-hit { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 3 3; }
+@keyframes gflow { to { stroke-dashoffset: -21; } }
+@keyframes gpulse { 0% { transform: scale(.7); opacity: 1; } 100% { transform: scale(1.5); opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .ghost .g-dir-flow, .ghost .g-ref-flow, .ghost .g-bounce { animation: none; } }
+.ghost .gpos circle { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.ghost .gpos text { font: 600 11px var(--font-mono); fill: var(--ink); }
+.ghost .gpos.active circle { fill: var(--ink); }
+.ghost .gpos.active text { fill: #ffffff; }
+.ghost-ctrl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.btn.btn-step[aria-pressed="true"] { background: var(--flag); }
+.ghost-msg { margin-top: 10px; font-size: 0.93rem; color: var(--ink-2); min-height: 3em; }
+
+
+.field .g1 { fill: #4f9a58; }
+.field .g2 { fill: #58a462; }
+.field .pitch-lines rect, .field .pitch-lines line, .field .pitch-lines circle { fill: none; stroke: #ffffff; stroke-width: 1.6; opacity: .9; }
+.field .wave35.onfield { stroke: #ffffff; stroke-width: 4; }
+.field .wave144.onfield { stroke: #ffe066; stroke-width: 2; }
+.field .dim-w { stroke: #ffffff; stroke-width: 1.4; }
+.field .wl-big { font: 700 16px var(--font-body); fill: #ffffff; paint-order: stroke; stroke: #2f6f39; stroke-width: 3px; }
+.field .wl-pill { font: 600 12px var(--font-body); fill: #ffe066; paint-order: stroke; stroke: #2f6f39; stroke-width: 3px; }
+.field .lead { stroke: #ffe066; stroke-width: 1; }
+.field .runner-dot { fill: var(--flag); stroke: #ffffff; stroke-width: 2; }
+.field .wl-s.dark { fill: var(--ink-2); }
+.field .scalebar.dark { stroke: var(--ink); }
+.run-ctrl { justify-content: flex-start; margin-top: 10px; }
+#out-f5 { font-family: var(--font-body); text-align: left; min-width: 0; }
+
+/* ---------- 음성 안내 ---------- */
+.btn-voice { background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 0 2px 0 var(--ink); padding: 6px 11px; font-size: 0.8rem; }
+.btn-voice:hover { background: var(--tint); }
+.btn-voice .spk { width: 14px; height: 14px; flex: none; }
+.btn-voice.is-on { background: var(--flag); color: #fff; border-color: var(--flag); box-shadow: 0 2px 0 #a8440f; }
+.ch-title .btn-voice { margin-top: 10px; }
+.narr-unsup { flex-basis: 100%; display: grid; gap: 10px; margin-top: 4px; padding: 12px 14px; font-size: 0.9rem; line-height: 1.6; color: var(--ink-2); background: var(--flag-soft); border: 1px solid var(--flag); border-radius: 8px; }
+.narr-unsup p { margin: 0; }
+.unsup-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.unsup-actions .btn { text-decoration: none; }
+.unsup-actions .btn.alt { background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 0 2px 0 var(--ink); }
+.voicebar .narr-unsup { color: var(--ink); }
+.listen-all { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.btn-voice.big { font-size: 0.95rem; padding: 11px 16px; }
+.btn-voice.big .spk { width: 18px; height: 18px; }
+.sec > h3 .btn-voice { margin-left: auto; font-family: var(--font-body); }
+.reading { outline: 3px solid #f2b705; outline-offset: 6px; border-radius: 6px; background: #fffbe8; }
+.voicebar .vb-rate { font-size: 0.85rem; display: inline-flex; gap: 6px; align-items: center; }
+.voicebar select { font: inherit; padding: 6px 8px; border-radius: 6px; border: 0; }
+.voicebar .vb-msg { flex-basis: 100%; font-size: 0.85rem; color: #ffd7c2; }
+.voicebar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--ink); color: #fff;
+  padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  box-shadow: 0 -4px 16px rgba(0,0,0,.18);
+}
+.voicebar.emb { position: absolute; bottom: auto; top: 0; }
+html.embedded .page { padding-block: 8px 40px; }
+.voicebar .vb-label { flex: 1 1 200px; min-width: 0; font-size: 0.88rem; }
+.voicebar .vb-label small { display: block; color: #b9c4be; font-size: 0.75rem; }
+.voicebar .btn { background: #ffffff; color: var(--ink); box-shadow: 0 2px 0 #7d8a83; }
+.voicebar .btn:hover { background: #e9efeb; }
+.voicebar .btn.rate[aria-pressed="true"] { background: var(--flag); color: #fff; }
+.voice-note { font-size: 0.8rem; color: var(--ink-3); }
+
+
+/* ---------- 4장 ---------- */
+.polar3 { width: 100%; max-width: 640px; }
+.polar3 .pg { fill: none; stroke: var(--tint-2); stroke-width: 1; }
+.polar3 .pp { fill-opacity: .18; stroke-width: 2; }
+.polar3 .pp.b35 { fill: var(--band35); stroke: var(--band35); }
+.polar3 .pp.b144 { fill: var(--band144); stroke: var(--band144); }
+.polar3 .pp.narrow { fill: none; stroke-dasharray: 4 3; }
+.polar3 .rx { fill: var(--ink-2); }
+.polar3 .rod { fill: #9aa3a0; }
+.polar3 .whip { stroke: var(--flag); stroke-width: 2.5; }
+.polar3 .whipdot { fill: var(--flag); }
+.polar3 .el-f { stroke: var(--band35); stroke-width: 3; }
+.polar3 .el-r { stroke: #d62d20; stroke-width: 3; }
+.polar3 .pt1 { font: 700 13px var(--font-body); fill: var(--ink); }
+.polar3 .pt2 { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.polar3 .pt3 { font: 500 10.5px var(--font-body); fill: var(--ink-2); }
+.polar3 .pnull { font: 700 11px var(--font-body); fill: #d62d20; }
+.steps { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; font-size: 0.95rem; }
+.steps b { display: block; }
+
+/* 시뮬레이터 */
+.dfsim { border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; background: var(--paper); }
+.dfsim .sim-svg { display: block; width: 100%; height: auto; touch-action: none; cursor: grab; background: #f7f8f5; }
+.dfsim .sim-svg:active { cursor: grabbing; }
+.dfsim .ctrl { padding: 12px 14px; display: grid; gap: 10px; border-top: 1px solid var(--line); }
+.dfsim .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.dfsim .meter { flex: 1 1 220px; min-width: 0; }
+.dfsim .meter-label { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--ink-2); margin-bottom: 4px; gap: 8px; }
+.dfsim .meter-label output { font-family: var(--font-mono); font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dfsim .meter-bg { height: 12px; background: var(--tint-2); border-radius: 6px; overflow: hidden; }
+.dfsim .meter-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--band35), var(--band144), #e0a100, var(--flag)); transition: width .06s linear; }
+.dfsim .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.dfsim .seg .btn { background: var(--paper); color: var(--ink); border: 1.5px solid var(--ink); box-shadow: 0 2px 0 var(--ink); }
+.dfsim .seg .btn[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.dfsim .seg-label { font-size: 0.8rem; color: var(--ink-3); margin-right: 2px; }
+.dfsim .rot .btn { padding: 7px 10px; font-size: 0.8rem; background: #3b4842; }
+.dfsim .rot .btn:hover { background: #4d5c55; }
+.dfsim .hint { font-size: 0.85rem; color: var(--ink-2); margin: 0; min-height: 2.6em; }
+.sim-svg .s-tx { fill: #7d2a20; }
+.sim-svg .s-tx.on { fill: #d62d20; }
+.sim-svg .s-wave { fill: none; stroke: #d62d20; stroke-width: 1.4; opacity: .18; }
+.sim-svg .s-wave.on { opacity: .5; }
+.sim-svg .s-txl { font: 600 12px var(--font-body); fill: var(--ink); }
+.sim-svg .s-bear { stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.sim-svg .s-ring { fill: none; stroke: #e1e6e2; }
+.sim-svg .s-pat { fill-opacity: .2; stroke-width: 2; }
+.sim-svg .s-pat.b35 { fill: var(--band35); stroke: var(--band35); }
+.sim-svg .s-pat.b144 { fill: var(--band144); stroke: var(--band144); }
+.sim-svg .s-body { fill: #2b3530; }
+.sim-svg .s-rod { fill: #a7b0ac; stroke: #6f7b75; }
+.sim-svg .s-whip { stroke: #9aa3a0; stroke-width: 3; stroke-linecap: round; }
+.sim-svg .s-whip.on { stroke: var(--flag); }
+.sim-svg .s-whipdot { fill: #9aa3a0; stroke: #fff; stroke-width: 1.5; }
+.sim-svg .s-whipdot.on { fill: var(--flag); }
+.sim-svg .s-big { font: 700 11px var(--font-body); fill: var(--flag); }
+.sim-svg .s-ef { stroke: var(--band35); stroke-width: 4; stroke-linecap: round; }
+.sim-svg .s-er { stroke: #d62d20; stroke-width: 4; stroke-linecap: round; }
+.sim-svg .s-front { stroke: var(--ink); stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.sim-svg .s-txt { font: 600 12.5px var(--font-body); fill: var(--ink); }
+.sim-svg .s-sub { font: 400 11px var(--font-body); fill: var(--ink-3); }
+
+/* 조작판 사진 + 번호 */
+.panel-frame { padding: 10px; }
+.panel-wrap { position: relative; min-width: 560px; }
+.panel-wrap img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.pin { position: absolute; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; background: var(--flag); color: #fff; font: 700 12px/24px var(--font-mono); text-align: center; box-shadow: 0 0 0 2px #fff; }
+.panel-dir { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--ink-3); margin: 6px 2px 0; min-width: 560px; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; }
+.legend li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 2px 10px; font-size: 0.92rem; line-height: 1.5; }
+.legend .lnum { grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--flag); color: #fff; font: 700 12px/24px var(--font-mono); text-align: center; }
+.legend span:last-child { color: var(--ink-2); font-size: 0.88rem; }
+.gaindial { width: 100%; max-width: 640px; }
+.gaindial .gt { stroke: #ffffff; stroke-width: 2; }
+.gaindial .gn { font: 700 15px var(--font-mono); fill: var(--ink); }
+.gaindial .gs { font: 400 11.5px var(--font-body); fill: var(--ink-3); }
+.gaindial .gl { font: 700 13px var(--font-body); fill: var(--ink); }
+.gaindial .gm { stroke: var(--ink); stroke-width: 1.4; }
+.gaindial .gk { fill: #fff; stroke: var(--ink); stroke-width: 2.5; }
+.din { width: 100%; max-width: 360px; }
+.din .dshell { fill: #c9cfcc; stroke: #6f7b75; }
+.din .dface { fill: #2b3530; }
+.din .dkey { fill: #c9cfcc; }
+.din .dp { stroke: #fff; stroke-width: 1.5; }
+.din .dp.pw { fill: var(--flag); }
+.din .dp.au { fill: var(--band35); }
+.din .dp.gd { fill: #7d8a83; }
+.din .dn { font: 700 9.5px var(--font-mono); fill: #fff; }
+.din .dl { font: 600 12px var(--font-body); fill: var(--ink); }
+.din .dk { font: 600 11.5px var(--font-mono); fill: var(--ink); }
+.din .dt { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.din .fb { fill: var(--tint); stroke: var(--line); }
+.din .fplug { fill: var(--flag-soft); stroke: var(--flag); stroke-width: 1.5; }
+.din .fl { stroke: var(--flag); stroke-width: 2.5; }
+.beepbox { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 10px; align-content: start; font-size: 0.92rem; }
+.beepbox h4 { margin: 0; font-size: 1rem; }
+.beeps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.beeps li { display: grid; grid-template-columns: 74px 1fr; align-items: center; }
+.beeps .bp { font: 700 1.05rem var(--font-mono); letter-spacing: .12em; color: var(--ink); }
+@media (max-width: 720px) { .legend { grid-template-columns: 1fr; } }
+
+
+.polar3 .el-d { stroke: var(--band144); stroke-width: 3; }
+.rxg { width: 100%; max-width: 640px; }
+.rxg .g-box { fill: #2b3530; }
+.rxg .g-rod { fill: none; stroke: #a7b0ac; stroke-width: 2; stroke-dasharray: 5 4; }
+.rxg .g-whip { stroke: var(--flag); stroke-width: 3; stroke-linecap: round; }
+.rxg .g-tip { fill: var(--flag); }
+.rxg .g-knob { fill: #d7dcd9; stroke: #6f7b75; stroke-width: 1.5; }
+.rxg .g-btn { fill: var(--flag); }
+.rxg .g-cord { fill: none; stroke: var(--ink-3); stroke-width: 2.5; }
+.rxg .g-jack { fill: #6f7b75; }
+.rxg .g-boom { stroke: #9aa3a0; stroke-width: 5; stroke-linecap: round; }
+.rxg .g-er, .rxg .g-ed, .rxg .g-ef { stroke-width: 4; stroke-linecap: round; }
+.rxg .g-er { stroke: #7d8a83; } .rxg .g-ed { stroke: var(--ink); } .rxg .g-ef { stroke: var(--band144); }
+.rxg .g-arrow { fill: none; stroke: var(--band144); stroke-width: 2.5; }
+.rxg .g-pin { fill: var(--flag); stroke: #fff; stroke-width: 2; }
+.rxg .g-pn { font: 700 11px var(--font-mono); fill: #fff; }
+.rxg .g-lead { stroke: var(--flag); stroke-width: 1.2; }
+.rxg .g-s { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.rxg .g-t { font: 700 13px var(--font-body); fill: var(--ink); }
+.finder { width: 100%; max-width: 640px; }
+.finder .f-off { fill: var(--tint); stroke: var(--line); }
+.finder .f-low { fill: #cfe0f2; stroke: var(--band35); }
+.finder .f-high { fill: var(--flag-soft); stroke: var(--flag); }
+.finder .f-dir { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 5 4; }
+.finder .f-me { fill: var(--ink); }
+.finder .f-lead { stroke: var(--ink-3); stroke-width: 1; }
+.finder .f-t { font: 700 13px var(--font-body); fill: var(--ink); }
+.finder .f-w { font: 700 12.5px var(--font-body); fill: var(--ink); }
+.finder .f-ws, .finder .f-s { font: 400 11px var(--font-body); fill: var(--ink-2); }
+.flows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.flow { border: 1px solid var(--line); border-top: 3px solid var(--ink); border-radius: 6px; padding: 12px 14px; min-width: 0; }
+.flow.warn { border-top-color: #d62d20; }
+.flows.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.flow h4 { margin: 0 0 6px; font-size: 0.98rem; }
+.flow ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 0.9rem; line-height: 1.55; }
+table.cmp.spec { min-width: 520px; }
+.chapter.appendix .ch-num { background: var(--tint-2); color: var(--ink); }
+.dfsim .gain { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-2); }
+.dfsim .gain input { width: 140px; accent-color: var(--ink); }
+.dfsim .gain output { font: 600 0.9rem var(--font-mono); color: var(--ink); min-width: 1ch; }
+.sim-svg .s-sat { fill: none; stroke: var(--flag); stroke-width: 2; stroke-dasharray: 6 5; }
+.sim-svg .s-satl { font: 600 11px var(--font-body); fill: var(--flag); }
+.sim-svg .s-ed { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.sim-svg .s-edir { stroke: var(--band144); stroke-width: 4; stroke-linecap: round; }
+.sim-svg .s-eref { stroke: #7d8a83; stroke-width: 4; stroke-linecap: round; }
+.sim-svg .s-boom { stroke: #9aa3a0; stroke-width: 5; stroke-linecap: round; }
+@media (max-width: 720px) { .flows, .flows.two { grid-template-columns: 1fr; } }
+
+.ctl-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ctl-card { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 4px; font-size: 0.92rem; min-width: 0; }
+.ctl-card b { font-size: 1.02rem; }
+.ctl-card .ctl-ic { font-size: 1.3rem; color: var(--flag); line-height: 1; }
+.ctl-card .ctl-en { font: 500 0.75rem var(--font-mono); color: var(--ink-3); letter-spacing: .04em; }
+.ctl-card p { margin: 0; color: var(--ink-2); line-height: 1.6; }
+@media (max-width: 720px) { .ctl-cards { grid-template-columns: 1fr; } }
+
+/* ---------- 5장 ---------- */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 16px; }
+.sw { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 0 10px; align-items: start; font-size: 0.92rem; line-height: 1.5; }
+.sw .chip { grid-row: span 2; width: 34px; height: 34px; border-radius: 6px; }
+.sw span:last-child { color: var(--ink-2); font-size: 0.86rem; }
+.scales, .contour, .runnab { width: 100%; max-width: 640px; }
+.scales .sc-l { font: 700 14px var(--font-mono); fill: var(--ink); }
+.scales .sc-s { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.scales .sc-v { font: 700 12.5px var(--font-body); fill: var(--ink); }
+.scales .sc-bar { fill: var(--overprint); opacity: .85; }
+.scales .sc-ax { stroke: var(--ink-3); }
+.contour .ct { fill: none; stroke: var(--contour); stroke-width: 1.3; }
+.contour .ct-i { fill: none; stroke: var(--contour); stroke-width: 2.6; }
+.contour .ct-top { fill: var(--contour); }
+.contour .ct-sec { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 6 4; }
+.contour .ct-l { font: 700 13px var(--font-mono); fill: var(--ink); }
+.contour .ct-s { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.contour .ct-prof { fill: #efe3d3; stroke: var(--contour); stroke-width: 2; }
+.contour .ct-drop { stroke: var(--contour); stroke-width: .8; stroke-dasharray: 2 3; opacity: .7; }
+.contour .ct-lvl { stroke: var(--tint-2); stroke-width: 1; }
+.runnab .rn-n { font: 700 13px var(--font-mono); fill: var(--ink); }
+.runnab .rn-t { font: 700 12.5px var(--font-body); fill: var(--ink); }
+.runnab .rn-s { font: 400 11px var(--font-body); fill: var(--ink-3); }
+.runnab .rn-v { font: 600 11.5px var(--font-body); fill: var(--ink-2); }
+.runnab .rn-bar { fill: var(--ink-2); }
+.symgroups { display: grid; gap: 18px; }
+.symgroup h4 { margin: 0 0 8px; font-size: 0.95rem; color: var(--ink-2); }
+.symgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sym { display: grid; grid-template-columns: 172px minmax(0, 1fr); gap: 14px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.sym-pic { display: grid; gap: 6px; }
+.sym-pic .real { display: flex; align-items: center; gap: 6px; }
+.sym-pic .real svg { width: 53px; background: #fbfaf6; border: 1px solid var(--line); border-radius: 2px; }
+.sym-pic .real small { font-size: 0.7rem; color: var(--ink-3); }
+.sym .sy-t { font: 500 10px var(--font-body); fill: var(--ink-3); }
+.sym svg.big { width: 172px; height: auto; background: #fbfaf6; border-radius: 4px; display: block; }
+.sym b { display: block; font-size: 0.95rem; }
+.sym .sym-en { font: 500 0.72rem var(--font-mono); color: var(--ink-3); }
+.sym p { margin: 4px 0 0; font-size: 0.85rem; color: var(--ink-2); line-height: 1.5; }
+.sym .sy-br { fill: none; stroke: #b0682a; stroke-width: 2.2; }
+.sym .sy-br.thick { stroke-width: 3.8; }
+.sym .sy-br.dotted { stroke-width: 3; stroke-dasharray: 1 5; stroke-linecap: round; }
+.sym .sy-brf { fill: #b0682a; }
+.sym .sy-bk { fill: none; stroke: #1b2420; stroke-width: 2.2; }
+.sym .sy-bk.thick { stroke-width: 4; }
+.sym .sy-bk.dash { stroke-width: 2.6; stroke-dasharray: 8 5; }
+.sym .sy-bkf { fill: #1b2420; }
+.sym .sy-wf { fill: #2a8fd1; }
+.sym .sy-bl { fill: none; stroke: #2a8fd1; stroke-width: 3; }
+.sym .sy-pu { fill: none; stroke: #9c2b8e; stroke-width: 3; }
+.sym .sy-pu.dash { stroke-dasharray: 7 5; }
+.sym .sy-oob { fill: url(#oob); stroke: #9c2b8e; stroke-width: 1.5; }
+.setmap { border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.setmap-svg { display: block; width: 100%; height: auto; background: #f7f8f5; }
+.setmap .ctrl { padding: 12px 14px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; }
+.setmap #sm-map { transition: transform .35s ease; }
+.cp-body { fill: #cfe6f1; stroke: #6f7b75; } .cp-face { fill: #ffffff; stroke: #c9cfcc; }
+.cp-n { font: 700 13px var(--font-mono); fill: #d62d20; } .cp-l { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.sm-status { font: 700 13px var(--font-body); fill: var(--ink); }
+.sm-status.ok { fill: var(--band144); }
+@media (max-width: 720px) { .symgrid { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .sym { grid-template-columns: 130px minmax(0, 1fr); } .sym svg.big { width: 130px; } }
+@media (prefers-reduced-motion: reduce) { .setmap #sm-map { transition: none; } }
+
+
+/* ---------- 6장 ---------- */
+.checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ck-col { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.ck-col h4, .dont h4 { margin: 0 0 8px; font-size: 1rem; }
+.ck-col ul, .dont ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 0.92rem; }
+.ck-col li { padding-left: 26px; position: relative; }
+.ck-col li::before { content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border: 1.5px solid var(--ink-3); border-radius: 3px; }
+.first5, .routes { width: 100%; max-width: 640px; display: block; margin: 0 auto; }
+.xb-svg { width: 100%; display: block; }
+.first5 .f5-me { fill: var(--ink); }
+.first5 .f5-clock { fill: var(--ink); }
+.first5 .f5-ct { font: 600 12.5px var(--font-body); fill: #fff; }
+.first5 .f5-solid { stroke-width: 2.6; stroke-linecap: round; }
+.first5 .f5-dash { stroke-width: 1.6; stroke-dasharray: 3 5; }
+.first5 .f5-lab { font: 700 12px var(--font-mono); }
+.first5 .f5-dist { font: 500 10.5px var(--font-body); fill: var(--ink-2); }
+.first5 .f5-rip { fill: none; stroke: var(--flag); stroke-width: 2; }
+.first5 .f5-mbg { fill: var(--tint-2); }
+.first5 .f5-mfill { fill: var(--flag); }
+.first5 .f5-ml { font: 400 10px var(--font-body); fill: var(--ink-3); }
+.routes .rt-path { fill: none; stroke-width: 2.6; stroke-linejoin: round; }
+.routes .rt-good { stroke: var(--band144); } .routes .rt-bad { stroke: #d62d20; stroke-dasharray: 6 4; }
+.routes .rt-t { font: 700 13px var(--font-body); fill: var(--ink); }
+.routes .rt-s { font: 400 11.5px var(--font-body); fill: var(--ink-2); }
+.routes .rt-n { font: 700 10px var(--font-mono); fill: #fff; }
+.routes .rt-tx { fill: var(--flag); stroke: var(--ink); stroke-width: .8; }
+.xbear { border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.xbear .ctrl { padding: 12px 14px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.xb-ctl { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; flex-wrap: wrap; }
+.xb-ctl input { flex: 1 1 200px; accent-color: var(--ink); }
+#xb-out { font-size: 0.9rem; color: var(--ink-2); }
+.xb-svg .paper { fill: #fbfaf6; stroke: var(--line); }
+.xb-svg .xb-path { fill: none; stroke: #1b2420; stroke-width: 1.6; stroke-dasharray: 6 4; }
+.xb-svg .xb-tx { fill: var(--flag); stroke: var(--ink); }
+.xb-svg .xb-w1 { fill: var(--band35); opacity: .16; stroke: var(--band35); stroke-opacity: .5; }
+.xb-svg .xb-w2 { fill: var(--band144); opacity: .16; stroke: var(--band144); stroke-opacity: .5; }
+.xb-svg .xb-l1 { stroke: var(--band35); stroke-width: 2; } .xb-svg .xb-l2 { stroke: var(--band144); stroke-width: 2; }
+.xb-svg .xb-ov { fill: var(--flag); opacity: .55; }
+.xb-svg .xb-p { fill: var(--ink); } .xb-svg .xb-pl { font: 700 12px var(--font-mono); fill: var(--ink); }
+.dont { border: 1px solid #f0c2bd; background: #fdf3f2; border-radius: 8px; padding: 14px 16px; }
+.dont li { padding-left: 18px; position: relative; } .dont li::before { content: "!"; position: absolute; left: 2px; font-weight: 700; color: #d62d20; }
+.mistakes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.mk { border-left: 3px solid #d62d20; background: var(--tint); padding: 10px 14px; border-radius: 0 6px 6px 0; display: grid; gap: 2px; font-size: 0.92rem; min-width: 0; }
+.mk span { color: var(--ink-2); font-size: 0.86rem; }
+@media (max-width: 720px) { .checklist, .mistakes { grid-template-columns: 1fr; } }
+
+/* 비교표 */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table.cmp { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 0.9rem; }
+table.cmp th, table.cmp td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.5; }
+table.cmp thead th { background: var(--tint); font-size: 0.95rem; }
+table.cmp tbody th { color: var(--ink-2); font-weight: 500; white-space: nowrap; background: var(--paper); }
+table.cmp tbody tr:last-child th, table.cmp tbody tr:last-child td { border-bottom: 0; }
+table.cmp td .mono { font-size: 0.92em; }
+
+.sources { margin-top: 64px; border-top: 2px solid var(--ink); padding-top: 16px; font-size: 0.85rem; color: var(--ink-2); display: grid; gap: 6px; }
+.sources h2 { font-size: 1rem; }
+.sources ul { margin: 0; padding-left: 18px; }
+.cycle { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; counter-reset: none; }
+.cycle li { position: relative; min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 8px; background: var(--tint); border-top: 4px solid var(--ink-3); font-size: 0.86rem; color: var(--ink-2); }
+.cycle li.cy-main { background: var(--flag-soft); border-top-color: var(--flag); }
+.cycle b { color: var(--ink); font-size: 0.95rem; }
+.cycle li:not(:last-child)::after { content: "→"; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); color: var(--ink-3); font-weight: 700; }
+@media (max-width: 640px) { .cycle { grid-template-columns: 1fr; gap: 20px; } .cycle li:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -19px; transform: none; } }
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; align-items: end; }
+.ladder li { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 8px 8px 0 0; background: var(--tint); border-top: 4px solid var(--flag); min-height: calc(90px + var(--h) * 34px); font-size: 0.86rem; color: var(--ink-2); }
+.ladder li:nth-child(5) { background: var(--flag-soft); }
+.ladder b { color: var(--ink); font-size: 0.95rem; }
+.ld-n { font-family: var(--font-mono); font-weight: 700; color: var(--flag); font-size: 1.3rem; line-height: 1; }
+@media (max-width: 640px) { .ladder { grid-template-columns: 1fr; } .ladder li { min-height: 0; border-radius: 8px; border-top: 0; border-left: 4px solid var(--flag); margin-left: calc((var(--h) - 1) * 10px); } }
+.kit { display: grid; gap: 8px; }
+.kit-item { display: flex; gap: 14px; align-items: flex-start; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.kit-item p { margin: 4px 0 0; font-size: 0.92rem; color: var(--ink-2); }
+.kit-n { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 700; }
+.links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.lk { display: grid; gap: 3px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink-2); font-size: 0.9rem; min-width: 0; }
+.lk b { color: var(--ink); font-size: 1rem; }
+.lk b::after { content: " ↗"; color: var(--flag); }
+.lk:hover { border-color: var(--ink); background: var(--tint); }
+.lk-d { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-3); overflow-wrap: anywhere; }
+@media (max-width: 640px) { .links { grid-template-columns: 1fr; } }
+.table-wrap { overflow-x: auto; }
+.cheat { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 460px; }
+.cheat th, .cheat td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+.cheat thead th { background: var(--tint); font-size: 0.85rem; }
+.cheat tbody th { white-space: nowrap; font-weight: 600; }
+.cheat .mono { font-family: var(--font-mono); white-space: nowrap; }
+.gl-tools { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.gl-tools label { font-weight: 600; }
+.gl-tools input { flex: 1 1 200px; min-width: 0; padding: 9px 12px; border: 1.5px solid var(--ink-3); border-radius: 6px; font: inherit; background: var(--paper); color: var(--ink); }
+.gl-tools input:focus { outline: 2px solid var(--flag); outline-offset: 1px; }
+.gl-tools output { font-size: 0.85rem; color: var(--ink-3); }
+.glossary { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+.glossary > div { padding: 10px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.glossary dt { font-weight: 700; }
+.glossary dd { margin: 3px 0 0; font-size: 0.92rem; color: var(--ink-2); }
+@media (max-width: 640px) { .glossary { grid-template-columns: 1fr; } }
+.faq { display: grid; gap: 8px; }
+.faq details { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); min-width: 0; }
+.faq details[open] { border-color: var(--ink-3); }
+.faq summary { cursor: pointer; list-style: none; display: flex; gap: 10px; align-items: baseline; padding: 13px 14px; font-weight: 600; border-radius: 8px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: "Q"; font-family: var(--font-mono); color: var(--overprint); font-weight: 700; flex: none; }
+.faq summary::after { content: "+"; margin-left: auto; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--btn); color: #fff; display: grid; place-items: center; font-weight: 600; line-height: 1; align-self: center; }
+.faq details[open] summary::after { content: "−"; }
+.faq summary:hover { background: var(--tint); }
+.faq summary:focus-visible { outline: 2px solid var(--flag); outline-offset: 2px; }
+.faq summary .en { margin-left: 2px; }
+.faq .a { padding: 0 16px 12px 38px; color: var(--ink-2); font-size: 0.95rem; }
+.faq .a p { margin: 0; }
+.faq details.reading { border-color: var(--flag); }
+.rulebd { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.rb-col { border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.rb-col h4 { margin: 0 0 8px; font-size: 1rem; display: flex; align-items: baseline; gap: 6px; }
+.rb-col ul { margin: 0; padding: 0 0 0 18px; display: grid; gap: 6px; font-size: 0.92rem; }
+.rb-mark { font-weight: 700; font-size: 1.15rem; }
+.rb-ok { border: 1px solid var(--band144); background: var(--band144-soft); } .rb-ok .rb-mark { color: var(--band144); }
+.rb-no { border: 1px solid #f0c2bd; background: #fdf3f2; } .rb-no .rb-mark { color: #d62d20; }
+@media (max-width: 640px) { .rulebd { grid-template-columns: 1fr; } .faq summary .en { display: none; } }
+.next-up { margin-top: 48px; border: 1.5px dashed var(--line); border-radius: 8px; padding: 18px; color: var(--ink-2); font-size: 0.95rem; }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero img { aspect-ratio: 4 / 3; }
+  .factsheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .factsheet > div:nth-child(3) { border-left: 0; }
+  .factsheet > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .toc ol, .bands, .dials, .event, .flagrow { grid-template-columns: 1fr; }
+  .mgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flagrow img { max-height: 360px; }
+}
+@media (max-width: 440px) {
+  :root { --step-4: 2rem; --step-3: 1.5rem; }
+}
+@media (max-width: 350px) {
+  .mgrid { grid-template-columns: 1fr; }
+  .ch-head { grid-template-columns: 48px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<style>
+/* ---------- SUPERFOX: 대역 선택 버튼 (누르는 버튼임이 보이도록 테두리·그림자) ---------- */
+.bandtabs { margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.bandtab {
+  font: inherit; text-align: left; cursor: pointer; color: var(--ink);
+  background: var(--paper); border: 1.5px solid var(--ink); border-radius: 8px;
+  padding: 12px 16px 11px; display: grid; gap: 2px;
+  box-shadow: 0 3px 0 var(--ink); transition: background .12s, transform .06s, box-shadow .06s;
+}
+.bandtab:hover { background: var(--tint); }
+.bandtab:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
+.bandtab .bt-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.bandtab strong { font-family: var(--font-mono); font-size: var(--step-2); line-height: 1.2; }
+.bandtab.b35 strong { color: var(--band35); }
+.bandtab.b144 strong { color: var(--band144); }
+.bandtab .bt-go { font-size: 0.8rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.bandtab .bt-sub { font-size: 0.88rem; color: var(--ink-2); }
+.bandtab[aria-selected="true"] { color: #fff; }
+.bandtab[aria-selected="true"] strong, .bandtab[aria-selected="true"] .bt-sub, .bandtab[aria-selected="true"] .bt-go { color: #fff; }
+.bandtab[aria-selected="true"] .bt-go::before { content: "● "; }
+.bandtab[aria-selected="true"] .bt-go { font-size: 0; }
+.bandtab[aria-selected="true"] .bt-go::after { content: "보는 중"; font-size: 0.8rem; }
+.bandtab.b35[aria-selected="true"] { background: var(--band35); border-color: #134a80; box-shadow: 0 3px 0 #134a80; }
+.bandtab.b144[aria-selected="true"] { background: var(--band144); border-color: #17552f; box-shadow: 0 3px 0 #17552f; }
+.bandpanel { scroll-margin-top: 16px; }
+
+/* 장 머리 번호 칸: 대역 색 */
+.ch-head.b35 .ch-num { color: var(--band35); background: var(--band35-soft); }
+.ch-head.b144 .ch-num { color: var(--band144); background: var(--band144-soft); }
+.toc h2 .en { font-family: var(--font-mono); }
+small.mx { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-3); font-weight: 500; }
+
+/* 출처 표시 */
+.src { display: inline-block; font: 600 0.68rem/1.5 var(--font-mono); color: var(--ink-2); background: var(--tint-2); border-radius: 3px; padding: 0 5px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; letter-spacing: 0; }
+.src.sheet { color: #8a3c0c; background: var(--flag-soft); }
+
+/* 접는 표 */
+details.more { border: 1px solid var(--line); border-radius: 8px; }
+details.more > summary { cursor: pointer; list-style: none; padding: 11px 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::before { content: "+"; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--ink); font: 700 14px/1 var(--font-mono); flex: none; }
+details.more[open] > summary::before { content: "−"; }
+details.more > summary:hover { background: var(--tint); border-radius: 8px; }
+details.more .more-body { padding: 4px 14px 14px; display: grid; gap: 12px; font-size: 0.95rem; }
+
+/* 휩 길이 그림 */
+.trim { width: 100%; max-width: 600px; font-family: var(--font-body); }
+.trim .gnd { stroke: var(--ink-3); stroke-width: 2; }
+.trim .body { fill: var(--ink-2); }
+.trim .limb { stroke: var(--ink-2); stroke-width: 4; stroke-linecap: round; fill: none; }
+.trim .rx { fill: var(--ink); }
+.trim .whip { stroke: var(--flag); stroke-width: 3; stroke-linecap: round; }
+.trim .whipdot { fill: var(--flag); }
+.trim .dim { stroke: var(--band35); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.trim .t-m { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.trim .t-s { font-size: 12px; fill: var(--ink-2); }
+.trim .t-s.em { fill: var(--flag); font-weight: 600; }
+
+/* HB9CV 그림 */
+.hb9cv { width: 100%; max-width: 520px; font-family: var(--font-body); }
+.hb9cv .pg { fill: none; stroke: var(--tint-2); stroke-width: 1; }
+.hb9cv .axis { stroke: var(--line); stroke-width: 1; }
+.hb9cv .lobe.wide { fill: var(--band144); fill-opacity: .12; stroke: var(--band144); stroke-width: 1.6; stroke-dasharray: 5 4; }
+.hb9cv .lobe.narrow { fill: var(--band144); fill-opacity: .28; stroke: var(--band144); stroke-width: 2.2; }
+.hb9cv .lobe.back { fill: #d62d20; fill-opacity: .25; stroke: #d62d20; stroke-width: 1.4; }
+.hb9cv .el { stroke-width: 4; stroke-linecap: round; }
+.hb9cv .el.front { stroke: var(--band35); }
+.hb9cv .el.rear { stroke: #d62d20; }
+.hb9cv .rx { fill: var(--ink); }
+.hb9cv .t-m { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.hb9cv .t-m.bad { fill: #b3261e; }
+.hb9cv .t-s { font-size: 12px; fill: var(--ink-2); }
+.hb9cv .wide-t { fill: var(--band144); }
+.hb9cv .narrow-t { fill: #17552f; font-weight: 600; }
+.hb9cv .front-t { fill: var(--band35); font-weight: 600; }
+.hb9cv .rear-t { fill: #b3261e; font-weight: 600; }
+
+@media (max-width: 440px) {
+  .bandtab { padding: 10px 12px; }
+  .bandtab .bt-go { display: none; }
+}
+</style>
+
+</head>
+<body>
+
+<main class="page">
+
+<!-- ===================== 표지 ===================== -->
+<header class="hero" id="top">
+  <div>
+    <div class="eyebrow">
+      <svg class="flagmark" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 3 L18 3 L18 17 L2 17 Z" fill="#fff" stroke="#1b2420" stroke-width="1.2"/><path d="M2 17 L18 3 L18 17 Z" fill="#e8641c"/></svg>
+      ARDF Receiver · OK2BWN SUPERFOX
+    </div>
+    <h1>SUPERFOX 수신기 설명서
+      <small>3.5 MHz · 145 MHz 방향 탐지 수신기 통합 사용 안내</small>
+    </h1>
+    <p class="hero-lead">체코 OK2BWN이 만드는 ARDF 수신기 SUPERFOX의 조작, 안테나 패턴, 실전 탐색 요령, 메모리·타이머·배터리 관리와 사양을 제조사 설명서 기준으로 정리했습니다.</p>
+  </div>
+  <figure>
+    <div class="pic"><img src="images/sf35gx-hand.jpg" alt="손에 든 SUPERFOX 3.5GX. 흰 주파수 다이얼과 빨간 감도 다이얼, 위쪽 휩 단자" width="805" height="728"><span class="credit">사진: Miloslav Nečas</span></div>
+    <figcaption>손에 든 SUPERFOX 3.5GX (Praktická elektronika A Radio, 2016년 9월호)</figcaption>
+  </figure>
+</header>
+
+<dl class="factsheet" aria-label="SUPERFOX 요약">
+  <div><dt>Maker</dt><dd>OK2BWN<span>Jiří Mareček, 체코</span></dd></div>
+  <div><dt>3.5 MHz</dt><dd>3.5GX · 3.5MX<span>페라이트 + 위상 휩</span></dd></div>
+  <div><dt>145 MHz</dt><dd>145DX · 145MX<span>대칭형 HB9CV</span></dd></div>
+  <div><dt>Power</dt><dd>헤드폰 = 전원<span>꽂으면 켜지고 뽑으면 꺼짐</span></dd></div>
+</dl>
+
+<!-- ===================== 대역 선택 ===================== -->
+<div class="bandtabs" role="tablist" aria-label="대역 선택">
+  <button type="button" class="bandtab b35" role="tab" id="tab-hf" aria-controls="panel-hf" aria-selected="true" data-tab="hf">
+    <span class="bt-top"><strong>3.5 MHz</strong><span class="bt-go">눌러서 보기 ▸</span></span>
+    <span class="bt-sub">80 m · 3.5GX / 3.5MX</span>
+  </button>
+  <button type="button" class="bandtab b144" role="tab" id="tab-vhf" aria-controls="panel-vhf" aria-selected="false" data-tab="vhf">
+    <span class="bt-top"><strong>145 MHz</strong><span class="bt-go">눌러서 보기 ▸</span></span>
+    <span class="bt-sub">2 m · 145DX / 145MX</span>
+  </button>
+</div>
+
+<!-- =================================================================== -->
+<!-- ============================ 3.5 MHz ============================== -->
+<!-- =================================================================== -->
+<section class="bandpanel" id="panel-hf" role="tabpanel" aria-labelledby="tab-hf">
+
+<nav class="toc" aria-label="3.5 MHz 차례">
+  <h2>차례 <span class="en">3.5 MHz</span></h2>
+  <ol>
+    <li><a href="#hf-1"><span class="num">1</span>기기 개요와 주의사항</a></li>
+    <li><a href="#hf-2"><span class="num">2</span>조작부</a></li>
+    <li><a href="#hf-3"><span class="num">3</span>수신기 동작 원리</a></li>
+    <li><a href="#hf-4"><span class="num">4</span>안테나 패턴: 8자와 카디오이드</a></li>
+    <li><a href="#hf-5"><span class="num">5</span>3.5 MHz와 145 MHz의 전파</a></li>
+    <li><a href="#hf-6"><span class="num">6</span>실전 탐색 순서</a></li>
+    <li><a href="#hf-7"><span class="num">7</span>휩 길이 맞추기</a></li>
+    <li><a href="#hf-8"><span class="num">8</span>3.5MX 주파수 메모리</a></li>
+    <li><a href="#hf-9"><span class="num">9</span>타이머와 전자 나침반</a></li>
+    <li><a href="#hf-10"><span class="num">10</span>전원과 배터리</a></li>
+    <li><a href="#hf-11"><span class="num">11</span>사양</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chapter" id="hf-1">
+  <div class="ch-head b35">
+    <div class="ch-num">1</div>
+    <div class="ch-title">
+      <h2>기기 개요와 주의사항</h2>
+      <p>3.5GX와 3.5MX, 두 기종의 관계</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>SUPERFOX 3.5 MHz 수신기는 체코의 ARDF 장비 제작자 Jiří Mareček(OK2BWN)이 만든 80 m 대역 방향 탐지 수신기입니다. 제조사 자료에 따르면 SUPERFOX를 쓴 선수들이 세계선수권에서 22번 우승(메달 60개), 유럽선수권에서 27번 우승(메달 85개)했습니다.</p>
+    <p>손바닥만 한 상자(100 × 180 mm) 안에 대칭형 페라이트 막대가 들어 있고, 위쪽 나사 구멍에 휩을 끼워 씁니다. 크리스털 IF 필터와 8단계 감도 조절로 아주 약한 신호(−135 dBm)부터 송신 안테나 바로 앞의 강한 신호까지 받습니다. <b>3.5GX</b>는 아날로그 동조 기본형이고, <b>3.5MX</b>는 3.5GX를 디지털 신시사이저로 바꾸고 6채널 메모리와 타이머를 더한 후속 기종입니다.</p>
+  </div>
+  <div class="sec">
+    <div class="flow warn">
+      <h4>주의사항</h4>
+      <ol>
+        <li>충전은 전용 충전기로만 합니다. 3.5GX는 N28, 3.5MX는 N40입니다.</li>
+        <li>사용 온도는 −10 ~ +60 °C, 보관 온도는 −20 ~ +60 °C입니다.</li>
+        <li>방수는 비산수 수준(IP63)입니다. 물에 잠기게 하지 말고, 케이스를 열었다면 다시 밀봉합니다.</li>
+        <li>전선 아래를 지날 때는 휩이 전선에 닿지 않게 합니다.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="hf-2">
+  <div class="ch-head b35">
+    <div class="ch-num">2</div>
+    <div class="ch-title">
+      <h2>조작부</h2>
+      <p>주파수·감도 다이얼, 은색 ANT 버튼, 위쪽 휩</p>
+    </div>
+  </div>
+  <div class="sec">
+    <figure class="figure">
+      <div class="frame"><img src="images/sf35gx-controls.jpg" alt="손에 든 SUPERFOX 3.5GX. FREQUENCY와 GAIN 다이얼, 헤드폰·충전기 단자, 옆면의 안테나 선택 버튼, 위쪽 휩 안테나 표시" width="1100" height="586" style="display:block;width:100%;height:auto;border-radius:4px"></div>
+      <figcaption>SUPERFOX 3.5GX 조작부. 사진 출처: OK2BWN SUPERFOX 3,5GX 사용 설명서</figcaption>
+    </figure>
+    <ol class="legend">
+      <li><span class="lnum">1</span><b>FREQUENCY 주파수</b><span>송신기 소리가 가장 크고 듣기 편한 음높이가 되는 곳에 맞춥니다.</span></li>
+      <li><span class="lnum">2</span><b>GAIN 감도 0–7</b><span>처음엔 7, 가까워질수록 낮춥니다. 한 칸이 약 15 dB입니다.</span></li>
+      <li><span class="lnum">3</span><b>헤드폰 · 충전기 단자</b><span>헤드폰을 꽂으면 켜집니다. 충전기도 여기에 연결합니다.</span></li>
+      <li><span class="lnum">4</span><b>안테나 선택 버튼 (옆면, ANT)</b><span>놓으면 8자, 누르고 있으면 카디오이드. 3.5M·MX에서는 은색 버튼입니다.</span></li>
+      <li><span class="lnum">5</span><b>휩 안테나 (위쪽)</b><span>위쪽 단자에 끼웁니다. 길이로 카디오이드의 깊이를 맞춥니다.</span></li>
+    </ol>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">조작부</th><th scope="col">기능</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">VFO / MEM 스위치<br><small class="mx">3.5MX</small></th><td><b>VFO</b> 연속 동조. <b>MEM</b> 저장한 채널 사이를 건너뜀(저장된 채널이 없으면 경고음). <b>가운데</b> MEM처럼 건너뛰면서 채널 눈금 ±1칸 안에서 최대 ±600 Hz 미세 조정.</td></tr>
+          <tr><th scope="row">TIMER / MEMORY WRITE<br><small class="mx">3.5MX</small></th><td><b>1 min · 30 s</b> 송신 주기 끝나기 10초 전 예고음. <b>OFF</b> 예고음만 끔(시계는 계속 돎). <b>MEMORY WRITE</b> VFO에서 지금 주파수를 저장.</td></tr>
+          <tr><th scope="row">COMPASS 버튼 (파랑)<br><small class="mx">3.5MX 옵션</small></th><td>FINDER09 전자 나침반. 짧게 누르면 방위 저장, 길게 누르면 추적.</td></tr>
+          <tr><th scope="row">아래쪽 나사 구멍 2개</th><td>나침반 홀더 장착용 (간격 35 mm).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="hf-3">
+  <div class="ch-head b35">
+    <div class="ch-num">3</div>
+    <div class="ch-title">
+      <h2>수신기 동작 원리</h2>
+      <p>더블 컨버전, 크리스털 필터, BFO, 8단계 감도</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>3.5GX와 3.5MX 설명서는 모두 수신 방식을 더블 컨버전 수퍼헤테로다인(Double conversion superheterodyne)으로 적고 있습니다. 약한 단파 신호를 두 번 주파수 변환해 좁은 크리스털 필터로 거른 뒤, BFO로 들을 수 있는 소리를 만드는 구조입니다.</p>
+  </div>
+  <div class="sec">
+    <div class="flows two">
+      <div class="flow">
+        <h4>주파수 변환과 필터</h4>
+        <ol>
+          <li>3.5 MHz 신호를 증폭한 뒤 1차 중간 주파수(1st IF)를 거쳐 2차 중간 주파수(2nd IF)로 내립니다. 두 번에 나누면 영상 주파수(Image frequency)를 막기 쉽고, 낮은 IF에서 좁은 필터를 쓸 수 있습니다.</li>
+          <li>크리스털 IF 필터의 통과 대역은 3.5MX가 1 kHz(−3 dB) / 4 kHz(−60 dB), 3.5GX가 1 kHz(−6 dB) / 6 kHz(−60 dB)입니다. 주파수가 가까운 송신기끼리도 섞이지 않습니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>BFO와 감도 조절</h4>
+        <ol>
+          <li>3.5 MHz 송신기는 변조음 없는 반송파(CW, A1A)를 끊었다 이었다 하며 모스 부호를 보냅니다. 그대로는 소리가 나지 않으므로, BFO(Beat frequency oscillator)가 조금 다른 주파수를 섞어 두 주파수의 차이를 가청음으로 만듭니다. FREQ 다이얼로 이 음높이를 듣기 편하게 맞춥니다.</li>
+          <li>감도는 8단계, 한 단계 15 dB씩 120 dB 범위를 조절합니다. 한 단계는 송신기까지 거리 약 1 : 3에 해당하도록 맞춰져 있어, 가까이 가도 회로가 포화되지 않고 널이 또렷하게 남습니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="hf-4">
+  <div class="ch-head b35">
+    <div class="ch-num">4</div>
+    <div class="ch-title">
+      <h2>안테나 패턴: 8자와 카디오이드</h2>
+      <p>널로 축을 잡고, 휩으로 앞뒤를 가린다</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>몸체 안의 페라이트 막대는 전파의 자기장을, 위쪽 휩은 전기장을 받습니다. 은색 ANT 버튼을 놓으면 페라이트만 동작하는 8자 패턴, 누르고 있으면 휩이 더해진 카디오이드(Cardioid, 심장 모양) 패턴이 됩니다.</p>
+  </div>
+  <div class="sec">
+        <figure class="figure">
+      <div class="frame"><svg class="polar3" viewBox="0 0 640 300" role="img" aria-label="SUPERFOX 3.5를 위에서 본 패턴. 선수가 조작판을 보며 들었을 때 ANT를 놓으면 8자, 누르면 선수 앞쪽이 큰 카디오이드"><circle cx="170" cy="150" r="46.0" class="pg"/><circle cx="170" cy="150" r="92.0" class="pg"/><path d="M170.0,58.0 L173.2,58.1 L176.4,58.4 L179.6,59.0 L182.7,59.8 L185.7,60.8 L188.7,62.0 L191.6,63.4 L194.4,65.0 L197.0,66.8 L199.6,68.8 L202.0,70.9 L204.2,73.2 L206.2,75.7 L208.1,78.3 L209.8,81.0 L211.3,83.8 L212.7,86.8 L213.7,89.8 L214.6,92.9 L215.3,96.0 L215.7,99.2 L216.0,102.4 L216.0,105.6 L215.7,108.8 L215.3,112.0 L214.6,115.1 L213.7,118.2 L212.7,121.2 L211.3,124.2 L209.8,127.0 L208.1,129.7 L206.2,132.3 L204.2,134.8 L202.0,137.1 L199.6,139.2 L197.0,141.2 L194.4,143.0 L191.6,144.6 L188.7,146.0 L185.7,147.2 L182.7,148.2 L179.6,149.0 L176.4,149.6 L173.2,149.9 L170.0,150.0 L173.2,150.1 L176.4,150.4 L179.6,151.0 L182.7,151.8 L185.7,152.8 L188.7,154.0 L191.6,155.4 L194.4,157.0 L197.0,158.8 L199.6,160.8 L202.0,162.9 L204.2,165.2 L206.2,167.7 L208.1,170.3 L209.8,173.0 L211.3,175.8 L212.7,178.8 L213.7,181.8 L214.6,184.9 L215.3,188.0 L215.7,191.2 L216.0,194.4 L216.0,197.6 L215.7,200.8 L215.3,204.0 L214.6,207.1 L213.7,210.2 L212.7,213.2 L211.3,216.2 L209.8,219.0 L208.1,221.7 L206.2,224.3 L204.2,226.8 L202.0,229.1 L199.6,231.2 L197.0,233.2 L194.4,235.0 L191.6,236.6 L188.7,238.0 L185.7,239.2 L182.7,240.2 L179.6,241.0 L176.4,241.6 L173.2,241.9 L170.0,242.0 L166.8,241.9 L163.6,241.6 L160.4,241.0 L157.3,240.2 L154.3,239.2 L151.3,238.0 L148.4,236.6 L145.6,235.0 L143.0,233.2 L140.4,231.2 L138.0,229.1 L135.8,226.8 L133.8,224.3 L131.9,221.7 L130.2,219.0 L128.7,216.2 L127.3,213.2 L126.3,210.2 L125.4,207.1 L124.7,204.0 L124.3,200.8 L124.0,197.6 L124.0,194.4 L124.3,191.2 L124.7,188.0 L125.4,184.9 L126.3,181.8 L127.3,178.8 L128.7,175.8 L130.2,173.0 L131.9,170.3 L133.8,167.7 L135.8,165.2 L138.0,162.9 L140.4,160.8 L143.0,158.8 L145.6,157.0 L148.4,155.4 L151.3,154.0 L154.3,152.8 L157.3,151.8 L160.4,151.0 L163.6,150.4 L166.8,150.1 L170.0,150.0 L166.8,149.9 L163.6,149.6 L160.4,149.0 L157.3,148.2 L154.3,147.2 L151.3,146.0 L148.4,144.6 L145.6,143.0 L143.0,141.2 L140.4,139.2 L138.0,137.1 L135.8,134.8 L133.8,132.3 L131.9,129.7 L130.2,127.0 L128.7,124.2 L127.3,121.2 L126.3,118.2 L125.4,115.1 L124.7,112.0 L124.3,108.8 L124.0,105.6 L124.0,102.4 L124.3,99.2 L124.7,96.0 L125.4,92.9 L126.3,89.8 L127.3,86.8 L128.7,83.8 L130.2,81.0 L131.9,78.3 L133.8,75.7 L135.8,73.2 L138.0,70.9 L140.4,68.8 L143.0,66.8 L145.6,65.0 L148.4,63.4 L151.3,62.0 L154.3,60.8 L157.3,59.8 L160.4,59.0 L163.6,58.4 L166.8,58.1 L170.0,58.0Z" class="pp b35"/><rect x="140" y="148" width="60" height="4" class="rod"/><rect x="162" y="146" width="16" height="8" rx="1.5" class="rx"/><line x1="162" y1="155.5" x2="178" y2="155.5" stroke="#e8641c" stroke-width="3"/><circle cx="170" cy="264" r="7" class="rx"/><path d="M158,282 q12,-14 24,0" class="rx" fill="none" stroke="#48544e" stroke-width="3"/><text x="188" y="268" class="pt3">선수 · 조작판을 보며 듦</text><text x="170" y="50" class="pt3" text-anchor="middle">▲ 앞 (선수가 바라보는 쪽)</text><text x="170" y="22" class="pt1" text-anchor="middle">ANT 놓음 · 8자</text><text x="170" y="38" class="pt2" text-anchor="middle">양옆(막대 끝)이 널, 앞뒤는 같음</text><text x="76" y="154" class="pnull" text-anchor="end">널</text><text x="264" y="154" class="pnull">널</text><circle cx="470" cy="150" r="46.0" class="pg"/><circle cx="470" cy="150" r="92.0" class="pg"/><path d="M470.0,58.0 L473.2,58.1 L476.4,58.3 L479.6,58.8 L482.7,59.3 L485.9,60.1 L488.9,61.0 L491.9,62.1 L494.9,63.3 L497.7,64.6 L500.5,66.2 L503.2,67.8 L505.8,69.6 L508.3,71.5 L510.7,73.5 L512.9,75.7 L515.0,77.9 L517.0,80.2 L518.9,82.7 L520.6,85.2 L522.2,87.8 L523.7,90.4 L524.9,93.1 L526.1,95.8 L527.1,98.6 L527.9,101.4 L528.6,104.2 L529.1,107.1 L529.5,109.9 L529.7,112.7 L529.8,115.5 L529.7,118.3 L529.5,121.0 L529.1,123.7 L528.6,126.3 L528.0,128.9 L527.3,131.4 L526.4,133.8 L525.4,136.2 L524.3,138.4 L523.2,140.6 L521.9,142.7 L520.5,144.7 L519.1,146.6 L517.6,148.3 L516.0,150.0 L514.4,151.5 L512.7,153.0 L511.0,154.3 L509.2,155.5 L507.4,156.6 L505.6,157.6 L503.8,158.4 L502.0,159.2 L500.2,159.8 L498.4,160.4 L496.7,160.8 L494.9,161.1 L493.2,161.3 L491.5,161.5 L489.9,161.5 L488.3,161.5 L486.8,161.3 L485.3,161.1 L483.9,160.9 L482.6,160.6 L481.3,160.2 L480.1,159.8 L479.0,159.3 L477.9,158.8 L476.9,158.2 L476.0,157.7 L475.2,157.1 L474.4,156.5 L473.7,155.9 L473.1,155.3 L472.5,154.8 L472.0,154.2 L471.6,153.6 L471.3,153.1 L470.9,152.6 L470.7,152.1 L470.5,151.7 L470.3,151.3 L470.2,151.0 L470.1,150.7 L470.1,150.4 L470.0,150.3 L470.0,150.2 L470.0,150.2 L470.0,150.2 L470.0,150.2 L470.0,150.2 L470.0,150.3 L469.9,150.4 L469.9,150.7 L469.8,151.0 L469.7,151.3 L469.5,151.7 L469.3,152.1 L469.1,152.6 L468.7,153.1 L468.4,153.6 L468.0,154.2 L467.5,154.8 L466.9,155.3 L466.3,155.9 L465.6,156.5 L464.8,157.1 L464.0,157.7 L463.1,158.2 L462.1,158.8 L461.0,159.3 L459.9,159.8 L458.7,160.2 L457.4,160.6 L456.1,160.9 L454.7,161.1 L453.2,161.3 L451.7,161.5 L450.1,161.5 L448.5,161.5 L446.8,161.3 L445.1,161.1 L443.3,160.8 L441.6,160.4 L439.8,159.8 L438.0,159.2 L436.2,158.4 L434.4,157.6 L432.6,156.6 L430.8,155.5 L429.0,154.3 L427.3,153.0 L425.6,151.5 L424.0,150.0 L422.4,148.3 L420.9,146.6 L419.5,144.7 L418.1,142.7 L416.8,140.6 L415.7,138.4 L414.6,136.2 L413.6,133.8 L412.7,131.4 L412.0,128.9 L411.4,126.3 L410.9,123.7 L410.5,121.0 L410.3,118.3 L410.2,115.5 L410.3,112.7 L410.5,109.9 L410.9,107.1 L411.4,104.2 L412.1,101.4 L412.9,98.6 L413.9,95.8 L415.1,93.1 L416.3,90.4 L417.8,87.8 L419.4,85.2 L421.1,82.7 L423.0,80.2 L425.0,77.9 L427.1,75.7 L429.3,73.5 L431.7,71.5 L434.2,69.6 L436.8,67.8 L439.5,66.2 L442.3,64.6 L445.1,63.3 L448.1,62.1 L451.1,61.0 L454.1,60.1 L457.3,59.3 L460.4,58.8 L463.6,58.3 L466.8,58.1 L470.0,58.0Z" class="pp b35"/><rect x="440" y="148" width="60" height="4" class="rod"/><rect x="462" y="146" width="16" height="8" rx="1.5" class="rx"/><line x1="462" y1="155.5" x2="478" y2="155.5" stroke="#e8641c" stroke-width="3"/><circle cx="470" cy="264" r="7" class="rx"/><path d="M458,282 q12,-14 24,0" class="rx" fill="none" stroke="#48544e" stroke-width="3"/><text x="488" y="268" class="pt3">선수 · 조작판을 보며 듦</text><text x="470" y="50" class="pt3" text-anchor="middle">▲ 앞 (선수가 바라보는 쪽)</text><text x="470" y="22" class="pt1" text-anchor="middle">ANT 누름 · 카디오이드</text><text x="470" y="38" class="pt2" text-anchor="middle">앞쪽이 크고, 선수 쪽이 널</text><text x="470" y="174" class="pnull" text-anchor="middle">▲ 널</text></svg></div>
+      <figcaption>조작판을 보며 든 SUPERFOX 3.5를 위에서 본 패턴(신호 세기). ANT를 놓으면 8자, 누르면 앞쪽이 큰 카디오이드</figcaption>
+    </figure>
+    <div class="flows two">
+      <div class="flow">
+        <h4>8자 패턴 · ANT 버튼 놓음</h4>
+        <ol>
+          <li>막대 끝이 송신기를 똑바로 가리키면 막대를 지나는 자속이 0이 되어 소리가 사라집니다. 이 널(Null)은 폭이 10°(−3 dB) 이하로 매우 좁습니다.</li>
+          <li>최대점은 넓고 둔하므로, 소리가 사라지는 각도로 방위 축을 잡습니다. 다만 8자는 앞뒤가 대칭이라 송신기가 축의 어느 쪽인지는 알 수 없습니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>카디오이드 · ANT 버튼 누름</h4>
+        <ol>
+          <li>휩과 페라이트 신호가 위상을 맞춰 합쳐지면서 한쪽은 커지고 반대쪽은 상쇄됩니다.</li>
+          <li>설명서의 휩 조정 절차는 "버튼을 누른 채 <b>조작판을 송신기 쪽으로</b> 향하면 카디오이드의 최소점"이라고 적고 있습니다. 조작판을 내 쪽으로 보며 들면, 내 앞쪽(수신기 뒷면 방향)이 크게 들립니다.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="note"><b>한 줄 정리:</b> 조작판을 내 쪽으로 보며 들고 ANT를 누른 채 반 바퀴 돌려 봅니다. 소리가 크게 들릴 때 <b>내가 바라보는 쪽</b>이 송신기입니다. 전후방비는 3.5MX가 40 dB 이상, 3.5GX가 20 dB 이상(보통 35 dB)입니다.</p>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="hf-5">
+  <div class="ch-head b35">
+    <div class="ch-num">5</div>
+    <div class="ch-title">
+      <h2>3.5 MHz와 145 MHz의 전파</h2>
+      <p>파장이 40배 다르면 찾는 방법도 달라진다</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>3.5 MHz의 파장은 약 86 m입니다. 나무와 바위는 이 파장에 비해 아주 작아서 숲을 지나도 손실이 적고, 능선을 만나면 꼭대기에서 꺾여 산 뒤까지 들어갑니다. 방향은 대체로 정직하게 잡히지만, 소리가 커도 능선 너머 멀리 있을 수 있어 소리 크기만으로 거리를 짐작하면 틀리기 쉽습니다.</p>
+  </div>
+  <div class="sec">
+        <figure class="figure">
+      <div class="frame">
+        <svg class="xsec" viewBox="0 0 640 270" role="img" aria-label="3.5 MHz 단면도: 왼쪽 송신기의 신호가 숲을 통과하고 능선 꼭대기에서 회절해 산 뒤의 선수에게 도달함. 오른쪽 송전선은 신호를 다시 방사함">
+          <path d="M0,214 L70,214 C160,214 250,108 320,104 C390,100 450,212 540,216 L640,216 L640,270 L0,270 Z" class="terrain"/>
+          <!-- 숲 -->
+          <g class="trees">
+            <path d="M150,182 l8,-26 l8,26 z M170,166 l8,-26 l8,26 z M190,150 l8,-26 l8,26 z M210,136 l8,-26 l8,26 z M232,124 l8,-26 l8,26 z"/>
+            <path d="M380,124 l8,-26 l8,26 z M402,140 l8,-26 l8,26 z M424,160 l8,-26 l8,26 z"/>
+          </g>
+          <!-- 송신기 -->
+          <line x1="62" y1="214" x2="62" y2="170" class="ant"/>
+          <rect x="54" y="206" width="16" height="10" rx="2" class="txbox"/>
+          <text x="62" y="236" class="xs-l" text-anchor="middle">송신기</text>
+          <text x="62" y="251" class="xs-s" text-anchor="middle">수직 안테나</text>
+          <!-- 파면: 송신기 쪽 -->
+          <g class="wf35">
+            <path d="M62,130 A60,60 0 0 1 122,190"/>
+            <path d="M62,90 A100,100 0 0 1 162,190"/>
+            <path d="M62,50 A140,140 0 0 1 200,170"/>
+            <path d="M62,14 A176,176 0 0 1 236,150"/>
+          </g>
+          <!-- 파면: 능선 회절 -->
+          <g class="wf35 diff">
+            <path d="M350,82 A40,40 0 0 1 358,120"/>
+            <path d="M380,72 A70,70 0 0 1 384,150"/>
+            <path d="M412,66 A100,100 0 0 1 404,182"/>
+            <path d="M444,62 A130,130 0 0 1 420,212"/>
+          </g>
+          <circle cx="320" cy="104" r="4" class="pt35"/>
+          <text x="320" y="84" class="xs-l halo2" text-anchor="middle">능선에서 회절</text>
+          <text x="186" y="104" class="xs-s halo2" text-anchor="middle">숲을 지나도 손실 적음</text>
+          <!-- 선수 -->
+          <g transform="translate(500,212)">
+            <circle cx="0" cy="-30" r="5" class="runner"/>
+            <path d="M0,-25 L0,-10 M0,-10 L-6,0 M0,-10 L6,0 M0,-21 L-10,-24 M-12,-29 L-12,-19" class="runner-l"/>
+          </g>
+          <text x="500" y="236" class="xs-l" text-anchor="middle">산 뒤에서도</text>
+          <text x="500" y="251" class="xs-l" text-anchor="middle">크게 들림</text>
+          <!-- 송전선 -->
+          <g transform="translate(590,216)">
+            <path d="M0,0 L-8,-70 L8,-70 Z M-14,-60 H14 M-12,-48 H12" class="pylon"/>
+            <path d="M14,-60 Q40,-50 60,-58" class="wire"/>
+            <path d="M-14,-60 Q-40,-52 -60,-60" class="wire"/>
+          </g>
+          <g class="rerad">
+            <path d="M560,130 a12,12 0 0 1 0,20"/>
+            <path d="M553,124 a20,20 0 0 1 0,32"/>
+          </g>
+          <text x="600" y="108" class="xs-s" text-anchor="end">송전선·철조망은</text>
+          <text x="600" y="122" class="xs-s" text-anchor="end">신호를 다시 방사</text>
+        </svg>
+      </div>
+      <figcaption>3.5 MHz 지표파의 진행과 능선 회절, 긴 금속 구조물의 재방사</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">항목</th><th scope="col">3.5 MHz (80 m)</th><th scope="col">145 MHz (2 m)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">파장</th><td>약 86 m</td><td>약 2.1 m</td></tr>
+          <tr><th scope="row">주된 전달</th><td>지표파, 지형을 따라 진행</td><td>가시선 직접파</td></tr>
+          <tr><th scope="row">능선 뒤</th><td>회절해 돌아 들어가 잘 들림</td><td>전파 그림자, 크게 약해짐</td></tr>
+          <tr><th scope="row">숲</th><td>손실 적음</td><td>젖은 잎·빽빽한 숲에서 감쇠</td></tr>
+          <tr><th scope="row">방향 왜곡 원인</th><td>송전선·전화선·철조망 같은 긴 금속선</td><td>바위벽·건물 반사파 (허상 피크)</td></tr>
+          <tr><th scope="row">찾는 방법</th><td>소리가 사라지는 <b>널</b>로 축, 휩으로 앞뒤</td><td>소리가 가장 큰 <b>피크</b>를 겨눔</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="hf-6">
+  <div class="ch-head b35">
+    <div class="ch-num">6</div>
+    <div class="ch-title">
+      <h2>실전 탐색 순서</h2>
+      <p>켜기 → 동조 → 감도 → 널 → 앞뒤</p>
+    </div>
+  </div>
+  <div class="sec">
+    <ol class="cycle">
+      <li><b>1. 켜기</b>헤드폰을 꽂으면 켜집니다. 3.5MX는 켜질 때 배터리 잔량을 신호음으로 알려 줍니다(10장).</li>
+      <li><b>2. 동조</b>FREQ로 송신기 소리가 또렷하고 듣기 편한 음높이가 되는 곳에 맞춥니다. 3.5MX는 저장 채널로 건너뛸 수 있습니다.</li>
+      <li class="cy-main"><b>3. 감도</b>처음엔 GAIN 7. 소리가 귀를 때리지 않을 만큼 낮춥니다. 널은 소리가 작을 때 더 날카롭습니다.</li>
+      <li><b>4. 방위</b>8자 널로 축을 잡고, ANT를 눌러 앞뒤를 가린 뒤 출발합니다.</li>
+    </ol>
+        <figure class="figure">
+      <div class="frame"><svg class="gaindial" viewBox="0 0 640 200" role="img" aria-label="SUPERFOX 3.5 감도 다이얼 0은 약 10 m, 1은 약 30 m, 2는 약 100 m, 3은 약 300 m, 4는 약 1 km"><defs><linearGradient id="gg2" x1="0" x2="1"><stop offset="0" stop-color="#e8641c"/><stop offset="1" stop-color="#1f67ad"/></linearGradient></defs><rect x="60" y="76" width="520" height="16" rx="8" fill="url(#gg2)" opacity=".85"/><line x1="60.0" y1="70" x2="60.0" y2="98" class="gt"/><text x="60.0" y="62" class="gn" text-anchor="middle">0</text><line x1="134.28571428571428" y1="70" x2="134.28571428571428" y2="98" class="gt"/><text x="134.28571428571428" y="62" class="gn" text-anchor="middle">1</text><line x1="208.57142857142858" y1="70" x2="208.57142857142858" y2="98" class="gt"/><text x="208.57142857142858" y="62" class="gn" text-anchor="middle">2</text><line x1="282.8571428571429" y1="70" x2="282.8571428571429" y2="98" class="gt"/><text x="282.8571428571429" y="62" class="gn" text-anchor="middle">3</text><line x1="357.14285714285717" y1="70" x2="357.14285714285717" y2="98" class="gt"/><text x="357.14285714285717" y="62" class="gn" text-anchor="middle">4</text><line x1="431.42857142857144" y1="70" x2="431.42857142857144" y2="98" class="gt"/><text x="431.42857142857144" y="62" class="gn" text-anchor="middle">5</text><line x1="505.7142857142857" y1="70" x2="505.7142857142857" y2="98" class="gt"/><text x="505.7142857142857" y="62" class="gn" text-anchor="middle">6</text><line x1="580.0" y1="70" x2="580.0" y2="98" class="gt"/><text x="580.0" y="62" class="gn" text-anchor="middle">7</text><text x="60" y="40" class="gs">가까움 · 감도 낮춤</text><text x="580" y="40" class="gs" text-anchor="end">멀리 · 감도 최대</text><path d="M60.0,100 L60.0,132" class="gm"/><circle cx="60.0" cy="84" r="6" class="gk"/><text x="60.0" y="150" class="gl" text-anchor="middle">약 10 m</text><text x="60.0" y="166" class="gs" text-anchor="middle">−20 dBm</text><path d="M134.28571428571428,100 L134.28571428571428,132" class="gm"/><circle cx="134.28571428571428" cy="84" r="6" class="gk"/><text x="134.28571428571428" y="150" class="gl" text-anchor="middle">약 30 m</text><text x="134.28571428571428" y="166" class="gs" text-anchor="middle">−40 dBm</text><path d="M208.57142857142858,100 L208.57142857142858,132" class="gm"/><circle cx="208.57142857142858" cy="84" r="6" class="gk"/><text x="208.57142857142858" y="150" class="gl" text-anchor="middle">약 100 m</text><text x="208.57142857142858" y="166" class="gs" text-anchor="middle">−60 dBm</text><path d="M282.8571428571429,100 L282.8571428571429,132" class="gm"/><circle cx="282.8571428571429" cy="84" r="6" class="gk"/><text x="282.8571428571429" y="150" class="gl" text-anchor="middle">약 300 m</text><text x="282.8571428571429" y="166" class="gs" text-anchor="middle">−75 dBm</text><path d="M357.14285714285717,100 L357.14285714285717,132" class="gm"/><circle cx="357.14285714285717" cy="84" r="6" class="gk"/><text x="357.14285714285717" y="150" class="gl" text-anchor="middle">약 1 km</text><text x="357.14285714285717" y="166" class="gs" text-anchor="middle">−90 dBm</text><path d="M505.7142857142857,100 L505.7142857142857,132" class="gm"/><circle cx="505.7142857142857" cy="84" r="6" class="gk"/><text x="505.7142857142857" y="150" class="gl" text-anchor="middle"></text><text x="505.7142857142857" y="166" class="gs" text-anchor="middle">−120 dBm</text><path d="M580.0,100 L580.0,132" class="gm"/><circle cx="580.0" cy="84" r="6" class="gk"/><text x="580.0" y="150" class="gl" text-anchor="middle"></text><text x="580.0" y="166" class="gs" text-anchor="middle">−135 dBm</text><text x="320" y="192" class="gs" text-anchor="middle">아래 숫자는 그 위치에서의 수신 감도(오디오 출력 100 mV 기준). 거리는 3 W 송신기 기준</text></svg></div>
+      <figcaption>SUPERFOX 3.5 감도 다이얼 위치별 감도와 대략적인 거리 (3 W 송신기 기준, 설명서 표)</figcaption>
+    </figure>
+    <p class="note">감도 값은 3.5MX 설명서의 표(오디오 출력 100 mV, 3 W 송신기)입니다. GAIN 7은 −135 dBm, 6은 −120, 5는 −105, 4는 −90(약 1 km), 3은 −75(약 300 m), 2는 −60(약 100 m), 1은 −40(약 30 m), 0은 −20 dBm(약 10 m)입니다. 거리는 지형에 따라 달라지는 대략값입니다.</p>
+    <div class="flows two">
+      <div class="flow">
+        <h4>방위 축 잡기 · 8자 널</h4>
+        <ol>
+          <li>ANT 버튼에서 손을 떼고, 휩이 위로 가게 세워 든 채 몸을 돌려 소리가 큰 대략적인 방향을 찾습니다.</li>
+          <li>거기서 약 90° 돌려 소리가 사라지는 좁은 각도를 정확히 맞춥니다. 이때 수신기 옆면(막대 끝)이 송신기를 가리킵니다.</li>
+          <li>송신기는 막대 축 위의 왼쪽 또는 오른쪽 어딘가에 있습니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>앞뒤 가리기 · 카디오이드</h4>
+        <ol>
+          <li>조작판이 내 쪽을 보게 들고, 한쪽 축 방향을 바라보며 은색 ANT 버튼을 누릅니다.</li>
+          <li>버튼을 누른 채 반 바퀴(180°) 돌아 반대쪽도 들어 봅니다.</li>
+          <li>더 크게 들릴 때 내가 바라보던 쪽이 송신기입니다. 그 방향으로 출발합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="hf-7">
+  <div class="ch-head b35">
+    <div class="ch-num">7</div>
+    <div class="ch-title">
+      <h2>휩 길이 맞추기</h2>
+      <p>내가 드는 높이에서 카디오이드가 가장 깊어지도록</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>카디오이드의 깊이는 휩과 페라이트에서 나오는 두 전압의 비율이 맞아야 나옵니다. 페라이트 전압은 지면에서의 높이와 상관없지만, 휩 전압은 높이에 따라 달라집니다. 그래서 평소 달릴 때 수신기를 드는 높이에 맞춰 휩 길이를 다듬습니다. 자기 키에 맞추면 약 40 dB의 전후방비를 얻을 수 있습니다.</p>
+  </div>
+  <div class="sec">
+    <figure class="figure">
+      <div class="frame">
+        <svg class="trim" viewBox="0 0 600 280" role="img" aria-label="드는 높이에 따른 휩 길이: 가슴 높이로 들면 휩을 짧게, 허리 높이로 들면 길게">
+          <line x1="20" y1="244" x2="580" y2="244" class="gnd"/>
+          <text x="28" y="264" class="t-s">지면</text>
+          <g transform="translate(150,244)">
+            <circle cx="0" cy="-176" r="13" class="body"/>
+            <path d="M0,-163 L0,-80 M0,-80 L-22,0 M0,-80 L22,0 M0,-140 L24,-120" class="limb"/>
+            <rect x="22" y="-134" width="16" height="34" rx="2" class="rx"/>
+            <line x1="30" y1="-134" x2="30" y2="-158" class="whip"/>
+            <circle cx="30" cy="-159" r="2.6" class="whipdot"/>
+            <line x1="-34" y1="0" x2="-34" y2="-117" class="dim"/>
+            <text x="-40" y="-56" class="t-m" text-anchor="end">가슴 높이</text>
+            <text x="46" y="-148" class="t-s em">짧은 휩</text>
+          </g>
+          <g transform="translate(430,244)">
+            <circle cx="0" cy="-176" r="13" class="body"/>
+            <path d="M0,-163 L0,-80 M0,-80 L-22,0 M0,-80 L22,0 M0,-140 L18,-100 L24,-90" class="limb"/>
+            <rect x="22" y="-90" width="16" height="34" rx="2" class="rx"/>
+            <line x1="30" y1="-90" x2="30" y2="-168" class="whip"/>
+            <circle cx="30" cy="-169" r="2.6" class="whipdot"/>
+            <line x1="-34" y1="0" x2="-34" y2="-73" class="dim"/>
+            <text x="-40" y="-34" class="t-m" text-anchor="end">허리 높이</text>
+            <text x="46" y="-130" class="t-s em">긴 휩</text>
+          </g>
+          <text x="150" y="30" class="t-m" text-anchor="middle">높이 들수록 휩 전압이 커짐</text>
+          <text x="150" y="48" class="t-s" text-anchor="middle">→ 휩을 짧게 해 비율을 맞춤</text>
+          <text x="430" y="30" class="t-m" text-anchor="middle">낮게 들수록 휩 전압이 작아짐</text>
+          <text x="430" y="48" class="t-s" text-anchor="middle">→ 휩을 길게 해 비율을 맞춤</text>
+        </svg>
+      </div>
+      <figcaption>드는 높이에 따라 맞는 휩 길이가 달라지는 이유. 맞춘 높이에서 ±50 cm 안쪽이 가장 좋음</figcaption>
+    </figure>
+    <div class="flows two">
+      <div class="flow">
+        <h4>휩 길이 맞추기 <span class="src">3.5MX 설명서</span></h4>
+        <ol>
+          <li>송신기를 밴드 가운데 주파수에서 연속 발신으로 두고, 울타리와 전선이 없는 곳에서 약 70 m 떨어져 섭니다.</li>
+          <li>수신기를 동조하고 ANT를 누른 채, 평소와 반대로 <b>조작판을 송신기 쪽으로</b> 향합니다(카디오이드 최소점).</li>
+          <li>수신기를 위아래로 움직여 소리가 가장 작은 높이를 찾습니다.</li>
+          <li>그 높이가 평소 드는 높이보다 낮으면 휩을 줄이고(대부분 이 경우), 높으면 늘립니다. 5 mm씩 조정합니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>알아 둘 점</h4>
+        <ol>
+          <li>패턴이 가장 좋은 범위는 맞춘 높이에서 약 ±50 cm입니다. 높이가 달라도 최대·최소 구분은 쉽게 됩니다.</li>
+          <li>송신기 10 m 안쪽에서는 자기장과 전기장이 다르게 커져서, 휩이 더 짧아야 할 것처럼 동작합니다.</li>
+          <li>그 거리에서는 대개 깃발이 보이므로, 경기의 95% 이상인 중·원거리에 맞춘 길이를 그대로 둡니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="hf-8">
+  <div class="ch-head b35">
+    <div class="ch-num">8</div>
+    <div class="ch-title">
+      <h2>3.5MX 주파수 메모리</h2>
+      <p>6채널 저장, 미세 조정, 전체 지우기</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>3.5MX는 디지털 신시사이저(주파수 안정도 20 ppm 미만)와 비휘발성 메모리를 갖추어 최대 6개 채널을 저장합니다. 저장한 내용은 전원을 꺼도 남아 있습니다.</p>
+  </div>
+  <div class="sec">
+    <div class="flows">
+      <div class="flow">
+        <h4>채널 저장</h4>
+        <ol>
+          <li>VFO/MEM 스위치를 <b>VFO</b>에 둡니다.</li>
+          <li>FREQ로 송신기 주파수에 맞춥니다.</li>
+          <li>TIMER 스위치를 <b>MEMORY WRITE</b>로 돌립니다.</li>
+          <li>짧은 신호음이 납니다. 점의 개수가 채널 번호입니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>불러오기 · 미세 조정</h4>
+        <ol>
+          <li><b>MEM</b>에서 FREQ를 돌리면 가장 가까운 저장 채널로 건너뛰며 짧은 신호음이 납니다.</li>
+          <li>저장된 채널이 없으면 MEM으로 바꿀 때 경고음이 납니다.</li>
+          <li><b>가운데</b>에 두면 채널 사이를 건너뛰면서, 채널 눈금 ±1칸 안에서 최대 ±600 Hz를 미세 조정합니다. 송신기 주파수가 조금씩 다를 때 씁니다.</li>
+        </ol>
+      </div>
+      <div class="flow warn">
+        <h4>전체 지우기</h4>
+        <ol>
+          <li>VFO에서 FREQ를 반시계 방향 끝(CLEAR)까지 돌립니다.</li>
+          <li>MEMORY WRITE를 합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chapter" id="hf-9">
+  <div class="ch-head b35">
+    <div class="ch-num">9</div>
+    <div class="ch-title">
+      <h2>타이머와 전자 나침반</h2>
+      <p>3.5MX의 송신 종료 예고와 FINDER09</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>타이머는 헤드폰을 꽂는 순간 0으로 맞춰지고, 스위치 위치와 상관없이 계속 시간을 셉니다. TIMER를 1 min이나 30 s에 두면 매 1분이나 30초가 끝나기 10초 전에 신호음이 <b>두 번</b> 울립니다. 시계를 보지 않고도 마지막 방위를 잴 시간을 확보할 수 있습니다. 배터리가 약해지면 신호음이 한 번만 울립니다.</p>
+    <p>선택 사양인 전자 나침반 FINDER09는 오른쪽 옆의 <b>파란 버튼</b>으로 다룹니다. 송신이 끝나기 전에 조작판을 가려는 방향으로 겨누고 짧게 누르면 방위가 저장되고 짧은 떨림음이 납니다. 송신이 끝난 뒤 달리면서 버튼을 길게 누르고 있으면, 저장한 방향과 얼마나 어긋났는지가 음으로 들립니다. 저장한 방위는 다른 방위를 저장하거나 전원을 끌 때까지 유지됩니다.</p>
+  </div>
+  <div class="sec">
+        <figure class="figure">
+      <div class="frame"><svg class="finder" viewBox="0 0 640 236" role="img" aria-label="FINDER09 추적 음 구간: 저장 방향 왼쪽 20도 이내 낮은 음, 오른쪽 20도 이내 높은 음, 바깥은 무음"><path d="M190.1,125.0 A150,150 0 0 1 449.9,125.0 L354.6,180.0 A40,40 0 0 0 285.4,180.0 Z" class="f-off"/><path d="M268.7,59.0 A150,150 0 0 1 320.0,50.0 L320.0,160.0 A40,40 0 0 0 306.3,162.4 Z" class="f-low"/><path d="M320.0,50.0 A150,150 0 0 1 371.3,59.0 L333.7,162.4 A40,40 0 0 0 320.0,160.0 Z" class="f-high"/><line x1="320" y1="200" x2="320.0" y2="36.0" class="f-dir"/><text x="320" y="28" class="f-t" text-anchor="middle">저장한 방향</text><text x="264.6" y="47.8" class="f-s" text-anchor="middle">−20°</text><text x="375.4" y="47.8" class="f-s" text-anchor="middle">+20°</text><line x1="298.3" y1="76.9" x2="150" y2="62" class="f-lead"/><text x="146" y="52" class="f-w" text-anchor="end">낮은 음</text><text x="146" y="68" class="f-ws" text-anchor="end">833 Hz · 왼쪽 20° 이내</text><line x1="341.7" y1="76.9" x2="490" y2="62" class="f-lead"/><text x="494" y="52" class="f-w">높은 음</text><text x="494" y="68" class="f-ws">1250 Hz · 오른쪽 20° 이내</text><text x="256.4" y="129.4" class="f-s" text-anchor="middle">무음</text><text x="383.6" y="129.4" class="f-s" text-anchor="middle">무음</text><circle cx="320" cy="200" r="6" class="f-me"/><text x="310" y="224" class="f-s" text-anchor="end">선수</text><text x="330" y="224" class="f-s">음이 바뀌는 경계 = 정확한 저장 방향</text></svg></div>
+      <figcaption>FINDER09 추적 음. 저장한 방향에서 왼쪽 20° 이내는 낮은 음(833 Hz), 오른쪽 20° 이내는 높은 음(1250 Hz), 그 밖은 무음</figcaption>
+    </figure>
+    <p class="note">3.5MX에서는 <b>휩이 수직이 되게 세워 들고</b> 저장·추적합니다. 기울기 보정 센서가 없어서 기운 만큼 최대 그 각도의 방위 오차가 생깁니다. 달리는 선수의 가속도가 중력 방향 측정을 흔들기 때문에 일부러 넣지 않았다고 설명서는 밝힙니다. GAIN 6을 넘는 가장 높은 감도에서는 나침반이 동작하는 동안 잡음이 조금 들립니다. 나침반 장착에 따른 방위 영향은 최대 ±2°입니다.</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="chapter" id="hf-10">
+  <div class="ch-head b35">
+    <div class="ch-num">10</div>
+    <div class="ch-title">
+      <h2>전원과 배터리</h2>
+      <p>헤드폰 플러그가 전원 스위치</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>전원 스위치가 없습니다. 헤드폰 플러그 안에서 4번과 5번 핀이 이어져 있어, 꽂으면 배터리 전원이 수신기 회로로 들어가고 뽑으면 완전히 끊깁니다. 경기 중에 플러그가 빠지면 수신기도 꺼지므로 단단히 꽂습니다. 헤드폰을 직접 만들 때도 4·5번을 이어야 켜집니다.</p>
+  </div>
+  <div class="sec">
+    <div class="event">
+            <figure class="figure">
+        <div class="frame"><svg class="din" viewBox="0 0 320 250" role="img" aria-label="수신기 DIN 5핀 단자: 1·3 헤드폰 출력, 2 공통 접지, 4 수신기 전원 +, 5 배터리 +. 헤드폰 플러그 안에서 4번과 5번이 연결되어 전원이 켜짐"><circle cx="80" cy="82" r="58" class="dshell"/><circle cx="80" cy="82" r="46" class="dface"/><path d="M73,128 h14 v8 h-14 z" class="dkey"/><circle cx="80" cy="52" r="8" class="dp gd"/><text x="80" y="56" class="dn" text-anchor="middle">2</text><circle cx="52" cy="70" r="8" class="dp pw"/><text x="52" y="74" class="dn" text-anchor="middle">4</text><circle cx="108" cy="70" r="8" class="dp pw"/><text x="108" y="74" class="dn" text-anchor="middle">5</text><circle cx="58" cy="104" r="8" class="dp au"/><text x="58" y="108" class="dn" text-anchor="middle">1</text><circle cx="102" cy="104" r="8" class="dp au"/><text x="102" y="108" class="dn" text-anchor="middle">3</text><text x="80" y="158" class="dl" text-anchor="middle">수신기 단자</text><circle cx="166" cy="30" r="6" class="dp au"/><text x="178" y="34" class="dk">1·3</text><text x="214" y="34" class="dt">헤드폰 출력</text><circle cx="166" cy="54" r="6" class="dp gd"/><text x="178" y="58" class="dk">2</text><text x="214" y="58" class="dt">공통 접지</text><circle cx="166" cy="78" r="6" class="dp pw"/><text x="178" y="82" class="dk">4</text><text x="214" y="82" class="dt">수신기 회로 전원 +</text><circle cx="166" cy="102" r="6" class="dp pw"/><text x="178" y="106" class="dk">5</text><text x="214" y="106" class="dt">배터리 +</text><rect x="12" y="182" width="70" height="28" rx="4" class="fb"/><text x="47" y="200" class="dt" text-anchor="middle">배터리</text><line x1="82" y1="196" x2="114" y2="196" class="fl"/><text x="98" y="190" class="dk" text-anchor="middle">5</text><rect x="114" y="178" width="92" height="36" rx="6" class="fplug"/><text x="160" y="194" class="dt" text-anchor="middle">헤드폰 플러그</text><text x="160" y="208" class="dk" text-anchor="middle">4–5 연결</text><line x1="206" y1="196" x2="238" y2="196" class="fl"/><text x="222" y="190" class="dk" text-anchor="middle">4</text><rect x="238" y="182" width="74" height="28" rx="4" class="fb"/><text x="275" y="200" class="dt" text-anchor="middle">수신기 회로</text><text x="160" y="234" class="dl" text-anchor="middle">플러그를 꽂으면 켜지고, 뽑으면 꺼짐</text></svg></div>
+        <figcaption>수신기 단자(DIN 5핀) 배치와 헤드폰 플러그의 4–5번 연결</figcaption>
+      </figure>
+      <div class="beepbox">
+        <h4>켤 때 들리는 배터리 신호 <span class="src">3.5MX</span></h4>
+        <ul class="beeps">
+          <li><span class="bp">— —</span>완전 충전</li>
+          <li><span class="bp">—</span>80 %</li>
+          <li><span class="bp">· · ·</span>60 %</li>
+          <li><span class="bp">· ·</span>40 %</li>
+          <li><span class="bp">·</span>20 %</li>
+        </ul>
+        <p>배터리가 약해지면 타이머의 끝 알림이 두 번에서 <b>한 번</b>으로 바뀝니다.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">항목</th><th scope="col">3.5GX</th><th scope="col">3.5MX</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">배터리</th><td>NiMH 7.2 V / 320 mAh</td><td>Li-Pol 7.4 V / 500 mAh</td></tr>
+          <tr><th scope="row">소비 전류 · 동작 시간</th><td>약 18 mA · 15시간 이상</td><td>35–50 mA · 10시간 이상</td></tr>
+          <tr><th scope="row">충전기 · 시험기</th><td>N28 · T810</td><td>N40 · T840</td></tr>
+          <tr><th scope="row">켤 때 잔량 신호</th><td>—</td><td>있음 (오른쪽 표)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>3.5MX는 N40 충전기를 꽂으면 노란 표시등이 켜지고, 충전이 끝나면 저절로 꺼집니다. 활동이 끝나면 충전해 두는 것이 배터리 수명에 좋습니다.</p>
+    </div>
+    <p class="note"><b>노란 표시등이 켜지지 않을 때:</b> 배터리가 거의 차 있으면 충전기가 충전을 시작하지 않습니다. 새 배터리는 전압이 높아 40% 정도는 쓴 뒤에야 충전이 시작됩니다. 경기 후 충전기를 꽂아 표시등이 켜지면 그대로 두고, 켜지지 않으면 빼 두었다가 다음에 다시 해 봅니다. 여러 경기를 치를 만큼 남아 있다는 뜻입니다.</p>
+    <div class="prose">
+      <p>3.5MX의 뒷덮개는 안쪽이 실리콘으로 밀봉되어 있습니다. 배터리를 바꾸거나 말리려고 열었다면, 닫은 뒤 바깥쪽을 최소한 테이프로라도 다시 밀봉합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="chapter" id="hf-11">
+  <div class="ch-head b35">
+    <div class="ch-num">11</div>
+    <div class="ch-title">
+      <h2>사양</h2>
+      <p>3.5GX · 3.5MX 설명서 기준, 현행 3.5M · 3.5MX 제품표</p>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="table-wrap">
+      <table class="cmp spec">
+        <thead><tr><th scope="col">항목</th><th scope="col">SUPERFOX 3.5GX <span class="src">GX 설명서</span></th><th scope="col">SUPERFOX 3.5MX <span class="src">MX 설명서 17W04</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">수신 방식</th><td>더블 컨버전 수퍼헤테로다인</td><td>더블 컨버전 수퍼헤테로다인</td></tr>
+          <tr><th scope="row">주파수 범위</th><td class="mono">3.48 – 3.71 MHz</td><td class="mono">3.49 – 3.66 MHz</td></tr>
+          <tr><th scope="row">수신 모드</th><td class="mono">CW</td><td class="mono">A1A (CW)</td></tr>
+          <tr><th scope="row">감도</th><td class="mono">−135 dBm (S/N 10 dB)</td><td class="mono">−135 dBm (GAIN 7)</td></tr>
+          <tr><th scope="row">안테나</th><td>대칭형 페라이트 + 위상 휩</td><td>대칭형 페라이트 + 위상 휩</td></tr>
+          <tr><th scope="row">전후방비</th><td>20 dB 이상, 보통 35 dB</td><td>40 dB 이상</td></tr>
+          <tr><th scope="row">최소점 폭 (−3 dB)</th><td>—</td><td>10°</td></tr>
+          <tr><th scope="row">IF 대역폭</th><td>1 kHz (−6 dB) / 6 kHz (−60 dB)</td><td>1 kHz (−3 dB) / 4 kHz (−60 dB)</td></tr>
+          <tr><th scope="row">불요 측파대 억압</th><td>—</td><td>45 dB 이상</td></tr>
+          <tr><th scope="row">주파수 동조</th><td>아날로그</td><td>디지털 신시사이저, 6채널 메모리</td></tr>
+          <tr><th scope="row">주파수 안정도</th><td>—</td><td>20 ppm 미만</td></tr>
+          <tr><th scope="row">감도 조절</th><td>120 dB 이상, 8단계 (단계당 15 dB)</td><td>120 dB, 8단계 (−135 ~ −20 dBm)</td></tr>
+          <tr><th scope="row">타이머</th><td>없음</td><td>30 s / 60 s, 끝나기 10초 전</td></tr>
+          <tr><th scope="row">전원</th><td>NiMH 7.2 V / 320 mAh, 15시간 이상</td><td>Li-Pol 7.4 V / 500 mAh, 10시간 이상</td></tr>
+          <tr><th scope="row">방수</th><td>IP63</td><td>IP63</td></tr>
+          <tr><th scope="row">크기 · 무게</th><td>100 × 180 × 30 mm, 350 g</td><td>100 × 180 × 30 mm, 300 g</td></tr>
+          <tr><th scope="row">사용 온도</th><td>−10 ~ +60 °C</td><td>−10 ~ +60 °C</td></tr>
+          <tr><th scope="row">선택 부품</th><td>SL28 헤드폰, N28 충전기, T810 시험기, 나침반 홀더</td><td>FINDER09, SL28 헤드폰, N40 충전기, T840 시험기, 나침반 홀더</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <details class="more">
+      <summary>현행 기종 3.5M · 3.5MX 제품표 사양 보기</summary>
+      <div class="more-body">
+        <p>OK2BWN 제품 사양표(ARDF Receivers Product Line)의 현행 기종입니다. 위 설명서와 수신 방식, 배터리, 충전기, 방수, 두께가 다르므로 새로 구입할 때는 이 표를 기준으로 확인합니다. <span class="src sheet">제품표</span></p>
+        <div class="table-wrap">
+          <table class="cmp spec">
+            <thead><tr><th scope="col">항목</th><th scope="col">SUPERFOX 3.5M</th><th scope="col">SUPERFOX 3.5MX</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">주파수 · 방식</th><td colspan="2">3.49 – 3.66 MHz · 싱글 컨버전 수퍼헤테로다인</td></tr>
+              <tr><th scope="row">변조 · 감도</th><td colspan="2">A1 (CW) · −135 dBm (0.04 µV)</td></tr>
+              <tr><th scope="row">IF 필터 · 대역폭</th><td colspan="2">3-크리스털 · 1 kHz / 4 kHz</td></tr>
+              <tr><th scope="row">측파대 억압 · 전후방비</th><td colspan="2">40 dB · 40 dB</td></tr>
+              <tr><th scope="row">VFO · 메모리</th><td>PLL · 없음</td><td>PLL · 6채널</td></tr>
+              <tr><th scope="row">타이머</th><td>없음</td><td>30 s / 1 min</td></tr>
+              <tr><th scope="row">전원</th><td colspan="2">Li-Pol 8 V / 500 mAh, 10시간 이상</td></tr>
+              <tr><th scope="row">방수 · 크기</th><td colspan="2">IP64 · 100 × 180 × 50 mm</td></tr>
+              <tr><th scope="row">무게</th><td>290 g</td><td>300 g</td></tr>
+              <tr><th scope="row">선택 부품</th><td colspan="2">N41 충전기, SL34 헤드폰, FINDER09, T840 시험기, 나침반 홀더</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+</section>
+
+<!-- =================================================================== -->
+<!-- ============================ 145 MHz ============================== -->
+<!-- =================================================================== -->
+<section class="bandpanel" id="panel-vhf" role="tabpanel" aria-labelledby="tab-vhf" hidden>
+
+<nav class="toc" aria-label="145 MHz 차례">
+  <h2>차례 <span class="en">145 MHz</span></h2>
+  <ol>
+    <li><a href="#vhf-1"><span class="num">1</span>기기 개요와 주의사항</a></li>
+    <li><a href="#vhf-2"><span class="num">2</span>조작판</a></li>
+    <li><a href="#vhf-3"><span class="num">3</span>안테나 조립과 HB9CV 패턴</a></li>
+    <li><a href="#vhf-4"><span class="num">4</span>반사파와 교차 방위</a></li>
+    <li><a href="#vhf-5"><span class="num">5</span>실전 탐색 순서</a></li>
+    <li><a href="#vhf-6"><span class="num">6</span>주파수 메모리</a></li>
+    <li><a href="#vhf-7"><span class="num">7</span>타이머와 전자 나침반</a></li>
+    <li><a href="#vhf-8"><span class="num">8</span>전원과 배터리</a></li>
+    <li><a href="#vhf-9"><span class="num">9</span>사양</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="chapter" id="vhf-1">
+  <div class="ch-head b144">
+    <div class="ch-num">1</div>
+    <div class="ch-title">
+      <h2>기기 개요와 주의사항</h2>
+      <p>145DX와 145MX, 두 기종의 관계</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>SUPERFOX 145 MHz 수신기는 OK2BWN이 만든 2 m 대역 방향 탐지 수신기입니다. <b>145DX</b>는 SUPERFOX 145E를 디지털 신시사이저로 바꾼 기종으로 4채널 메모리를 갖추었고, <b>145MX</b>는 6채널 메모리와 음성 S미터(Audio S-meter)를 더한 상위 기종입니다. 145MX는 세계선수권에서 많은 메달을 딴 기종입니다.</p>
+    <p>한 손으로 조작하는 가벼운 방수·내충격 상자에, 방향 탐지용으로 다듬은 대칭형 HB9CV 안테나, 120 dB 이상의 감도 조절, 측면 로브를 줄여 겨누기 쉽게 하는 방향 패턴 확장기(Direction pattern expander), 송신 종료를 알리는 타이머가 들어 있습니다. 안테나 소자는 떼어 낼 수 있어 운반이 쉽습니다.</p>
+  </div>
+  <div class="sec">
+    <div class="flow warn">
+      <h4>주의사항</h4>
+      <ol>
+        <li>충전은 전용 충전기로만 합니다. 145DX는 N40, 145MX는 N41입니다.</li>
+        <li>사용 온도는 −10 ~ +60 °C, 보관 온도는 −20 ~ +60 °C입니다.</li>
+        <li>뒷덮개는 테이프로 밀봉되어 있습니다. 열었다면 닫은 뒤 다시 밀봉합니다.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="vhf-2">
+  <div class="ch-head b144">
+    <div class="ch-num">2</div>
+    <div class="ch-title">
+      <h2>조작판</h2>
+      <p>145MX 기준. 145DX는 음성 S미터와 채널 하나 지우기가 없음</p>
+    </div>
+  </div>
+  <div class="sec">
+    <figure class="figure">
+      <div class="frame panel-frame">
+        <div class="panel-wrap">
+          <img src="images/sf145mx-panel.jpg" alt="SUPERFOX 145MX 위쪽 조작판. 왼쪽부터 주파수 다이얼, 감도 다이얼, ANT 스위치와 VFO·MEMORY 스위치, TIMER 손잡이" width="1400" height="357">
+          <span class="pin" style="left:8.6%;top:11%">1</span>
+          <span class="pin" style="left:33.6%;top:53%">2</span>
+          <span class="pin" style="left:51.4%;top:53%">3</span>
+          <span class="pin" style="left:67%;top:40%">4</span>
+          <span class="pin" style="left:67%;top:65%">5</span>
+          <span class="pin" style="left:85%;top:42%">6</span>
+          <span class="pin" style="left:91%;top:11%">7</span>
+          <span class="pin" style="left:97.5%;top:50%">8</span>
+        </div>
+        <p class="panel-dir"><span>◀ 앞 · 파란 소자</span><span>뒤 · 빨간 소자 ▶</span></p>
+      </div>
+      <figcaption>SUPERFOX 145MX 조작판. 사진 출처: OK2BWN 사용 설명서</figcaption>
+    </figure>
+    <ol class="legend">
+      <li><span class="lnum">1</span><b>앞 소자 단자 (파랑)</b><span>앞쪽 소자 두 개를 끼우는 곳. 이쪽이 수신기의 앞입니다.</span></li>
+      <li><span class="lnum">2</span><b>FREQ 주파수 다이얼</b><span>소리가 가장 크게 들리는 곳에 맞춥니다. 끝까지 돌린 CLEAR는 메모리 지우기용입니다.</span></li>
+      <li><span class="lnum">3</span><b>GAIN 감도 다이얼 0–7</b><span>처음엔 6–7, 가까워질수록 낮춥니다.</span></li>
+      <li><span class="lnum">4</span><b>ANT 스위치</b><span>WIDE · 가운데(음성 S미터) · NARROW. 방향 패턴을 다듬는 신호 처리를 고릅니다.</span></li>
+      <li><span class="lnum">5</span><b>VFO / MEMORY 스위치</b><span>VFO는 연속 동조, MEMORY는 저장한 채널 사이를 건너뜁니다.</span></li>
+      <li><span class="lnum">6</span><b>TIMER 손잡이</b><span>OFF · 1 min · 30 s, 끝의 MEMORY WRITE는 살짝 돌렸다 놓아 채널을 저장하거나 지웁니다.</span></li>
+      <li><span class="lnum">7</span><b>뒤 소자 단자 (빨강)</b><span>뒤쪽 소자 두 개를 끼우는 곳.</span></li>
+      <li><span class="lnum">8</span><b>헤드폰 단자 (끝면)</b><span>헤드폰을 꽂으면 켜지고 뽑으면 꺼집니다. 충전기와 배터리 시험기도 여기에 연결합니다.</span></li>
+    </ol>
+    <div class="prose">
+      <p>ANT 스위치는 수신 신호의 후처리를 바꾸어 방향 패턴을 다듬습니다. <b>WIDE</b>는 넓은 빔으로 주변을 훑어 대략적인 방향을 빨리 잡을 때, <b>NARROW</b>는 확장기가 주축에서 벗어난 신호와 측면 로브를 줄여 좁게 겨눌 때 씁니다. 145MX에서 스위치를 <b>가운데</b>에 두면 음성 S미터가 켜져, 보통의 모스 소리 대신 신호가 셀수록 높아지는 음이 들립니다. 귀는 소리 크기보다 음높이 차이를 더 예민하게 구별하므로 피크의 정확한 위치를 잡을 때 유용합니다.</p>
+    </div>
+    <div class="event">
+      <figure class="figure photo">
+        <img src="images/sf145dx-photo.jpg" alt="손에 든 SUPERFOX 145DX. 안테나 소자 네 개를 끼우고 위쪽에 나침반을 단 모습" width="571" height="724" style="aspect-ratio:571/724">
+        <figcaption>손에 든 SUPERFOX 145DX. 안테나 소자를 끼우고 나침반을 단 모습. 사진 출처: OK2BWN 사용 설명서</figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="frame"><img src="images/sf145mx-controls-ko.png" alt="SUPERFOX 145MX 조작부 명칭과 스위치 기능을 한국어로 적은 그림" width="907" height="808" style="display:block;width:100%;height:auto"></div>
+        <figcaption>145MX 조작부 명칭과 기능 (OK2BWN 설명서 그림에 한국어 설명)</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="vhf-3">
+  <div class="ch-head b144">
+    <div class="ch-num">3</div>
+    <div class="ch-title">
+      <h2>안테나 조립과 HB9CV 패턴</h2>
+      <p>소리가 가장 큰 쪽을 겨눈다. 소자는 늘 수평으로</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>운반할 때는 안테나 소자를 떼어 둡니다. 소자 단자에는 색 표시가 있습니다. <b>앞 소자 2개는 파란 단자</b>, <b>뒤 소자 2개는 빨간 단자</b>에 끼우고, 달리는 동안 흔들려 접촉이 나빠지지 않게 나사를 단단히 조입니다.</p>
+    <p>2소자 HB9CV는 파란 소자 쪽(수신기 앞)으로 빔을 하나 만들고 뒤쪽은 줄어듭니다. 3.5 MHz처럼 소리가 사라지는 곳을 찾는 것이 아니라, 몸을 천천히 돌려 소리가 가장 크게 들리는 방향(피크)을 겨눕니다.</p>
+  </div>
+  <div class="sec">
+    <figure class="figure">
+      <div class="frame">
+        <svg class="hb9cv" viewBox="0 0 520 300" role="img" aria-label="SUPERFOX 145 HB9CV 패턴: 앞쪽 파란 소자 방향으로 WIDE와 NARROW 빔, 뒤쪽은 위상 상쇄와 확장기로 거의 들리지 않음">
+          <circle cx="260" cy="168" r="44" class="pg"/><circle cx="260" cy="168" r="88" class="pg"/><circle cx="260" cy="168" r="132" class="pg"/>
+          <line x1="260" y1="30" x2="260" y2="300" class="axis"/><line x1="120" y1="168" x2="400" y2="168" class="axis"/>
+          <path d="M260,168 C330,128 324,44 260,36 C196,44 190,128 260,168 Z" class="lobe wide"/>
+          <path d="M260,168 C292,120 288,46 260,36 C232,46 228,120 260,168 Z" class="lobe narrow"/>
+          <path d="M260,168 C268,178 266,190 260,190 C254,190 252,178 260,168 Z" class="lobe back"/>
+          <line x1="200" y1="156" x2="320" y2="156" class="el front"/>
+          <line x1="192" y1="180" x2="328" y2="180" class="el rear"/>
+          <rect x="256" y="148" width="8" height="40" rx="2" class="rx"/>
+          <text x="260" y="22" text-anchor="middle" class="t-m">▲ 앞 · 소리가 가장 큰 방향 (피크)</text>
+          <text x="330" y="80" class="t-s wide-t">WIDE (광역 탐색 빔)</text>
+          <text x="300" y="112" class="t-s narrow-t">NARROW (정밀 조준 빔)</text>
+          <text x="334" y="160" class="t-s front-t">앞 소자 (파랑)</text>
+          <text x="334" y="184" class="t-s rear-t">뒤 소자 (빨강)</text>
+          <text x="260" y="214" text-anchor="middle" class="t-m bad">▼ 뒤 · 위상 상쇄 + 확장기로 거의 소멸</text>
+          <text x="260" y="232" text-anchor="middle" class="t-s">가까운 거리에서는 작은 잔류음이 들림</text>
+        </svg>
+      </div>
+      <figcaption>SUPERFOX 145 HB9CV 패턴(신호 세기). 파란 소자 쪽이 앞이며, NARROW는 확장기가 측면을 줄여 빔이 좁아짐</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">항목</th><th scope="col">145DX <span class="src">DX 설명서</span></th><th scope="col">145MX <span class="src">MX 설명서 21W04</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">주 로브 폭 (−3 dB)</th><td>WIDE 20°, NARROW 10°</td><td>WIDE 30°, NARROW 15°</td></tr>
+          <tr><th scope="row">전후방비</th><td>40 dB 이상</td><td>40 dB 이상</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>뒤쪽이 완전히 조용하지는 않습니다.</b> 송신기 수십 m 안쪽에서는 지면 반사 등으로 뒤쪽에서도 작은 소리가 들립니다. 180° 돌려 보아 소리가 확연히 작아지는 쪽이 뒤, 가장 크게 올라오는 쪽이 앞입니다. 145 MHz 송신기는 수평 편파이므로 <b>소자를 지면과 수평으로</b> 들어야 감도와 방향이 가장 좋습니다.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="vhf-4">
+  <div class="ch-head b144">
+    <div class="ch-num">4</div>
+    <div class="ch-title">
+      <h2>반사파와 교차 방위</h2>
+      <p>한 번 잰 방향을 믿지 말고, 자리를 옮겨 한 번 더</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>145 MHz(파장 약 2.1 m)는 빛처럼 곧게 나아가고, 바위벽·절벽·건물에서 거울처럼 반사됩니다. 직접파가 능선이나 숲에 막혀 약해진 곳에서는 반사파가 더 크게 들려, 수신기가 엉뚱한 쪽을 가리킵니다. 이것이 허상 피크(Ghost peak)입니다.</p>
+  </div>
+  <div class="sec">
+        <figure class="figure">
+      <div class="frame">
+        <svg class="xsec" viewBox="0 0 640 280" role="img" aria-label="144 MHz 단면도: 능선 위 선수 A는 송신기가 직접 보여 신호가 강함. 능선 뒤 골짜기의 선수 B는 그림자 속에 있어 직접파가 막히고 오른쪽 절벽에서 반사된 신호를 받음">
+          <!-- 그림자 영역: 송신 안테나(60,176)-능선 꼭대기(320,124) 연장선 아래 -->
+          <path d="M320,124 L588,70 L588,232 C520,232 460,226 420,190 C380,150 350,124 320,124 Z" class="shadow"/>
+          <path d="M0,214 L70,214 C160,214 250,124 320,124 C390,124 430,230 520,232 L588,232 L588,30 L640,30 L640,280 L0,280 Z" class="terrain"/>
+          <path d="M588,30 L588,232" class="cliff"/>
+          <!-- 송신기 -->
+          <line x1="60" y1="214" x2="60" y2="176" class="ant"/>
+          <line x1="50" y1="176" x2="70" y2="176" class="ant"/>
+          <rect x="52" y="206" width="16" height="10" rx="2" class="txbox"/>
+          <text x="60" y="238" class="xs-l" text-anchor="middle">송신기</text>
+          <text x="60" y="253" class="xs-s" text-anchor="middle">수평 편파 · 지상 2–3 m</text>
+          <!-- 반사파 (먼저) -->
+          <line x1="60" y1="176" x2="588" y2="50" class="ray-ref"/>
+          <line x1="588" y1="50" x2="520" y2="214" class="ray-ref"/>
+          <path d="M531,188 l-11,16 l3,-19" class="ray-ref-head"/>
+          <!-- 직접파 A -->
+          <line x1="60" y1="176" x2="320" y2="112" class="ray-ok"/>
+          <!-- 직접파 B: 능선에 막힘 -->
+          <line x1="60" y1="176" x2="300" y2="134" class="ray-blocked"/>
+          <path d="M296,128 l10,10 m0,-10 l-10,10" class="xmark"/>
+
+          <!-- 선수 A -->
+          <g transform="translate(320,124)">
+            <circle cx="0" cy="-30" r="5" class="runner"/>
+            <path d="M0,-25 L0,-10 M0,-10 L-6,0 M0,-10 L6,0 M0,-21 L-10,-24 M-12,-29 L-12,-19" class="runner-l"/>
+          </g>
+          <text x="320" y="78" class="xs-l halo2" text-anchor="middle">A · 능선 위</text>
+          <text x="320" y="64" class="xs-s halo2 ok" text-anchor="middle">직접파, 방향 정확</text>
+          <!-- 선수 B -->
+          <g transform="translate(520,232)">
+            <circle cx="0" cy="-30" r="5" class="runner"/>
+            <path d="M0,-25 L0,-10 M0,-10 L-6,0 M0,-10 L6,0 M0,-21 L10,-24 M12,-29 L12,-19" class="runner-l"/>
+          </g>
+          <text x="500" y="256" class="xs-l" text-anchor="middle">B · 골짜기</text>
+          <text x="500" y="271" class="xs-s bad" text-anchor="middle">반사파에 속아 절벽 쪽으로 수신기를 겨눔</text>
+          <text x="470" y="150" class="xs-s" text-anchor="middle">전파 그림자</text>
+          <text x="604" y="22" class="xs-s" text-anchor="middle">절벽</text>
+          <text x="220" y="118" class="xs-s halo2 bad" text-anchor="middle">반사파</text>
+        </svg>
+      </div>
+      <figcaption>144 MHz 가시선과 전파 그림자, 절벽 반사. 회색 영역이 능선이 만드는 그림자</figcaption>
+    </figure>
+        <figure class="figure">
+      <div class="frame">
+        <svg class="map-svg ghost" id="ghost-svg" viewBox="0 0 640 380" role="img" aria-label="허상 피크와 교차 방위 위에서 본 지도">
+          <rect x="1" y="1" width="638" height="378" rx="4" class="paper"/>
+          <!-- 숲 -->
+          <path d="M400,60 C470,40 540,70 545,120 C550,170 500,190 440,180 C390,172 360,110 400,60 Z" class="forest-g"/>
+          <!-- 능선 1: A·B가 선 능선 -->
+          <path d="M60,200 C110,150 170,120 210,80 S280,30 330,26" class="ridge"/>
+          <text x="86" y="104" class="lbl-s halo">능선</text>
+          <!-- 능선 2: 골짜기 C와 송신기 사이 -->
+          <path d="M270,240 C320,215 380,200 455,186" class="ridge"/>
+          <text x="300" y="250" class="lbl-s halo">작은 능선</text>
+          <!-- 절벽 -->
+          <path d="M548,232 L598,222 L606,268 L556,282 Z" class="rock"/>
+          <path d="M552,236 l6,4 M558,250 l6,4 M562,264 l6,4" stroke="#1b2420" stroke-width="1"/>
+          <text x="604" y="296" class="lbl halo" text-anchor="middle">바위 절벽</text>
+          <!-- 송신기 -->
+          <g transform="translate(470,120)">
+            <path d="M0,0 l-9,-7 v14 z M0,0 l9,-7 v14 z" fill="#e8641c" stroke="#1b2420" stroke-width="0.8"/>
+          </g>
+          <text x="486" y="112" class="lbl halo">송신기</text>
+
+          <!-- 상태별 그림 -->
+          <defs>
+            <marker id="ar-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#d62d20"/></marker>
+            <marker id="ar-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#23794a"/></marker>
+            <marker id="ar-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1f67ad"/></marker>
+          </defs>
+          <g class="gstep" data-step="c">
+            <!-- 직접파: 막힘 -->
+            <line x1="470" y1="120" x2="392" y2="203" class="g-blocked"/>
+            <path d="M378,196 l16,16 m0,-16 l-16,16" class="xmark big"/>
+            <text x="352" y="186" class="g-tag gray halo" text-anchor="end">직접파: 능선에 막혀 약함</text>
+            <!-- 반사파 경로 -->
+            <path d="M470,120 L556,250" class="g-ref-wide"/>
+            <path d="M556,250 L300,300" class="g-ref-wide"/>
+            <path d="M470,120 L513,185" class="g-ref-flow" marker-end="url(#ar-red)"/>
+            <path d="M556,250 L428,275" class="g-ref-flow" marker-end="url(#ar-red)"/>
+            <circle cx="556" cy="250" r="9" class="g-bounce"/>
+            <text x="452" y="296" class="g-tag red halo" text-anchor="middle">반사파 (더 크게 들림)</text>
+            <!-- 허상 방위 -->
+            <line x1="300" y1="300" x2="640" y2="234.6" class="g-ghost"/>
+            <g transform="translate(612,240)">
+              <circle r="15" class="g-ghost-mark"/>
+              <text y="6" text-anchor="middle" class="g-q">?</text>
+            </g>
+            <text x="630" y="214" class="g-tag red halo" text-anchor="end">허상 피크: 가짜 방향</text>
+          </g>
+          <g class="gstep" data-step="a">
+            <path d="M470,120 L150,150" class="g-dir-wide green"/>
+            <path d="M470,120 L170,148" class="g-dir-flow green" marker-end="url(#ar-green)"/>
+            <line x1="150" y1="150" x2="640" y2="104" class="g-true"/>
+            <text x="300" y="128" class="g-tag green halo" text-anchor="middle">직접파</text>
+          </g>
+          <g class="gstep" data-step="b">
+            <path d="M470,120 L240,60" class="g-dir-wide blue"/>
+            <path d="M470,120 L258,65" class="g-dir-flow blue" marker-end="url(#ar-blue)"/>
+            <line x1="240" y1="60" x2="640" y2="164.3" class="g-true b"/>
+            <text x="350" y="74" class="g-tag blue halo" text-anchor="middle">직접파</text>
+          </g>
+          <circle cx="470" cy="120" r="16" class="g-hit gstep" data-step="hit"/>
+
+          <!-- 측정 위치 -->
+          <g class="gpos" data-pos="a"><circle cx="150" cy="150" r="9"/><text x="150" y="154" text-anchor="middle">A</text></g>
+          <g class="gpos" data-pos="b"><circle cx="240" cy="60" r="9"/><text x="240" y="64" text-anchor="middle">B</text></g>
+          <g class="gpos" data-pos="c"><circle cx="300" cy="300" r="9"/><text x="300" y="304" text-anchor="middle">C</text></g>
+          <text x="300" y="330" class="lbl-s halo" text-anchor="middle">골짜기</text>
+        </svg>
+      </div>
+      <div class="ghost-ctrl" role="group" aria-label="측정 위치 선택">
+        <button type="button" class="btn btn-step" data-show="c">골짜기 C에서 재기</button>
+        <button type="button" class="btn btn-step" data-show="a">능선 A에서 재기</button>
+        <button type="button" class="btn btn-step" data-show="b">능선 B에서 재기</button>
+        <button type="button" class="btn btn-step" data-show="all">모두 겹쳐 보기</button>
+      </div>
+      <p class="ghost-msg" id="ghost-msg" aria-live="polite">버튼을 눌러 측정 위치를 고르십시오. 지금은 지도만 보입니다.</p>
+      <figcaption>골짜기에서 잰 반사파 방위선과 능선 두 곳에서 잰 직접파 방위선의 교차</figcaption>
+    </figure>
+    <div class="flows two">
+      <div class="flow">
+        <h4>골짜기를 벗어나 능선으로</h4>
+        <ol>
+          <li>골짜기나 암벽 아래 분지는 반사파가 사방에서 섞이는 곳입니다.</li>
+          <li>신호가 흐리거나 여러 방향에서 동시에 들리면, 시야가 트인 능선이나 봉우리로 올라가 직접파를 잡습니다.</li>
+          <li>수신기를 높이 들면 지면 반사의 영향이 줄어듭니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>기저선을 두고 교차 방위</h4>
+        <ol>
+          <li>능선의 A 지점에서 방위를 재어 지도에 긋습니다.</li>
+          <li>능선을 따라 50–100 m 이상 옮긴 B 지점에서 다시 잽니다.</li>
+          <li>두 방위선이 만나는 곳이 송신기입니다. 국소 반사로 생긴 가짜 방위선은 교차점에서 크게 비켜 갑니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="vhf-5">
+  <div class="ch-head b144">
+    <div class="ch-num">5</div>
+    <div class="ch-title">
+      <h2>실전 탐색 순서</h2>
+      <p>켜기 → 동조 → 감도 → WIDE로 훑고 NARROW·S미터로 겨누기</p>
+    </div>
+  </div>
+  <div class="sec">
+    <ol class="cycle">
+      <li><b>1. 켜기</b>헤드폰을 꽂으면 켜지고, 배터리 잔량을 신호음으로 알려 줍니다(8장).</li>
+      <li><b>2. 동조</b>FREQ로 송신기 신호가 가장 또렷하고 큰 곳에 맞춥니다. 저장 채널이 있으면 MEM으로 건너뜁니다.</li>
+      <li class="cy-main"><b>3. 감도</b>먼 거리에서는 GAIN 6–7. 시끄럽지 않고 맑게 들릴 만큼 낮춥니다. 피크는 소리가 작을 때 더 잘 구분됩니다.</li>
+      <li><b>4. 방위</b>소자를 수평으로 들고 몸을 360° 돌려 가장 큰 방향을 찾습니다.</li>
+    </ol>
+    <div class="flows two">
+      <div class="flow">
+        <h4>WIDE로 훑기</h4>
+        <ol>
+          <li>소자를 지면과 수평으로 유지한 채 몸을 천천히 돌립니다.</li>
+          <li>소리가 가장 큰 대략적인 방향을 빨리 잡습니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>NARROW · 음성 S미터로 겨누기</h4>
+        <ol>
+          <li>방향이 흐리거나 반사파가 섞여 있으면 NARROW로 바꾸어 측면 신호를 줄입니다.</li>
+          <li>145MX는 ANT 스위치를 가운데로 두면 음높이가 신호 세기를 따라 바뀝니다. 음이 가장 높아지는 각도가 피크입니다.</li>
+          <li>그래도 흐리면 수십 m 자리를 옮겨 다시 잽니다(4장).</li>
+        </ol>
+      </div>
+    </div>
+    <p class="note">145 MHz 설명서에는 GAIN 단계별 거리표가 없습니다. 실전 감각으로는 GAIN 3이 약 200 m, 2가 약 80 m, 0–1이 송신기 10–30 m 앞 정도이지만, 송신 출력과 지형에 따라 크게 달라집니다.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="vhf-6">
+  <div class="ch-head b144">
+    <div class="ch-num">6</div>
+    <div class="ch-title">
+      <h2>주파수 메모리</h2>
+      <p>145DX 4채널, 145MX 6채널</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>주파수를 145DX는 최대 4개, 145MX는 최대 6개 채널에 저장해 두고 경기 중에 건너뛰며 씁니다. 저장한 내용은 전원을 꺼도 남아 있습니다.</p>
+  </div>
+  <div class="sec">
+    <div class="flows">
+      <div class="flow">
+        <h4>채널 저장</h4>
+        <ol>
+          <li>VFO/MEMORY 스위치를 <b>VFO</b>에 둡니다.</li>
+          <li>FREQ로 송신기 소리가 가장 큰 곳에 맞춥니다.</li>
+          <li>TIMER 손잡이를 <b>MEMORY WRITE</b>까지 살짝 돌렸다 놓습니다.</li>
+          <li>짧은 신호음의 점 개수가 저장된 채널 번호입니다.</li>
+        </ol>
+      </div>
+      <div class="flow">
+        <h4>채널 불러오기</h4>
+        <ol>
+          <li>스위치를 <b>MEMORY</b>에 둡니다.</li>
+          <li>FREQ를 돌리면 가장 가까운 저장 채널로 건너뛰고, 건너뛸 때마다 짧은 신호음이 납니다.</li>
+          <li>저장된 채널이 없으면 MEMORY로 바꿀 때 경고음이 납니다.</li>
+        </ol>
+      </div>
+      <div class="flow warn">
+        <h4>지우기</h4>
+        <ol>
+          <li><b>한 채널 (145MX):</b> MEMORY에서 지울 채널에 맞추고 MEMORY WRITE.</li>
+          <li><b>전체:</b> VFO에서 FREQ를 반시계 방향 끝(CLEAR)까지 돌리고 MEMORY WRITE.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="vhf-7">
+  <div class="ch-head b144">
+    <div class="ch-num">7</div>
+    <div class="ch-title">
+      <h2>타이머와 전자 나침반</h2>
+      <p>송신 종료 예고와 FINDER09</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>타이머는 헤드폰을 꽂는 순간부터 시간을 셉니다. TIMER를 1 min이나 30 s에 두면 매 1분이나 30초가 끝나기 10초 전에 신호음이 울립니다. 145DX 설명서는 두 번 울리는 비프음, 145MX 설명서는 <span class="mono">· — ·</span> 소리로 적고 있습니다. OFF로 두어도 시계는 계속 돌아갑니다.</p>
+    <p>선택 사양인 전자 나침반 FINDER09는 오른쪽 옆 버튼(145DX 설명서는 빨간 버튼, 145MX는 파란 버튼)으로 다룹니다. 짧게 누르면 지금 겨눈 방향이 저장되고 짧은 떨림음이 납니다. 송신이 끝난 뒤 달리면서 버튼을 길게 누르고 있으면, 저장한 방향과 얼마나 어긋났는지가 음으로 들립니다.</p>
+  </div>
+  <div class="sec">
+        <figure class="figure">
+      <div class="frame"><svg class="finder" viewBox="0 0 640 236" role="img" aria-label="FINDER09 추적 음 구간: 저장 방향 왼쪽 20도 이내 낮은 음, 오른쪽 20도 이내 높은 음, 바깥은 무음"><path d="M190.1,125.0 A150,150 0 0 1 449.9,125.0 L354.6,180.0 A40,40 0 0 0 285.4,180.0 Z" class="f-off"/><path d="M268.7,59.0 A150,150 0 0 1 320.0,50.0 L320.0,160.0 A40,40 0 0 0 306.3,162.4 Z" class="f-low"/><path d="M320.0,50.0 A150,150 0 0 1 371.3,59.0 L333.7,162.4 A40,40 0 0 0 320.0,160.0 Z" class="f-high"/><line x1="320" y1="200" x2="320.0" y2="36.0" class="f-dir"/><text x="320" y="28" class="f-t" text-anchor="middle">저장한 방향</text><text x="264.6" y="47.8" class="f-s" text-anchor="middle">−20°</text><text x="375.4" y="47.8" class="f-s" text-anchor="middle">+20°</text><line x1="298.3" y1="76.9" x2="150" y2="62" class="f-lead"/><text x="146" y="52" class="f-w" text-anchor="end">낮은 음</text><text x="146" y="68" class="f-ws" text-anchor="end">833 Hz · 왼쪽 20° 이내</text><line x1="341.7" y1="76.9" x2="490" y2="62" class="f-lead"/><text x="494" y="52" class="f-w">높은 음</text><text x="494" y="68" class="f-ws">1250 Hz · 오른쪽 20° 이내</text><text x="256.4" y="129.4" class="f-s" text-anchor="middle">무음</text><text x="383.6" y="129.4" class="f-s" text-anchor="middle">무음</text><circle cx="320" cy="200" r="6" class="f-me"/><text x="310" y="224" class="f-s" text-anchor="end">선수</text><text x="330" y="224" class="f-s">음이 바뀌는 경계 = 정확한 저장 방향</text></svg></div>
+      <figcaption>FINDER09 추적 음. 저장한 방향에서 왼쪽 20° 이내는 낮은 음(833 Hz), 오른쪽 20° 이내는 높은 음(1250 Hz), 그 밖은 무음</figcaption>
+    </figure>
+    <p class="note">145 MHz 수신기에서는 <b>수신기를 수평으로 들고</b> 저장·추적합니다. 기울기 보정 센서가 없어 기운 만큼 방위가 틀어질 수 있습니다. GAIN 6을 넘는 가장 높은 감도에서는 나침반이 동작하는 동안 잡음이 조금 들립니다. 저장한 방위는 전원을 끄면 지워집니다.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="vhf-8">
+  <div class="ch-head b144">
+    <div class="ch-num">8</div>
+    <div class="ch-title">
+      <h2>전원과 배터리</h2>
+      <p>헤드폰 플러그가 전원 스위치</p>
+    </div>
+  </div>
+  <div class="prose">
+    <p>전원 스위치가 없습니다. 헤드폰 플러그 안에서 4번과 5번 핀이 이어져 있어, 꽂는 순간 배터리 전원이 수신기 회로로 들어갑니다. 경기 중에 플러그가 빠지면 수신기도 꺼지므로 단단히 꽂습니다.</p>
+  </div>
+  <div class="sec">
+    <div class="event">
+            <figure class="figure">
+        <div class="frame"><svg class="din" viewBox="0 0 320 250" role="img" aria-label="수신기 DIN 5핀 단자: 1·3 헤드폰 출력, 2 공통 접지, 4 수신기 전원 +, 5 배터리 +. 헤드폰 플러그 안에서 4번과 5번이 연결되어 전원이 켜짐"><circle cx="80" cy="82" r="58" class="dshell"/><circle cx="80" cy="82" r="46" class="dface"/><path d="M73,128 h14 v8 h-14 z" class="dkey"/><circle cx="80" cy="52" r="8" class="dp gd"/><text x="80" y="56" class="dn" text-anchor="middle">2</text><circle cx="52" cy="70" r="8" class="dp pw"/><text x="52" y="74" class="dn" text-anchor="middle">4</text><circle cx="108" cy="70" r="8" class="dp pw"/><text x="108" y="74" class="dn" text-anchor="middle">5</text><circle cx="58" cy="104" r="8" class="dp au"/><text x="58" y="108" class="dn" text-anchor="middle">1</text><circle cx="102" cy="104" r="8" class="dp au"/><text x="102" y="108" class="dn" text-anchor="middle">3</text><text x="80" y="158" class="dl" text-anchor="middle">수신기 단자</text><circle cx="166" cy="30" r="6" class="dp au"/><text x="178" y="34" class="dk">1·3</text><text x="214" y="34" class="dt">헤드폰 출력</text><circle cx="166" cy="54" r="6" class="dp gd"/><text x="178" y="58" class="dk">2</text><text x="214" y="58" class="dt">공통 접지</text><circle cx="166" cy="78" r="6" class="dp pw"/><text x="178" y="82" class="dk">4</text><text x="214" y="82" class="dt">수신기 회로 전원 +</text><circle cx="166" cy="102" r="6" class="dp pw"/><text x="178" y="106" class="dk">5</text><text x="214" y="106" class="dt">배터리 +</text><rect x="12" y="182" width="70" height="28" rx="4" class="fb"/><text x="47" y="200" class="dt" text-anchor="middle">배터리</text><line x1="82" y1="196" x2="114" y2="196" class="fl"/><text x="98" y="190" class="dk" text-anchor="middle">5</text><rect x="114" y="178" width="92" height="36" rx="6" class="fplug"/><text x="160" y="194" class="dt" text-anchor="middle">헤드폰 플러그</text><text x="160" y="208" class="dk" text-anchor="middle">4–5 연결</text><line x1="206" y1="196" x2="238" y2="196" class="fl"/><text x="222" y="190" class="dk" text-anchor="middle">4</text><rect x="238" y="182" width="74" height="28" rx="4" class="fb"/><text x="275" y="200" class="dt" text-anchor="middle">수신기 회로</text><text x="160" y="234" class="dl" text-anchor="middle">플러그를 꽂으면 켜지고, 뽑으면 꺼짐</text></svg></div>
+        <figcaption>수신기 단자(DIN 5핀) 배치와 헤드폰 플러그의 4–5번 연결</figcaption>
+      </figure>
+      <div class="beepbox">
+        <h4>켤 때 들리는 배터리 신호</h4>
+        <ul class="beeps">
+          <li><span class="bp">— —</span>완전 충전</li>
+          <li><span class="bp">—</span>80 %</li>
+          <li><span class="bp">· · ·</span>60 %</li>
+          <li><span class="bp">· ·</span>40 %</li>
+          <li><span class="bp">·</span>20 %</li>
+        </ul>
+        <p>145MX는 배터리가 20 %까지 내려가면 타이머의 끝 알림 소리(<span class="mono">· — ·</span>)가 짧은 점(<span class="mono">·</span>) 하나로 바뀝니다. 20 %는 아직 1–2시간 쓸 수 있는 양입니다.</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">항목</th><th scope="col">145DX</th><th scope="col">145MX</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">배터리</th><td>Li-Pol 8.4 V / 450 mAh</td><td>Li-Pol 8.4 V / 500 mAh</td></tr>
+          <tr><th scope="row">소비 전류 · 동작 시간</th><td>40–50 mA · 9시간 이상</td><td>약 10시간</td></tr>
+          <tr><th scope="row">충전기</th><td>N40 (노란 등: 충전 중, 깜박임: 완료)</td><td>N41 (주황: 충전 중, 초록: 완료)</td></tr>
+          <tr><th scope="row">방수</th><td>IP63</td><td>IP64</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>제조사는 경기나 훈련이 끝나면 충전해 두라고 권합니다. 배터리 수명이 길어집니다. 이미 충분히 차 있으면 충전이 시작되지 않는데, 이때는 다음에 다시 꽂으면 됩니다. 몇 달 이상 쓰지 않고 보관할 때는 일반적인 리튬 폴리머 관리 요령대로 50–60% 정도로 두는 것도 좋습니다.</p>
+      <p>젖으면 마른 천으로 닦고 상온에서 말리며, 난로 같은 강한 열은 피합니다. 뒷덮개를 연 적이 있다면 닫은 뒤 테이프로라도 다시 밀봉합니다. 소자 단자와 헤드폰 단자는 늘 마르고 깨끗하게 둡니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chapter" id="vhf-9">
+  <div class="ch-head b144">
+    <div class="ch-num">9</div>
+    <div class="ch-title">
+      <h2>사양</h2>
+      <p>145DX · 145MX 설명서 기준, 현행 145M · 145MX 제품표</p>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="table-wrap">
+      <table class="cmp spec">
+        <thead><tr><th scope="col">항목</th><th scope="col">SUPERFOX 145DX <span class="src">DX 설명서</span></th><th scope="col">SUPERFOX 145MX <span class="src">MX 설명서 21W04</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">수신 방식</th><td>싱글 컨버전 수퍼헤테로다인</td><td>싱글 컨버전 수퍼헤테로다인</td></tr>
+          <tr><th scope="row">주파수 범위</th><td class="mono">143.9 – 146.1 MHz</td><td class="mono">144.0 – 146.1 MHz</td></tr>
+          <tr><th scope="row">수신 모드</th><td class="mono">A2A</td><td class="mono">AM (A2A)</td></tr>
+          <tr><th scope="row">감도</th><td class="mono">0.2 µV (S/N 10 dB)</td><td class="mono">−110 dBm (0.7 µV)</td></tr>
+          <tr><th scope="row">IF 대역폭</th><td>100 kHz</td><td>100 kHz (−3 dB) / 400 kHz (−60 dB)</td></tr>
+          <tr><th scope="row">안테나</th><td>대칭형 HB9CV, 분리형 소자</td><td>대칭형 HB9CV, 분리형 소자 (앞 파랑 2, 뒤 빨강 2)</td></tr>
+          <tr><th scope="row">주 로브 폭 (−3 dB)</th><td>WIDE 20°, NARROW 10°</td><td>WIDE 30°, NARROW 15°</td></tr>
+          <tr><th scope="row">전후방비</th><td>40 dB 이상</td><td>40 dB 이상</td></tr>
+          <tr><th scope="row">감도 조절</th><td>120 dB 이상</td><td>120 dB 이상</td></tr>
+          <tr><th scope="row">채널 메모리</th><td>4채널</td><td>6채널 (한 채널 지우기)</td></tr>
+          <tr><th scope="row">음성 S미터</th><td>없음</td><td>있음 (ANT 가운데)</td></tr>
+          <tr><th scope="row">타이머</th><td>30 s / 60 s, 끝나기 10초 전</td><td>30 s / 1 min, 끝나기 10초 전</td></tr>
+          <tr><th scope="row">전원</th><td>Li-Pol 8.4 V / 450 mAh, 9시간 이상</td><td>Li-Pol 8.4 V / 500 mAh, 약 10시간</td></tr>
+          <tr><th scope="row">방수</th><td>IP63</td><td>IP64</td></tr>
+          <tr><th scope="row">크기 (조립)</th><td>1040 × 50 × 290 mm</td><td>1040 × 290 × 50 mm</td></tr>
+          <tr><th scope="row">크기 (접음) · 무게</th><td>500 × 70 × 40 mm · 380 g</td><td>460 g</td></tr>
+          <tr><th scope="row">사용 온도</th><td>−10 ~ +60 °C</td><td>−10 ~ +60 °C</td></tr>
+          <tr><th scope="row">선택 부품</th><td>FINDER09, SL28 헤드폰, N40 충전기, T840 시험기, 예비 소자</td><td>FINDER09, SL34 헤드폰, N41 충전기, T840 시험기</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">145MX의 IF 대역폭은 설명서에는 100 / 400 kHz, 제품 사양표에는 50 / 150 kHz로 적혀 있어 두 자료가 다릅니다.</p>
+    <figure class="figure photo">
+      <img src="images/sf145mx-photo.jpg" alt="SUPERFOX 145MX 본체와 안테나 소자 단자, 감도·주파수 다이얼" width="1000" height="890" style="aspect-ratio:16/10;object-position:50% 45%">
+      <figcaption>SUPERFOX 145MX 본체. 사진 출처: OK2BWN 사용 설명서</figcaption>
+    </figure>
+    <details class="more">
+      <summary>현행 기종 145M · 145MX 제품표 사양 보기</summary>
+      <div class="more-body">
+        <p>OK2BWN 제품 사양표(ARDF Receivers Product Line)의 현행 기종입니다. 145M은 145DX의 뒤를 잇는 기본형으로, 채널 메모리와 음성 S미터가 없습니다. <span class="src sheet">제품표</span></p>
+        <div class="table-wrap">
+          <table class="cmp spec">
+            <thead><tr><th scope="col">항목</th><th scope="col">SUPERFOX 145M</th><th scope="col">SUPERFOX 145MX</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">주파수 · 방식</th><td colspan="2">144.0 – 146.1 MHz · 싱글 컨버전</td></tr>
+              <tr><th scope="row">변조 · 감도</th><td colspan="2">A2 (AM) · −110 dBm (0.7 µV)</td></tr>
+              <tr><th scope="row">IF 필터 · 대역폭</th><td>세라믹 2개 · 100 / 400 kHz</td><td>세라믹 2개 · 50 / 150 kHz</td></tr>
+              <tr><th scope="row">전후방비 · 로브 폭</th><td colspan="2">50 dB · 15° (−3 dB, 최대)</td></tr>
+              <tr><th scope="row">메모리 · 음성 S미터</th><td>없음 · 없음</td><td>6채널 · 있음</td></tr>
+              <tr><th scope="row">전원 · 타이머</th><td colspan="2">Li-Pol 8 V / 500 mAh, 10시간 이상 · 30 s / 1 min</td></tr>
+              <tr><th scope="row">방수 · 크기</th><td colspan="2">IP64 · 1040 × 50 × 290 mm (접으면 500 × 70 × 50 mm)</td></tr>
+              <tr><th scope="row">무게</th><td>450 g</td><td>460 g</td></tr>
+              <tr><th scope="row">선택 부품</th><td colspan="2">N41 충전기, SL34 헤드폰, FINDER09, T840 시험기</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+</section>
+
+<footer class="sources">
+  <h2>참고 자료</h2>
+  <ul>
+    <li>OK2BWN, SUPERFOX 3,5GX 사용 설명서</li>
+    <li>OK2BWN, <a href="https://www.radioorientering.no/wp-content/uploads/2017/03/SF35MX_inf_en.pdf" target="_blank" rel="noopener">SUPERFOX 3,5MX 사용 설명서 (Rev. 17W04)</a></li>
+    <li>OK2BWN, SUPERFOX 145DX 사용 설명서 · SUPERFOX 145MX 사용 설명서 (21W04)</li>
+    <li>OK2BWN, ARDF Receivers Product Line 제품 사양표</li>
+    <li>Marcela Šrůtová (OK1KYP), 무선 방향탐지 수신기 기사, <i>Praktická elektronika A Radio</i>, 2016년 9월호 (표지 사진: Miloslav Nečas)</li>
+    <li>제조사: Jiří Mareček, OK2BWN — <a href="http://www.ok2bwn.cz" target="_blank" rel="noopener">www.ok2bwn.cz</a></li>
+    <li>표시: <span class="src">설명서</span> 해당 기종 사용 설명서 · <span class="src sheet">제품표</span> 제조사 제품 사양표</li>
+  </ul>
+</footer>
+</main>
+
+
+<script>
+/* 대역 탭 · 목차 이동 · 허상 피크 단계 버튼 */
+(function () {
+  var tabs = document.querySelectorAll('.bandtab');
+  function embedded() { return !!window.__embedOn; }
+  function docTop(el) { return el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop); }
+  function goTo(el) {
+    if (!el) return;
+    if (embedded()) { try { parent.postMessage({ type: 'antenna-types:scroll', top: docTop(el) }, '*'); } catch (e) {} }
+    else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function show(name) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-tab') === name;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      document.getElementById('panel-' + t.getAttribute('data-tab')).hidden = !on;
+    });
+    document.dispatchEvent(new Event('bandchange'));
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var name = t.getAttribute('data-tab');
+      show(name);
+      try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    });
+  });
+  function fromHash() {
+    var h = (location.hash || '').slice(1);
+    show(h.indexOf('vhf') === 0 ? 'vhf' : 'hf');
+    if (h && h !== 'hf' && h !== 'vhf') setTimeout(function () { goTo(document.getElementById(h)); }, 60);
+  }
+  window.addEventListener('hashchange', fromHash);
+  document.querySelectorAll('.toc a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) { e.preventDefault(); goTo(el); }
+    });
+  });
+  fromHash();
+
+  /* 허상 피크 (145 MHz 4장) */
+  var MSG = {
+    c: "골짜기 C: 송신기에서 곧장 오는 직접파(회색)는 작은 능선에 막혀 약합니다. 대신 바위 절벽에 부딪혀 꺾여 들어온 반사파(빨간 화살표)가 더 크게 들립니다. 수신기는 소리가 가장 큰 쪽, 곧 절벽을 가리키게 되고, 이 방향(빨간 점선)을 따라가면 송신기를 지나칩니다.",
+    a: "능선 A: 송신기가 트인 시야 안에 있어 직접파로 방향을 잽니다. 방위선이 송신기를 지나갑니다.",
+    b: "능선 B: 능선을 따라 자리를 옮겨 한 번 더 잽니다. 두 위치 사이 거리(기저선)가 길수록 교차점이 또렷합니다.",
+    all: "A와 B의 방위선은 송신기에서 만납니다. C의 방위선은 그 교차점을 비켜 가므로 반사파였다는 것을 알 수 있습니다."
+  };
+  var SHOW = { c: ["c"], a: ["a"], b: ["b"], all: ["a", "b", "c", "hit"] };
+  var gsvg = document.getElementById('ghost-svg');
+  if (gsvg) {
+    var btns = document.querySelectorAll('.btn-step');
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-show');
+        btns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        gsvg.querySelectorAll('.gstep').forEach(function (g) { g.classList.toggle('show', SHOW[k].indexOf(g.getAttribute('data-step')) >= 0); });
+        gsvg.querySelectorAll('.gpos').forEach(function (g) { g.classList.toggle('active', k === 'all' ? true : g.getAttribute('data-pos') === k); });
+        gsvg.classList.add('dim');
+        document.getElementById('ghost-msg').textContent = MSG[k];
+      });
+    });
+  }
+})();
+</script>
+<script>
+/* 블로그(티스토리) iframe 삽입용: 바깥 페이지가 ping을 보내면 높이를 알려 줌 (antenna-types 규약과 같음) */
+(function(){
+  if (window.self === window.top) return;
+  var last = 0, on = false;
+  function send(force){
+    if (!on) return;
+    var h = Math.ceil(document.documentElement.scrollHeight);
+    if (!force && Math.abs(h - last) < 2) return;
+    last = h;
+    var tab = (document.querySelector('.bandtab[aria-selected="true"]') || {}).getAttribute ? document.querySelector('.bandtab[aria-selected="true"]').getAttribute('data-tab') : '';
+    try { window.parent.postMessage({type: 'antenna-types:height', height: h, page: tab}, '*'); } catch(e){}
+  }
+  window.addEventListener('message', function(e){
+    var d = e.data;
+    if (!d || typeof d !== 'object') return;
+    if (d.type === 'antenna-types:ping'){
+      if (!on){ on = true; window.__embedOn = true; document.documentElement.classList.add('embedded'); }
+      send(true);
+    }
+  });
+  document.addEventListener('bandchange', function(){ send(true); });
+  document.querySelectorAll('details').forEach(function(d){ d.addEventListener('toggle', function(){ send(false); }); });
+  if ('ResizeObserver' in window) new ResizeObserver(function(){ send(false); }).observe(document.body);
+  window.addEventListener('load', function(){ send(true); });
+})();
+</script>
+
+</body>
+</html>
